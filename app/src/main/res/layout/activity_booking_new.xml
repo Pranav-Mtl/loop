@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/DrawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="7dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/LightGreen"
+            app:theme="@style/Toolbar_Theme"
+            android:minHeight="?attr/actionBarSize">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:text="Your Travel"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+
+
+        </android.support.v7.widget.Toolbar>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:weightSum="10"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.5"
+                android:orientation="horizontal"
+                android:weightSum="4"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="3.5"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/sp_pick"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:background="@drawable/ic_spinner_pick"
+                        android:hint="Pick"
+                        android:textColor="#34495e"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="5dp"
+                        />
+
+                    <Spinner
+                        android:id="@+id/sp_drop"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ic_spinner_drop"
+                        android:hint="Drop"
+                        android:padding="5dp"
+                        android:textColor="#34495e"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="5dp"
+                        />
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".5"
+                    android:gravity="center"
+                    android:layout_height="fill_parent">
+
+                    <ImageButton
+                        android:id="@+id/booking_swap_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_swap"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5.7"
+                ></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                >
+                <Spinner
+                    android:id="@+id/booking_timepicker"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_time_dropdown"
+                    android:hint="Select Time"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:padding="5dp"
+                    />
+
+                <TextView
+                    android:id="@+id/booking_price"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_rupee"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/booking_textview_customized"
+                    android:hint="Price"
+                    android:padding="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#34495e"
+                    android:drawablePadding="5dp"
+                    />
+            </LinearLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/booking_float"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                app:rippleColor="#000292"
+                app:fabSize="normal"
+                app:layout_anchor="@id/DrawerLayout"
+                android:src="@drawable/ic_floating_back"
+                app:layout_anchorGravity="bottom|right|end"/>
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/booking_screen_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Book"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:background="@drawable/booking_btn_customized"
+            />
+        </RelativeLayout>
+    </android.support.v4.widget.DrawerLayout>

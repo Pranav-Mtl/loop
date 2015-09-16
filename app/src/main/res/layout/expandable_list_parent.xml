@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:id="@+id/parent_main"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    >
+    <ImageView
+        android:id="@+id/expandableIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_plus"
+        android:visibility="invisible"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/lblListHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:paddingTop="7dp"
+        android:textSize="16dp"
+        android:paddingRight="5dp"
+        android:text="cfcccccc"
+        android:textColor="@color/BlueTextColor" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_bidirectional_red"
+        />
+    <TextView
+        android:id="@+id/lblListHeaderDestination"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:paddingTop="7dp"
+        android:textSize="16dp"
+        android:paddingLeft="5dp"
+        android:text="cfcccccc"
+        android:textColor="@color/BlueTextColor" />
+
+</LinearLayout>

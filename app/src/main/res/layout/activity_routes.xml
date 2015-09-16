@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/DrawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="7dp">
+
+    <!-- MAIN LAYOUT-->
+
+<RelativeLayout
+    android:id="@+id/route_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+   >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:theme="@style/Toolbar_Theme"
+        android:layout_alignParentTop="true"
+        android:background="@color/LightGreen"
+        android:minHeight="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            >
+
+            <TextView
+                android:id="@+id/toolbar_Tab1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Routes"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/toolbar_Tab2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Routes"
+
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:weightSum="2"
+
+        >
+
+        <LinearLayout
+            android:id="@+id/route_layout_fav"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Favourites"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:textColor="@color/TextColor"
+                />
+
+            <ListView
+                android:id="@+id/routes_lv_fav"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#ffffff"
+                android:cacheColorHint="#00000000"
+                android:choiceMode="singleChoice"
+                android:divider="#e4e4e4"
+                android:dividerHeight="1dp"
+                android:footerDividersEnabled="true"
+                android:gravity="center"
+                android:numColumns="auto_fit" >
+            </ListView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/route_layout_recent"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Recent"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:textColor="@color/TextColor"
+                />
+
+            <ListView
+                android:id="@+id/routes_lv_recent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#ffffff"
+                android:cacheColorHint="#00000000"
+                android:choiceMode="singleChoice"
+                android:divider="#e4e4e4"
+                android:dividerHeight="1dp"
+                android:footerDividersEnabled="true"
+                android:gravity="center"
+                android:numColumns="auto_fit" >
+            </ListView>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/route_layout_norecent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You haven't taken any trip yet."
+                android:textSize="20sp"
+                android:textColor="@color/TextColor"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/route_layout_allroute"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/route_search_bg"
+                >
+            <AutoCompleteTextView
+                android:id="@+id/route_search"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
+                android:background="@android:color/transparent"
+                android:paddingRight="10dp"
+                android:padding="10dp"
+                android:hint="Search routes"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:nextFocusUp="@id/route_search"
+                android:nextFocusLeft="@id/route_search"
+                />
+                <ImageButton
+                    android:id="@+id/routes_cross"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_cross"
+                    />
+            </RelativeLayout>
+
+            <ExpandableListView
+                android:id="@+id/expandable_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:groupIndicator="@null"
+                >
+
+            </ExpandableListView>
+
+            <ExpandableListView
+                android:id="@+id/expandable_searched_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:groupIndicator="@null"
+                android:visibility="gone"
+                >
+            </ExpandableListView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/TabSelectedColor"
+        >
+        <LinearLayout
+            android:id="@+id/ll_bottom_route"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:visibility="invisible"
+            >
+
+            <TextView
+                android:id="@+id/routes_selected_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@color/WhiteColor"
+                android:text="Source"
+                android:textSize="14sp"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_bidirectional"
+                />
+            <TextView
+                android:id="@+id/routes_selected_destination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@color/WhiteColor"
+                android:text="Destination"
+                android:textSize="14sp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                />
+            <ImageButton
+                android:id="@+id/route_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:visibility="invisible"
+                android:background="@drawable/ic_routes_next"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
+
+<com.twotoasters.android.support.v7.widget.RecyclerView
+android:id="@+id/RecyclerView"
+android:layout_width="300dp"
+android:layout_height="match_parent"
+android:layout_gravity="left"
+android:background="#1fc796"
+android:scrollbars="vertical">
+
+</com.twotoasters.android.support.v7.widget.RecyclerView>
+
+
+    </android.support.v4.widget.DrawerLayout>
+
+

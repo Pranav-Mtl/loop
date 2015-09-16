@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Loop</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_sign_up_screen">SignUpScreen</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <color name="LightGreen">#66daae</color>
+    <color name="LightBG">#f8f9fb</color>
+    <color name="DarkGreen">#049da2</color>
+    <color name="TextColor">#1d1d26</color>
+    <color name="WhiteColor">#fff</color>
+    <color name="BlueTextColor">#34495e</color>
+    <color name="TabSelectedColor">#1fc796</color>
+    <color name="RouteSelectedColor">#66daae</color>
+
+    <string name="title_activity_sign_in">SignIn</string>
+    <string name="title_activity_booking_screen">BookingScreen</string>
+    <string name="title_activity_ticket_screen">TicketScreen</string>
+    <string name="title_activity_routes">Routes</string>
+    <string name="title_activity_otp">OTP</string>
+    <string name="title_activity_trip_feedback">TripFeedback</string>
+    <string name="title_activity_booking_new">BookingNew</string>
+    <string name="title_activity_trip_history">TripHistory</string>
+</resources>

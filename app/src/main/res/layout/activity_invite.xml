@@ -1,0 +1,189 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.appslure.loop.InviteActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#1ebd9d"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Invite &amp; Earn"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="#ffffff"
+
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_height="fill_parent">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="fill_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/second_vehicle"
+
+                    />
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="fill_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Invite your friends to ride on loop"
+                    android:textColor="#34495e"
+                    android:textSize="15dp"
+                    />
+                <TextView
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="They get free rides worth Rs100.And,so do you!"
+                    android:textColor="#34495e"
+                    android:textSize="15dp"
+
+                    />
+
+
+                <TextView
+                    android:layout_marginTop="30dp"
+                    android:gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Share your promo code"
+                    android:textColor="#34495e"
+                    android:textSize="20dp"
+
+                    />
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Share"
+                    android:textColor="#ffffff"
+                    android:layout_gravity="center"
+                    />
+                <LinearLayout
+
+                    android:background="@drawable/linear_bg"
+                    android:layout_marginTop="40dp"
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/whatspp"
+                        android:layout_marginLeft="10dp"
+                       android:layout_alignParentLeft="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/whatsapp_img"
+                        />
+                        <TextView
+                            android:layout_below="@id/whatspp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Whatsapp"
+                            android:textColor="#34495e"
+
+                            />
+                    <ImageView
+                        android:id="@+id/fb"
+                        android:layout_marginRight="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fb_btn"
+                        />
+                        <TextView
+                            android:layout_below="@id/fb"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Facebook"
+                            android:textColor="#34495e"
+
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/twitter"
+                            android:layout_marginLeft="15dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/twitter"
+                            />
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:layout_below="@id/twitter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Twitter"
+                            android:textColor="#34495e"
+
+                            />
+                        <ImageView
+                            android:id="@+id/sms"
+                            android:layout_marginRight="15dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/sms"
+                            />
+                        <TextView
+                            android:layout_below="@id/sms"
+                            android:layout_marginRight="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SMS"
+                            android:textColor="#34495e"
+
+                            />
+                    </RelativeLayout>
+
+
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>
