@@ -30,7 +30,9 @@ public class Constant {
     public static String WEBSERVICE_FEEDBACK="feedback.php";
     public static String WEBSERVICE_TRIP="trip_history.php";
     public static String WEBSERVICE_FAV="fav.php";
-
+    public static String WEBSERVICE_HELP="help.php";
+    public static String WEBSERVICE_SHARE_EARN="share_earn.php";
+    public static String WEBSERVICE_PROMO_CODE="promo_code.php";
     ///////////////    INTERNET CONNECTION MESSAGE     //////////////////////
 
     public static String ERR_INTERNET_CONNECTION_NOT_FOUND_MSG="Click YES to open settings or Click NO to go back";

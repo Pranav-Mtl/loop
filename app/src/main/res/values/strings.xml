@@ -16,6 +16,7 @@
     <color name="DarkGreen">#049da2</color>
     <color name="TextColor">#1d1d26</color>
     <color name="WhiteColor">#fff</color>
+    <color name="OranceColor">#ff9731</color>
     <color name="BlueTextColor">#34495e</color>
     <color name="TabSelectedColor">#1fc796</color>
     <color name="RouteSelectedColor">#66daae</color>
@@ -28,4 +29,5 @@
     <string name="title_activity_trip_feedback">TripFeedback</string>
     <string name="title_activity_booking_new">BookingNew</string>
     <string name="title_activity_trip_history">TripHistory</string>
+    <string name="title_activity_promo_code">PromoCode</string>
 </resources>

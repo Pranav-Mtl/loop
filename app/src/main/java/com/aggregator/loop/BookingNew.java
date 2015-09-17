@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -38,7 +37,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     TextView tvPrice;
     ImageButton btnSwipe,btnBack;
 
-    FloatingActionButton back;
+    ImageButton back;
 
     BookingBL objBookingBL;
     BookingBE objBookingBE;
@@ -79,17 +78,12 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         spnTimePicker= (Spinner) findViewById(R.id.booking_timepicker);
         tvPrice= (TextView) findViewById(R.id.booking_price);
 
-
         spnPick= (Spinner) findViewById(R.id.sp_pick);
         spnDrop= (Spinner) findViewById(R.id.sp_drop);
 
         btnDone= (Button) findViewById(R.id.booking_screen_btn);
         btnSwipe= (ImageButton) findViewById(R.id.booking_swap_button);
-        back= (FloatingActionButton) findViewById(R.id.booking_float);
-
-
-
-        btnDone.setEnabled(false);
+        back= (ImageButton) findViewById(R.id.booking_float);
 
         objBookingBL=new BookingBL();
         objBookingBE=new BookingBE();
@@ -114,8 +108,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 startPointID = Constant.pointID[position];
                 startPointDist = Constant.pointDistance[position];
                 Log.d("Pick Point ID", startPointID);
-
-
+                Log.d("Pick Point Dist", startPointDist+"");
             }
 
             @Override
@@ -131,15 +124,15 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 int pos = dropPointPosition;
+                dropPos=pickPos+position;
 
-                dropPos=position;
-
-                endPointID=Constant.pointID[pos];
+                endPointID=Constant.pointID[dropPos];
                 dropselected=true;
-                endPointDist=Constant.pointDistance[pos];
+                endPointDist=Constant.pointDistance[dropPos];
 
                 double price=calculatePrice();
                 Log.d("Drop Point ID", endPointID);
+                Log.d("Drop Point Distance", endPointDist+"");
 
                 tvPrice.setText(price+"");
 
@@ -162,7 +155,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                     {
                         if(dropselected)
                         {
-                            btnDone.setEnabled(true);
+
                         }
                     }
                     Log.d("Selected Run ID",runID);
@@ -216,29 +209,36 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         switch (v.getId()){
             case R.id.booking_screen_btn:
 
-                if(loginID==null)
-                {
-                    Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id,startPointID);
-                    Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id,endPointID);
-                    Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID,routeId);
-                    Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_Run_ID,runID);
-                    Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,spnTimePicker.getSelectedItem().toString());
-                    Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,tvPrice.getText().toString());
+                if(timeSelected){
+                    if(loginID==null)
+                    {
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id,startPointID);
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id,endPointID);
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID,routeId);
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_Run_ID,runID);
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,spnTimePicker.getSelectedItem().toString());
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,tvPrice.getText().toString());
 
-                    startActivity(new Intent(BookingNew.this, SignUpScreen.class));
+                        startActivity(new Intent(BookingNew.this, SignUpScreen.class));
+                    }
+                    else {
+
+                        objBookingBE.setUserID(loginID);
+                        objBookingBE.setRouteID(routeId);
+                        objBookingBE.setStartPoint(startPointID);
+                        objBookingBE.setEndPoint(endPointID);
+                        objBookingBE.setRunID(runID);
+                        objBookingBE.setPrice(tvPrice.getText().toString());
+                        objBookingBE.setTime(spnTimePicker.getSelectedItem().toString());
+
+                        new InsertBooking().execute();
+                    }
                 }
-                else {
+                else{
+                Toast.makeText(getApplicationContext(),"Please select time of departure.",Toast.LENGTH_LONG).show();
+            }
 
-                    objBookingBE.setUserID(loginID);
-                    objBookingBE.setRouteID(routeId);
-                    objBookingBE.setStartPoint(startPointID);
-                    objBookingBE.setEndPoint(endPointID);
-                    objBookingBE.setRunID(runID);
-                    objBookingBE.setPrice(tvPrice.getText().toString());
-                    objBookingBE.setTime(spnTimePicker.getSelectedItem().toString());
 
-                    new InsertBooking().execute();
-                }
                 break;
             case R.id.booking_swap_button:
                 swapButtonClicked();
@@ -376,11 +376,15 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         List listDropPoint=new ArrayList<>();
         dropPointPosition=1;
 
+        pickselected = true;
+
 
         for(int i=1;i<pointName.length;i++){
             listDropPoint.add(pointName[i]);
         }
 
+     /*   startPointID = Constant.pointID[0];
+        startPointDist = Constant.pointDistance[0];*/
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(BookingNew.this,R.layout.spinner_item,listDropPoint);
         spnDrop.setAdapter(adapter);
         //spnDrop.setSelection(pointName.length-1);

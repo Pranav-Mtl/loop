@@ -78,6 +78,7 @@ public class LoopProfile extends ActionBarActivity {
 
 
         userName.setEnabled(false);
+        userMobileNum.setEnabled(false);
 
 
         try {
@@ -90,6 +91,7 @@ public class LoopProfile extends ActionBarActivity {
         arroBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveBtn.setVisibility(View.VISIBLE);
                 if (flag) {
                     showPassword.setVisibility(View.VISIBLE);
                     arroBtn.setBackgroundResource(R.drawable.arrow_below);

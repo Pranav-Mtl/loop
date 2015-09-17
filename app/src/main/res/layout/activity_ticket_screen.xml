@@ -85,7 +85,7 @@
             android:drawablePadding="5dp"
             android:text="Pick"
             android:gravity="center_vertical"
-            android:drawableLeft="@drawable/ic_ticket_pick"
+
             />
 
         <TextView
@@ -97,7 +97,7 @@
             android:text="Drop"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-            android:drawableLeft="@drawable/ic_ticket_drop"
+
             />
 
         <TextView
@@ -108,7 +108,7 @@
             android:padding="5dp"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-            android:drawableLeft="@drawable/ic_ticket_number"
+
             android:text="Tata Safari"
             />
 
@@ -120,7 +120,7 @@
             android:padding="5dp"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-            android:drawableLeft="@drawable/ic_ticket_time"
+
             android:text="Pick up time"
             />
 
@@ -132,13 +132,12 @@
             android:weightSum="2"
             >
 
-
             <Button
                 android:id="@+id/ticket_btn_map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
-                android:text="Map "
+                android:text="Map"
                 android:textColor="#fff"
                 android:textSize="14dp"
                 android:paddingLeft="-20dp"
@@ -202,40 +201,83 @@
                 android:text="Share"
                 android:textColor="#fff"
                 android:textSize="16dp"
-                android:gravity="center"
+                android:padding="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:background="@drawable/booking_btn_customized"
+                android:background="@drawable/light_customized_button"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_share"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Share"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="5dp"
+                    />
                </LinearLayout>
 
-            <Button
+            <LinearLayout
+                android:id="@+id/ticket_btn_rate"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:text="Rate Us"
+                android:text="Share"
                 android:textColor="#fff"
-                android:textSize="14dp"
-                android:textAllCaps="false"
+                android:textSize="16dp"
+                android:layout_marginLeft="7dp"
+                android:paddingLeft="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:background="@drawable/ticket_rateus_customized"
-                />
-            <Button
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_ticket_star"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rate Us"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="5dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/ticket_rate_trip"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:text="Rate Trip"
+                android:text="Share"
                 android:textColor="#fff"
-                android:textSize="14dp"
-                android:textAllCaps="false"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/light_customized_button"
-                 />
+                android:textSize="16dp"
+                android:layout_marginLeft="7dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@drawable/booking_btn_customized"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_ticket_smiley"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rate Trip"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="5dp"
+                    />
+            </LinearLayout>
+
 
 
         </LinearLayout>

@@ -2,11 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.appslure.loop.InviteActivity">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        app:theme="@style/Toolbar_Theme"
         android:background="#1ebd9d"
         android:minHeight="?attr/actionBarSize">
 
@@ -75,6 +78,7 @@
 
                     />
                 <Button
+                    android:id="@+id/shareBtn"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/btn_back"
                     android:layout_width="wrap_content"
@@ -84,106 +88,69 @@
                     android:layout_gravity="center"
                     />
                 <LinearLayout
-
-                    android:background="@drawable/linear_bg"
-                    android:layout_marginTop="40dp"
+                    android:background="#fff"
                     android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="fill_parent">
                     <RelativeLayout
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginRight="60dp"
-                        android:layout_gravity="center_horizontal"
                         android:layout_width="fill_parent"
+                        android:layout_marginTop="15dp"
                         android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/whatspp"
-                        android:layout_marginLeft="10dp"
-                       android:layout_alignParentLeft="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/whatsapp_img"
-                        />
                         <TextView
-                            android:layout_below="@id/whatspp"
+                            android:id="@+id/whatsapp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Whatsapp"
+                            android:drawableTop="@drawable/whatsapp_img"
                             android:textColor="#34495e"
-
+                            android:textSize="15dp"
                             />
-                    <ImageView
-                        android:id="@+id/fb"
-                        android:layout_marginRight="15dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/fb_btn"
-                        />
                         <TextView
-                            android:layout_below="@id/fb"
+                            android:id="@+id/facebook"
                             android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Facebook"
+                            android:drawableTop="@drawable/fb_btn"
                             android:textColor="#34495e"
-
+                            android:textSize="15dp"
                             />
-                    </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginRight="60dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:id="@+id/twitter"
-                            android:layout_marginLeft="15dp"
-                            android:layout_alignParentLeft="true"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/twitter"
-                            />
                         <TextView
+                            android:id="@+id/twitterthis"
+                            android:layout_below="@id/whatsapp"
+                            android:layout_alignParentLeft="true"
                             android:layout_marginLeft="10dp"
-                            android:layout_below="@id/twitter"
+                            android:layout_marginTop="25dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Twitter"
+                            android:drawableTop="@drawable/twitter"
                             android:textColor="#34495e"
-
-                            />
-                        <ImageView
-                            android:id="@+id/sms"
-                            android:layout_marginRight="15dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/sms"
+                            android:textSize="15dp"
                             />
                         <TextView
-                            android:layout_below="@id/sms"
-                            android:layout_marginRight="20dp"
+                            android:id="@+id/sms"
+                            android:layout_marginTop="25dp"
+                            android:layout_below="@id/facebook"
                             android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SMS"
+                            android:text="  sms"
+                            android:drawableTop="@drawable/sms"
                             android:textColor="#34495e"
-
+                            android:textSize="15dp"
                             />
                     </RelativeLayout>
-
-
-
-
-
                 </LinearLayout>
-
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-
-
-
 </RelativeLayout>

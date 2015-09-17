@@ -321,6 +321,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
                     String strOTP=Util.generatePIN();
 
+                    Constant.OTP=strOTP;
+
                     //http://appslure.in/loop/webservices/signup.php?name=name&email=abcd@gmail.com&password=name&phone_no=9876543210&paytm=paytm&promocode=promocode&otp=otp
 
                     new InsertData().execute(txtFName,txtEmail,txtPassword,txtMobile, payTM, promoCode,strOTP,user_credit,user_balance);

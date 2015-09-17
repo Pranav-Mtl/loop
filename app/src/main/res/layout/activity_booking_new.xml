@@ -45,9 +45,11 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2.5"
+                android:layout_weight="2.8"
                 android:orientation="horizontal"
+                android:background="#dcede5"
                 android:weightSum="4"
+
                 >
 
                 <LinearLayout
@@ -104,7 +106,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5.7"
+                android:layout_weight="5.4"
                 ></LinearLayout>
 
             <LinearLayout
@@ -113,8 +115,12 @@
                 android:layout_weight="1.5"
                 android:orientation="horizontal"
                 android:weightSum="2"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:background="#dcede5"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+               android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 >
                 <Spinner
                     android:id="@+id/booking_timepicker"
@@ -144,17 +150,13 @@
                     />
             </LinearLayout>
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageButton
                 android:id="@+id/booking_float"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:clickable="true"
-                app:rippleColor="#000292"
-                app:fabSize="normal"
-                app:layout_anchor="@id/DrawerLayout"
-                android:src="@drawable/ic_floating_back"
-                app:layout_anchorGravity="bottom|right|end"/>
+                android:background="@drawable/ic_floating_back"/>
 
         </LinearLayout>
         <Button

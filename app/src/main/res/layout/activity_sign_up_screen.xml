@@ -252,7 +252,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/ticket_rateus_customized"
+                android:background="@drawable/login_signup_selector"
                 android:text="Already a Loop User? Log In"
                 android:textAllCaps="false"
                 android:textSize="18sp"

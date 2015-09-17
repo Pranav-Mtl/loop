@@ -69,7 +69,7 @@
         android:id="@+id/signin_signup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ticket_rateus_customized"
+        android:background="@drawable/login_signup_selector"
         android:text="New to Loop? Sign Up"
         android:layout_marginTop="20dp"
         android:textAllCaps="false"

@@ -1,5 +1,6 @@
 package com.aggregator.loop;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ public class ResetPassword extends AppCompatActivity {
     Button submit;
     String email;
     SendEmail sendEmail;
+    ProgressDialog mProgressDialog;
     public final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9+._%-+]{1,256}" +
                     "@" +
@@ -41,6 +43,7 @@ public class ResetPassword extends AppCompatActivity {
         emailId=(EditText)findViewById(R.id.emailId);
 
         back= (ImageButton) findViewById(R.id.reset_back);
+        mProgressDialog=new ProgressDialog(ResetPassword.this);
 
         submit=(Button)findViewById(R.id.submitBtn);
         submit.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +98,9 @@ public class ResetPassword extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-
+            mProgressDialog.show();
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setCancelable(false);
         }
 
         @Override
@@ -106,13 +111,22 @@ public class ResetPassword extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            if(sendEmail.status==1)
-            {
-                Toast.makeText(getApplicationContext(),"Temporary Password has been sent at Email-id",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(),SignIn.class));
+            try {
+                if (sendEmail.status == 1) {
+                    Toast.makeText(getApplicationContext(), "Temporary Password has been sent at Email-id", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), SignIn.class));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Email-id doesn't exist", Toast.LENGTH_LONG).show();
+                }
             }
-            else {
-                Toast.makeText(getApplicationContext(),"Email-id doesn't exist",Toast.LENGTH_LONG).show();
+            catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            finally {
+                mProgressDialog.dismiss();
             }
 
 

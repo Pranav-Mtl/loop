@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aggregator.Adapters.DrawerAdapter;
 import com.aggregator.Adapters.FavRouteAdapter;
@@ -379,11 +380,11 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
 
                         if (position != 0) {
                             if (_itemColoured != null) {
-                                _itemColoured.setBackgroundColor(Color.parseColor("#1fc796"));
+                                _itemColoured.setBackgroundColor(Color.parseColor("#66daae"));
                                 _itemColoured.invalidate();
                             }
                             _itemColoured = view;
-                            view.setBackgroundColor(Color.parseColor("#66daae"));
+                            view.setBackgroundColor(Color.parseColor("#1fc796"));
                         }
 
                             if(logInType==null){
@@ -401,6 +402,9 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
                                 }
                                 else if(position==2){
                                     startActivity(new Intent(getApplicationContext(),TripHistory.class));
+                                }
+                                else if(position==3){
+                                    startActivity(new Intent(getApplicationContext(),PromoCode.class));
                                 }
                                 else if(position==4){
                                     startActivity(new Intent(getApplicationContext(),InviteActivity.class));
@@ -936,6 +940,27 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
                 lvFav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                        ImageButton btn= (ImageButton) findViewById(R.id.fav_heart);
+                        LinearLayout ll= (LinearLayout) findViewById(R.id.fav_ll);
+
+                        btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getApplicationContext(),"Heart Clicked",Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                        ll.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getApplicationContext(),"Text Clicked",Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+
+
 
                         final int pos=position;
 

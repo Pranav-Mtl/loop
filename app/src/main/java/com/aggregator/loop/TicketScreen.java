@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,10 +50,10 @@ import java.util.Map;
 public class TicketScreen extends AppCompatActivity implements View.OnClickListener, Animation.AnimationListener {
 
     GoogleMap googleMap;
-    Button btnMap,btnImage,btnRateTrip;
+    Button btnMap,btnImage;
     LinearLayout llMap;
     ImageView imgTicket;
-    LinearLayout btnShare;
+    LinearLayout btnShare,btnRateTrip;
 
     ImageButton btnCross;
 
@@ -91,7 +94,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         btnMap= (Button) findViewById(R.id.ticket_btn_map);
         btnImage= (Button) findViewById(R.id.ticket_btn_image);
         btnShare= (LinearLayout) findViewById(R.id.ticket_btn_share);
-        btnRateTrip= (Button) findViewById(R.id.ticket_rate_trip);
+        btnRateTrip= (LinearLayout) findViewById(R.id.ticket_rate_trip);
         llMap= (LinearLayout) findViewById(R.id.ticket_map_ll);
         imgTicket= (ImageView) findViewById(R.id.ticket_image);
         btnCross= (ImageButton) findViewById(R.id.ticket_cross);
@@ -102,6 +105,11 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         tvTime= (TextView) findViewById(R.id.ticket_time);
 
         llHeader= (RelativeLayout) findViewById(R.id.ticket_header_ll);
+
+        btnMap.setBackgroundResource(R.drawable.ic_map_btn_pressed);
+        btnMap.setTextColor(getResources().getColor(R.color.WhiteColor));
+        btnImage.setBackgroundResource(R.drawable.ic_map_btn);
+        btnImage.setTextColor(getResources().getColor(R.color.OranceColor));
 
         mProgressDialog=new ProgressDialog(TicketScreen.this);
 
@@ -127,16 +135,32 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
         userRunID=getIntent().getExtras().get("BookingID").toString();
 
-
         try
         {
             mProgressDialog.show();
             new GetTicketData().execute(userRunID).get();
 
-            tvPick.setText("Pick :" + objTicketScreenBE.getPickPointName());
-            tvDrop.setText("Drop :"+objTicketScreenBE.getDropPointName());
-            tvVehicle.setText(objTicketScreenBE.getVehicleType()+"-"+objTicketScreenBE.getVehicleRegistration());
-            tvTime.setText(objTicketScreenBE.getDepartureTime());
+            SpannableString spanString = new SpannableString("Pick :" + objTicketScreenBE.getPickPointName());
+
+            spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, 4, 0);
+
+            SpannableString spanString2 = new SpannableString("Drop :"+objTicketScreenBE.getDropPointName());
+
+            spanString2.setSpan(new StyleSpan(Typeface.BOLD), 0, 4, 0);
+
+            SpannableString spanString3 = new SpannableString("In :"+objTicketScreenBE.getVehicleType()+"-"+objTicketScreenBE.getVehicleRegistration());
+
+            spanString3.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
+
+            SpannableString spanString4 = new SpannableString("@ :"+objTicketScreenBE.getDepartureTime());
+
+            spanString4.setSpan(new StyleSpan(Typeface.BOLD), 0, 1, 0);
+
+
+            tvPick.setText(spanString);
+            tvDrop.setText(spanString2);
+            tvVehicle.setText(spanString3);
+            tvTime.setText(spanString4);
 
             PickText=objTicketScreenBE.getPickPointName();
 
@@ -198,12 +222,20 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Log.i("Clicked","MAP");
                 imgTicket.setVisibility(View.GONE);
                 llMap.setVisibility(View.VISIBLE);
+                btnMap.setBackgroundResource(R.drawable.ic_map_btn_pressed);
+                btnMap.setTextColor(getResources().getColor(R.color.WhiteColor));
+                btnImage.setBackgroundResource(R.drawable.ic_map_btn);
+                btnImage.setTextColor(getResources().getColor(R.color.OranceColor));
 
                 break;
             case R.id.ticket_btn_image:
                 Log.i("Clicked","Image");
                 llMap.setVisibility(View.GONE);
                 imgTicket.setVisibility(View.VISIBLE);
+                btnMap.setBackgroundResource(R.drawable.ic_map_btn);
+                btnMap.setTextColor(getResources().getColor(R.color.OranceColor));
+                btnImage.setBackgroundResource(R.drawable.ic_map_btn_pressed);
+                btnImage.setTextColor(getResources().getColor(R.color.WhiteColor));
                 break;
             case R.id.ticket_btn_share:
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -289,20 +321,28 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
                 @Override
                 public void run() {
+                try {
 
                     getCurrentLocation();
                     Log.d("Current Lat", currentlatitude + "");
                     Log.d("Current Lon", currentlongtitude + "");
                     showMarker(currentlatitude, currentlongtitude);
-                    distance=getDistance(currentlatitude, currentlatitude, objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
-                    PickText=PickText+" \n Distance :"+distance+" km";
-                    Log.d("Distance-->",distance+"");
-                    Source=new LatLng(currentlatitude,currentlongtitude);
-                    Destinatiom=new LatLng(objTicketScreenBE.getPickPointLat(),objTicketScreenBE.getPickPointLong());
+                    distance = getDistance(currentlatitude, currentlatitude, objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
+                    PickText = PickText + " \n Distance :" + distance + " km";
+                    Log.d("Distance-->", distance + "");
+                    Source = new LatLng(currentlatitude, currentlongtitude);
+                    Destinatiom = new LatLng(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
                     findDirections(currentlatitude, currentlongtitude, objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong(), GMapV2Direction.MODE_WALKING);
 
 
                     showMarkerPick(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
+
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+                catch (Exception e){
+                        e.printStackTrace();
+                }
 
 
 
@@ -346,22 +386,18 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         double latitude = Latitude;
         double longitude = Longitude;
 
-
         // create marker
         MarkerOptions marker = new MarkerOptions().position(
                 new LatLng(latitude, longitude)).title(
                 Latitude + "\n" + Longitude);
         try{
+
             marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pick));
             // adding marker
 
             marker.title(PickText);
 
             googleMap.addMarker(marker);
-
-
-
-
         }catch(Exception e){}
 
     }
