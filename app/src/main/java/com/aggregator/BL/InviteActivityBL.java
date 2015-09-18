@@ -8,6 +8,7 @@ package com.aggregator.BL;
 
 import android.content.Context;
 
+import com.aggregator.BE.InviteActivityBE;
 import com.aggregator.Constant.Constant;
 import com.aggregator.WS.RestFullWS;
 
@@ -28,17 +29,16 @@ public class InviteActivityBL {
     public  String status1="";
     String promocode;
     String promovalue;
+    InviteActivityBE objInviteActivityBE;
 
-    public String getPromocode(String userId,String promocode,String promovalue)
+    public String getPromocode(String userId,InviteActivityBE inviteActivityBE)
     {
         this.userId=userId;
-        this.promocode=promocode;
-        this.promovalue=promovalue;
-        System.out.println("inside the webservices getting record--------->"+kicks);
+        objInviteActivityBE=inviteActivityBE;
 
 
         try {
-            String result = fetRecord(userId,promocode,promovalue);
+            String result = fetRecord(userId);
             finalValue  = validate(result);
 
 
@@ -48,10 +48,10 @@ public class InviteActivityBL {
         return finalValue;
     }
 
-    private String fetRecord(String userId,String promocode,String promovalue)
+    private String fetRecord(String userId)
     {
 
-        String url="user_id="+userId+"&referral_code="+promocode+"&referral_value="+promovalue;
+        String url="user_id="+userId;
 
 
 
@@ -62,7 +62,7 @@ public class InviteActivityBL {
 
     public String validate(String strValue)
     {
-        System.out.println("ththththththpppppppppp------>"+strValue);
+
 
         JSONParser jsonP=new JSONParser();
         try {
@@ -71,14 +71,14 @@ public class InviteActivityBL {
             JSONObject jsonObject=(JSONObject)jsonP.parse(jsonArrayObject.get(0).toString());//
             status=jsonObject.get("result").toString();
 
-           /* String imgurl=jsonObject.get("image_address").toString();
-            String proFileName=jsonObject.get("Fullname").toString();
-            Configuration.setSharedPrefrenceValue(context, Constant.PREFS_NAME, Constant.profilepic, imgurl);
-            Configuration.setSharedPrefrenceValue(context, Constant.PREFS_NAME, Constant.profileName, proFileName);*/
-            System.out.println("insde the kicks updationpppppppppppppp---->"+status);
+            if(status.equals(Constant.WS_RESULT_SUCCESS)){
+                objInviteActivityBE.setReferralCode(jsonObject.get("referal_code").toString());
+                objInviteActivityBE.setReferralValue(jsonObject.get("referral_value").toString());
+            }
+
 
         } catch (Exception e) {
-            System.out.println("in second catch block");
+
             e.printStackTrace();
         }
         return status;

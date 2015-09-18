@@ -27,5 +27,10 @@
         <item name="android:dropDownSelector">@android:color/white</item>
     </style>
 
+    <style name="customRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/star_yellow</item>
+        <item name="android:indeterminateDrawable">@drawable/star_gray</item>
+    </style>
+
 
 </resources>

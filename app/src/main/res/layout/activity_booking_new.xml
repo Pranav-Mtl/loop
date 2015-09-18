@@ -122,6 +122,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 >
+
                 <Spinner
                     android:id="@+id/booking_timepicker"
                     android:layout_width="0dp"
@@ -133,6 +134,7 @@
                     android:drawablePadding="8dp"
                     android:padding="5dp"
                     />
+
 
                 <TextView
                     android:id="@+id/booking_price"
@@ -148,24 +150,43 @@
                     android:textColor="#34495e"
                     android:drawablePadding="5dp"
                     />
+                </LinearLayout>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp"
+                >
+                <ImageButton
+                    android:id="@+id/booking_float"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:clickable="true"
+                    android:background="@drawable/ic_floating_back"/>
+                <TextView
+                    android:id="@+id/booking_loop_credit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    android:textSize="12sp"
+
+                    android:paddingRight="10dp"
+                    android:textColor="@color/TextColor"
+                    />
+            </RelativeLayout>
+
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/booking_float"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:clickable="true"
-                android:background="@drawable/ic_floating_back"/>
 
-        </LinearLayout>
+
+
         <Button
             android:id="@+id/booking_screen_btn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Book"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="10dp"
             android:layout_alignParentBottom="true"
@@ -174,4 +195,13 @@
             android:background="@drawable/booking_btn_customized"
             />
         </RelativeLayout>
+    <com.twotoasters.android.support.v7.widget.RecyclerView
+        android:id="@+id/RecyclerView"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@color/LightGreen"
+        android:scrollbars="vertical">
+
+    </com.twotoasters.android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.DrawerLayout>

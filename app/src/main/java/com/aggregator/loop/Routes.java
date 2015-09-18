@@ -142,27 +142,38 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
         tvTabFav= (TextView) findViewById(R.id.toolbar_Tab2);
 
         elvSearch=(ExpandableListView) findViewById(R.id.expandable_searched_list);
-        NAME="Full Name";
-        LoopCredit="Loop Credit: Rs. 500";
-        PayTMWalet="Paytm Wallet: Rs 200";
+
 
 
         logInType=Util.getSharedPrefrenceValue(Routes.this,Constant.SHARED_PREFERENCE_User_id);
 
-        if(logInType==null){
-            TITLES=new String[3];
-            TITLES[0]="Book a Ride";
-            TITLES[1]="Tutorial";
-            TITLES[2]="Rate us";
-            ICONS=new int[3];
-            ICONS[0]=R.drawable.ic_side_bus;
-            ICONS[1]=R.drawable.ic_side_tutorial;
-            ICONS[2]=R.drawable.ic_side_rate;
+        if(logInType==null) {
+            TITLES = new String[3];
+            TITLES[0] = "Book a Ride";
+            TITLES[1] = "Tutorial";
+            TITLES[2] = "Rate us";
+            ICONS = new int[3];
+            ICONS[0] = R.drawable.ic_side_bus;
+            ICONS[1] = R.drawable.ic_side_tutorial;
+            ICONS[2] = R.drawable.ic_side_rate;
 
-            NAME="Sign In";
-            LoopCredit="";
-            PayTMWalet="";
+            Constant.NAME = "Sign In";
+            Constant.LoopCredit = "";
+            Constant.PayTMWalet = "";
         }
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
+        mRecyclerView.setHasFixedSize(true);
+
+            drawerAdapter = new DrawerAdapter(TITLES, ICONS, Constant.NAME, Constant.LoopCredit,Constant.PayTMWalet, getApplicationContext());       // Creating the Adapter of com.example.balram.sampleactionbar.MyAdapter class(which we are going to see in a bit)
+
+            // And passing the titles,icons,header view name, header view email,
+            // and header  view profile picture
+            mRecyclerView.setAdapter(drawerAdapter);
+
+            mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
+            mRecyclerView.setLayoutManager(mLayoutManager);
+
 
 
 
@@ -199,8 +210,7 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
 
 
         tvSearchRoute.clearFocus();
-        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
-        mRecyclerView.setHasFixedSize(true);
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //System.out.println("At home Screen2");
@@ -210,13 +220,8 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
 
 
 
-        drawerAdapter = new DrawerAdapter(TITLES, ICONS, NAME, LoopCredit,PayTMWalet, getApplicationContext());       // Creating the Adapter of com.example.balram.sampleactionbar.MyAdapter class(which we are going to see in a bit)
+                                    // Setting the adapter to RecyclerView
 
-        // And passing the titles,icons,header view name, header view email,
-        // and header  view profile picture
-        mRecyclerView.setAdapter(drawerAdapter);                              // Setting the adapter to RecyclerView
-        mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
-        mRecyclerView.setLayoutManager(mLayoutManager);
 
         Drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);        // Drawer object Assigned to the view
         mDrawerToggle = new ActionBarDrawerToggle(this, Drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -399,6 +404,9 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
                             else {
                                 if(position==0){
                                     startActivity(new Intent(getApplicationContext(),LoopProfile.class));
+                                }
+                                else if(position==1){
+
                                 }
                                 else if(position==2){
                                     startActivity(new Intent(getApplicationContext(),TripHistory.class));
@@ -909,7 +917,6 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(String s) {
-
             try
             {
                 llBottomRoute.setVisibility(View.VISIBLE);
@@ -929,11 +936,14 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
                 }
 
 
-                prepareListData();
+                    prepareListData();
+
                 objRoutesAdapter = new RoutesAdapter(Routes.this, listDataHeader, listDataChild,llBottomRoute);
                 expListView.setAdapter(objRoutesAdapter);
 
                 mGroupStates = new boolean[objRoutesAdapter.getGroupCount()];
+
+                drawerAdapter.notifyDataSetChanged();
 
                 tvTabFav.setText(Constant.Tab2Name);
 
@@ -1042,7 +1052,6 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
                     }
                 });
 
-
             }
             catch (NullPointerException e){
                 e.printStackTrace();
@@ -1053,11 +1062,12 @@ public class Routes extends AppCompatActivity implements View.OnClickListener {
             finally {
                 mProgressDialog.dismiss();
             }
-
-
-
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawerAdapter.notifyDataSetChanged();
+    }
 }

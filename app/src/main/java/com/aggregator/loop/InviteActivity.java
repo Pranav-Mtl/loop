@@ -1,14 +1,17 @@
 package com.aggregator.loop;
 
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -17,11 +20,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aggregator.Adapters.DrawerAdapter;
+import com.aggregator.BE.InviteActivityBE;
 import com.aggregator.BL.InviteActivityBL;
+import com.aggregator.Configuration.Util;
+import com.aggregator.Constant.Constant;
+import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
+import com.twotoasters.android.support.v7.widget.RecyclerView;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 
 public class InviteActivity extends AppCompatActivity {
@@ -30,6 +37,22 @@ public class InviteActivity extends AppCompatActivity {
     Button shareBtn;
     TextView whatsapp,facebook,twitter,smsText;
     InviteActivityBL inviteActivityBL;
+    InviteActivityBE objInviteActivityBE;
+
+    String userId;
+
+    ProgressDialog mProgressDialog;
+    TextView tvText;
+
+    RecyclerView mRecyclerView;                           // Declaring RecyclerView
+    RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
+    RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
+    DrawerLayout Drawer;                                  // Declaring DrawerLayout
+    ActionBarDrawerToggle mDrawerToggle;
+
+    DrawerAdapter drawerAdapter;
+
+    View _itemColoured;
 
 
     @Override
@@ -41,39 +64,59 @@ public class InviteActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        ActionBar actionBar=getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         inviteActivityBL=new InviteActivityBL();
+        objInviteActivityBE=new InviteActivityBE();
+
+        mProgressDialog=new ProgressDialog(InviteActivity.this);
+
         shareBtn=(Button)findViewById(R.id.shareBtn);
         whatsapp=(TextView)findViewById(R.id.whatsapp);
         facebook=(TextView)findViewById(R.id.facebook);
         twitter=(TextView)findViewById(R.id.twitterthis);
         smsText=(TextView)findViewById(R.id.sms);
-        Random random = new Random((new Date()).getTime());
+        tvText= (TextView) findViewById(R.id.inviteText);
 
-        char[] values = {'a','b','c','d','e','f','g','h','i','j',
-                'k','l','m','n','o','p','q','r','s','t',
-                'u','v','w','x','y','z','0','1','2','3',
-                '4','5','6','7','8','9'};
+        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
+        mRecyclerView.setHasFixedSize(true);
 
-        String out = "";
+        drawerAdapter = new DrawerAdapter(Constant.TITLES,Constant.ICONS, Constant.NAME, Constant.LoopCredit,Constant.PayTMWalet, getApplicationContext());       // Creating the Adapter of com.example.balram.sampleactionbar.MyAdapter class(which we are going to see in a bit)
 
-        for (int i=0;i<4;i++) {
-            int idx=random.nextInt(values.length);
-            out += values[idx];
-        }
-        promocode=out;
-        shareBtn.setText(promocode);
+        // And passing the titles,icons,header view name, header view email,
+        // and header  view profile picture
+        mRecyclerView.setAdapter(drawerAdapter);
 
-        promocode="Your promo code for loop is: "+promocode;
+        mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
+        Drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);        // Drawer object Assigned to the view
+        mDrawerToggle = new ActionBarDrawerToggle(this, Drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
+                // open I am not going to put anything here)
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                // Code here will execute once drawer is closed
+            }
+
+
+        }; // Drawer Toggle Object Made
+        Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+        mDrawerToggle.syncState();
+
+
+        userId= Util.getSharedPrefrenceValue(getApplicationContext(), Constant.SHARED_PREFERENCE_User_id);
 
         try{
-            String userId="8";
-            String referalValue="50";
-            new SharePromocode().execute(userId,promocode,referalValue).get();
+
+            new SharePromocode().execute(userId);
         }
         catch (Exception e)
         {
@@ -170,6 +213,45 @@ public class InviteActivity extends AppCompatActivity {
         });
 
 
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+
+                        if (position != 0) {
+                            if (_itemColoured != null) {
+                                _itemColoured.setBackgroundColor(Color.parseColor("#66daae"));
+                                _itemColoured.invalidate();
+                            }
+                            _itemColoured = view;
+                            view.setBackgroundColor(Color.parseColor("#1fc796"));
+                        }
+
+                        if (position == 0) {
+                            startActivity(new Intent(getApplicationContext(), LoopProfile.class));
+                        } else if (position == 1) {
+
+                        } else if (position == 2) {
+                            startActivity(new Intent(getApplicationContext(), TripHistory.class));
+                        } else if (position == 3) {
+                            startActivity(new Intent(getApplicationContext(), PromoCode.class));
+                        } else if (position == 4) {
+                            startActivity(new Intent(getApplicationContext(), InviteActivity.class));
+                        } else if (position == 8) {
+                            startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+                        } else if (position == 7) {
+
+                        } else if (position == 6) {
+                            //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                        }
+
+                    }
+
+
+                }));
+
+
     }
 
 
@@ -197,27 +279,47 @@ public class InviteActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-
+            mProgressDialog.show();
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setCancelable(false);
         }
 
         @Override
         protected String doInBackground(String... params) {
-           String result= inviteActivityBL.getPromocode(params[0], params[1], params[2]);
+           String result= inviteActivityBL.getPromocode(params[0],objInviteActivityBE);
             return result;
         }
 
         @Override
         protected void onPostExecute(String s) {
 
-
-            if(s.equals("success"))
+            try
             {
-                //Toast.makeText(getApplicationContext(),"Succefully shared",Toast.LENGTH_LONG).show();
+                if(s.equals(Constant.WS_RESULT_SUCCESS))
+                {
+                    //Toast.makeText(getApplicationContext(),"Succefully shared",Toast.LENGTH_LONG).show();
+                    shareBtn.setText(objInviteActivityBE.getReferralCode());
+                    promocode="Your Referral Code  for loop is :"+objInviteActivityBE.getReferralCode();
+                    tvText.setText(" They get free rides worth ₹"+objInviteActivityBE.getReferralValue()+". And so do you !");
+
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Referral code is not available.Please come back later.", Toast.LENGTH_LONG).show();
+                    finish();
+
+                }
 
             }
-            else
-            {
-                //Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_LONG).show();
+
+            catch (NullPointerException e){
+
+            }
+            catch (Exception e){
+
+            }
+            finally {
+                mProgressDialog.dismiss();
             }
 
         }

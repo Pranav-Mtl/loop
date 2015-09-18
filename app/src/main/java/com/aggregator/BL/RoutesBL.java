@@ -181,8 +181,6 @@ public class RoutesBL {
         } catch (Exception e) {
             e.getLocalizedMessage();
         }
-
-
     }
     private void parseFavourites(String result){
         System.out.println("Fav Routes JSON ----->"+result);
@@ -215,14 +213,16 @@ public class RoutesBL {
         System.out.println("Personal Info JSON ----->"+result);
         JSONParser jsonP=new JSONParser();
         try {
-
             Object obj =jsonP.parse(result);
             JSONArray jsonArrayObject = (JSONArray) obj;
 
             JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(0).toString());
-            Constant.name=jsonObject.get("user_fullname").toString();
-            Constant.loopCredit=jsonObject.get("user_credits").toString();
-            Constant.paytmID=jsonObject.get("user_paytm_id").toString();
+            Constant.NAME=jsonObject.get("user_fullname").toString();
+
+                    Constant.amount=jsonObject.get("user_credits").toString();
+                    Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
+                    String pautmString=jsonObject.get("user_paytm_id").toString();
+                    Constant.PayTMWalet=Constant.PayTMWaletText+pautmString;
 
 
         } catch (Exception e) {

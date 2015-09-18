@@ -147,13 +147,13 @@ public class TripHistoryAdapter extends BaseAdapter implements View.OnClickListe
                     int pos=(int)v.getTag();
                     if(Constant.tripStatus[pos].equals("ACTIVE")){
                         Intent intent=new Intent(mContext, TicketScreen.class);
-                        intent.putExtra("BookingID", Constant.tripRouteID[pos]);
+                        intent.putExtra("BookingID", Constant.tripRunId[pos]);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
                     }
                     else{
                         Intent intent=new Intent(mContext, TripFeedback.class);
-                        intent.putExtra("RunID",Constant.tripRouteID[pos]);
+                        intent.putExtra("RunID",Constant.tripRunId[pos]);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
                     }

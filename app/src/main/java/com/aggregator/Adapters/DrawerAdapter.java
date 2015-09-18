@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aggregator.Constant.Constant;
 import com.aggregator.loop.R;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
@@ -139,9 +140,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         } else {
 
 
-                    holder.Name.setText(name);
-                    holder.email.setText(loopCredit);
-                    holder.paytm.setText(paytmWallet);
+                    holder.Name.setText(Constant.NAME);
+                    holder.email.setText(Constant.LoopCredit);
+                    holder.paytm.setText(Constant.PayTMWalet);
 
 
         }

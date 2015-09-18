@@ -123,7 +123,7 @@
                 android:drawablePadding="5dp"
                 android:inputType="number"
                 android:digits="0123456789+"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionNext"
                 android:maxLength="13"
                 android:textColor="#1d1d26"
                 android:singleLine="true"
@@ -178,13 +178,13 @@
             android:id="@+id/signup_payment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Payment"
+            android:text="Add Payment Method"
             android:layout_marginTop="10dp"
             android:paddingLeft="20dp"
             android:textSize="16sp"
             android:textColor="#1d1d26"
             />
-            <TextView
+          <!--  <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(Optional)"
@@ -193,7 +193,7 @@
                 android:textSize="10sp"
                 android:layout_toRightOf="@id/signup_payment"
                 android:textColor="#fe1119"
-                />
+                />-->
         </RelativeLayout>
 
         <RelativeLayout
@@ -211,6 +211,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:layout_alignParentLeft="true"
+                android:drawablePadding="10dp"
                 android:drawableRight="@drawable/ic_right_arrow"
                 />
             <Button

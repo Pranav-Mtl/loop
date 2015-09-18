@@ -4,10 +4,14 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,10 +22,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aggregator.Adapters.DrawerAdapter;
 import com.aggregator.BE.BookingBE;
 import com.aggregator.BL.BookingBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
+import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
+import com.twotoasters.android.support.v7.widget.RecyclerView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -70,13 +77,31 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
     ProgressDialog mProgressDialog;
 
+    TextView tvCredit;
+
+
+    RecyclerView mRecyclerView;                           // Declaring RecyclerView
+    RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
+    RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
+    DrawerLayout Drawer;                                  // Declaring DrawerLayout
+    ActionBarDrawerToggle mDrawerToggle;
+
+    DrawerAdapter drawerAdapter;
+
+    View _itemColoured;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_new);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
         spnTimePicker= (Spinner) findViewById(R.id.booking_timepicker);
         tvPrice= (TextView) findViewById(R.id.booking_price);
+        tvCredit= (TextView) findViewById(R.id.booking_loop_credit);
 
         spnPick= (Spinner) findViewById(R.id.sp_pick);
         spnDrop= (Spinner) findViewById(R.id.sp_drop);
@@ -95,6 +120,41 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         btnSwipe.setOnClickListener(this);
         btnDone.setOnClickListener(this);
         back.setOnClickListener(this);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
+        mRecyclerView.setHasFixedSize(true);
+
+        drawerAdapter = new DrawerAdapter(Constant.TITLES,Constant.ICONS, Constant.NAME, Constant.LoopCredit,Constant.PayTMWalet, getApplicationContext());       // Creating the Adapter of com.example.balram.sampleactionbar.MyAdapter class(which we are going to see in a bit)
+
+        // And passing the titles,icons,header view name, header view email,
+        // and header  view profile picture
+        mRecyclerView.setAdapter(drawerAdapter);
+
+        mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        Drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);        // Drawer object Assigned to the view
+        mDrawerToggle = new ActionBarDrawerToggle(this, Drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
+                // open I am not going to put anything here)
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                // Code here will execute once drawer is closed
+            }
+
+
+        }; // Drawer Toggle Object Made
+        Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+        mDrawerToggle.syncState();
+
+
 
         /* spinner pick point selected listener */
 
@@ -132,9 +192,22 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                 double price=calculatePrice();
                 Log.d("Drop Point ID", endPointID);
-                Log.d("Drop Point Distance", endPointDist+"");
+                Log.d("Drop Point Distance", endPointDist + "");
 
-                tvPrice.setText(price+"");
+                double pp=Double.valueOf(Constant.amount)-price;
+                Log.d("PRICE CATCULATED", pp + "");
+
+                if(pp>0)
+                {
+                    tvPrice.setText("0");
+                    tvCredit.setText("After using ₹"+price+" Loop credit.");
+                }
+                else
+                {
+                    tvPrice.setText(Math.abs(pp)+"");
+                    tvCredit.setText("After using ₹"+Constant.amount+" Loop credit.");
+                }
+
 
             }
 
@@ -201,6 +274,46 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
             alertDialog2.show();
         }
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+
+                        if (position != 0) {
+                            if (_itemColoured != null) {
+                                _itemColoured.setBackgroundColor(Color.parseColor("#66daae"));
+                                _itemColoured.invalidate();
+                            }
+                            _itemColoured = view;
+                            view.setBackgroundColor(Color.parseColor("#1fc796"));
+                        }
+
+                        if (position == 0) {
+                            startActivity(new Intent(getApplicationContext(), LoopProfile.class));
+                        } else if (position == 1) {
+
+                        } else if (position == 2) {
+                            startActivity(new Intent(getApplicationContext(), TripHistory.class));
+                        } else if (position == 3) {
+                            startActivity(new Intent(getApplicationContext(), PromoCode.class));
+                        } else if (position == 4) {
+                            startActivity(new Intent(getApplicationContext(), InviteActivity.class));
+                        } else if (position == 8) {
+                            startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+                        } else if (position == 7) {
+
+                        } else if (position == 6) {
+                            //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                        }
+
+                    }
+
+
+
+                }));
+
     }
 
     @Override

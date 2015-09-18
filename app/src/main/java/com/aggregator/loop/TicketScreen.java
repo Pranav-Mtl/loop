@@ -140,9 +140,9 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
             mProgressDialog.show();
             new GetTicketData().execute(userRunID).get();
 
-            SpannableString spanString = new SpannableString("Pick :" + objTicketScreenBE.getPickPointName());
+            SpannableString spanString = new SpannableString("Pickup :" + objTicketScreenBE.getPickPointName());
 
-            spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, 4, 0);
+            spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, 6, 0);
 
             SpannableString spanString2 = new SpannableString("Drop :"+objTicketScreenBE.getDropPointName());
 

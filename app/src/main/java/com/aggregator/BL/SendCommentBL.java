@@ -40,7 +40,7 @@ public class SendCommentBL {
     {
 
 
-        String url="user_id="+userId+"&rating="+rating+"&comment_text="+msg+"&user_run_id"+runID;
+        String url="user_id="+userId+"&rating="+rating+"&comment_text="+msg+"&user_run_id="+runID;
 
         String text= RestFullWS.callWS(url, Constant.WEBSERVICE_COMMENT);
         return text;

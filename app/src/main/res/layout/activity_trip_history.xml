@@ -70,6 +70,14 @@
     </ListView>
 
     </LinearLayout>
+    <com.twotoasters.android.support.v7.widget.RecyclerView
+        android:id="@+id/RecyclerView"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@color/LightGreen"
+        android:scrollbars="vertical">
 
+    </com.twotoasters.android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

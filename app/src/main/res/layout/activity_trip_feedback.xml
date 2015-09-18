@@ -1,6 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/DrawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="7dp">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.aggregator.loop.TripFeedback">
@@ -104,9 +110,9 @@
             android:id="@+id/rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_ticket_datetime"
+            android:drawableLeft="@drawable/ic_ticket_rupee"
             android:layout_marginTop="10dp"
-            android:hint="Date:"
+            android:hint="50"
             android:drawablePadding="5dp"
             android:padding="5dp"
             android:gravity="center_vertical"
@@ -124,6 +130,8 @@
             android:layout_marginTop="0dp"
             android:layout_gravity="center_horizontal"
             android:maxHeight="100dp"
+            android:minHeight="33dp"
+            android:progressDrawable="@drawable/ratingbar_customized"
             android:isIndicator="false"/>
 
         <LinearLayout
@@ -251,3 +259,14 @@
     </RelativeLayout>
 
 </RelativeLayout>
+
+    <com.twotoasters.android.support.v7.widget.RecyclerView
+        android:id="@+id/RecyclerView"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@color/LightGreen"
+        android:scrollbars="vertical">
+
+    </com.twotoasters.android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.DrawerLayout>

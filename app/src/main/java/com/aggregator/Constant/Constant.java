@@ -1,5 +1,7 @@
 package com.aggregator.Constant;
 
+import com.aggregator.loop.R;
+
 /**
  * Created by Pranav Mittal on 8/19/2015.
  */
@@ -9,8 +11,9 @@ public class Constant {
     ////////////////       WEB SERVICE URL      //////////////////////\
 
     public static String WS_HTTP="Http";
-    public static String WS_DOMAIN_NAME="www.appslure.in";
-    public static String WS_PATH="/loop/webservices/loop1/";
+   // http://ec2-52-74-60-197.ap-southeast-1.compute.amazonaws.com/webservices
+    public static String WS_DOMAIN_NAME="ec2-52-74-60-197.ap-southeast-1.compute.amazonaws.com";
+    public static String WS_PATH="/webservices/";
 
     ////////////////       WEB SERVICES      ////////////////
 
@@ -31,8 +34,9 @@ public class Constant {
     public static String WEBSERVICE_TRIP="trip_history.php";
     public static String WEBSERVICE_FAV="fav.php";
     public static String WEBSERVICE_HELP="help.php";
-    public static String WEBSERVICE_SHARE_EARN="share_earn.php";
+    public static String WEBSERVICE_SHARE_EARN="user_referrals.php";
     public static String WEBSERVICE_PROMO_CODE="promo_code.php";
+    public static String WEBSERVICE_EDIT_PROFILE="edit_profile.php";
     ///////////////    INTERNET CONNECTION MESSAGE     //////////////////////
 
     public static String ERR_INTERNET_CONNECTION_NOT_FOUND_MSG="Click YES to open settings or Click NO to go back";
@@ -143,6 +147,15 @@ public class Constant {
     public static boolean favJson=false;
     public static boolean recentJson=false;
 
+
+    public static String NAME="";
+    public static String LoopCredit="";
+    public static String amount;
+    public static String LoopCreditText="Loop Credit : ₹ ";
+    public static String PayTMWalet="";
+    public static String PayTMWaletText="Paytm Credit : ₹ ";
+    public static String LoopCreditUsed="";
+
     public static String usrname;
     public static String password;
     public static String phoneNumber;
@@ -157,6 +170,8 @@ public class Constant {
     public static String pickPoint;
     public static String dropPoint;
     public static String rate;
+    public static String feedback_comment;
+    public static Float feedback_rating;
 
 
     public static String tripRouteID[];
@@ -173,7 +188,9 @@ public class Constant {
 
 
 
+    public static String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Rate Us","Notifications","Tutorial","Help",};
 
+    public static int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_rate,R.drawable.ic_side_notification, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
 
 
 

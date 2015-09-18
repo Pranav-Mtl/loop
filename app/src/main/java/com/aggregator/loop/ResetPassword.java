@@ -113,10 +113,10 @@ public class ResetPassword extends AppCompatActivity {
         protected void onPostExecute(String s) {
             try {
                 if (sendEmail.status == 1) {
-                    Toast.makeText(getApplicationContext(), "Temporary Password has been sent at Email-id", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Temporary password sent", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(), SignIn.class));
                 } else {
-                    Toast.makeText(getApplicationContext(), "Email-id doesn't exist", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Email doesn’t exist", Toast.LENGTH_LONG).show();
                 }
             }
             catch (NullPointerException e){

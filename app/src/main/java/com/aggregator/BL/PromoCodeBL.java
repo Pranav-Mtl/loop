@@ -28,7 +28,6 @@ public class PromoCodeBL {
 
         String URL="user_id="+userID+"&promo_code="+code;
         String txtJson= RestFullWS.callWS(URL, Constant.WEBSERVICE_PROMO_CODE);
-
         return txtJson;
     }
 
@@ -42,6 +41,11 @@ public class PromoCodeBL {
             JSONArray jsonArrayObject = (JSONArray) obj;
             JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(0).toString());
             status = jsonObject.get("result").toString();
+
+            if(status.equals(Constant.WS_RESULT_SUCCESS)){
+                Constant.LoopCredit=jsonObject.get("user_credit").toString();
+                Constant.LoopCreditUsed=jsonObject.get("promo_value").toString();
+            }
         }catch (Exception e){
 
         }

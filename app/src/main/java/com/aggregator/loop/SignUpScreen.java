@@ -59,7 +59,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         btnDone.setOnClickListener(this);
         btnBack.setOnClickListener(this);
 
-        btnDone.setVisibility(View.GONE);
+        btnDone.setVisibility(View.VISIBLE);
 
         tvSignIn.setOnClickListener(this);
 
