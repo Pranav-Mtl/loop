@@ -265,7 +265,7 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                         if (position == 0) {
                             startActivity(new Intent(getApplicationContext(), LoopProfile.class));
                         } else if (position == 1) {
-
+                            startActivity(new Intent(getApplicationContext(), RouteNew.class));
                         } else if (position == 2) {
                             startActivity(new Intent(getApplicationContext(), TripHistory.class));
                         } else if (position == 3) {
@@ -409,7 +409,8 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
-
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
+    }
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/popup_element"
+    android:background="@color/LightGreen"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Referrer Code"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/TextColor"
+            android:textSize="16sp"
+            />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/nameLayout"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/signup_referrer"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_name"
+                android:drawablePadding="5dp"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+
+                android:textColor="@color/TextColor"
+                android:hint="       Referrer Code"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            >
+            <Button
+                android:id="@+id/referrer_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/booking_btn_customized"
+                android:text="Cancel"
+                android:textColor="@color/WhiteColor"
+                android:textAllCaps="false"
+
+                />
+            <Button
+                android:id="@+id/referrer_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Add"
+                android:background="@drawable/booking_btn_customized"
+                android:textColor="@color/WhiteColor"
+                android:textAllCaps="false"
+
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

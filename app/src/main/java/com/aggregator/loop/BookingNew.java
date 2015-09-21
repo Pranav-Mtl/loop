@@ -88,6 +88,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
     DrawerAdapter drawerAdapter;
 
+    String totalPrice,loopCredit,paytmCash;
+
     View _itemColoured;
 
     @Override
@@ -194,16 +196,24 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 Log.d("Drop Point ID", endPointID);
                 Log.d("Drop Point Distance", endPointDist + "");
 
+                Log.d("Amount i Have", Constant.amount + "");
+
                 double pp=Double.valueOf(Constant.amount)-price;
                 Log.d("PRICE CATCULATED", pp + "");
 
+                totalPrice=pp+"";
+
                 if(pp>0)
                 {
+                    loopCredit=price+"";
+                    paytmCash="0";
                     tvPrice.setText("0");
                     tvCredit.setText("After using ₹"+price+" Loop credit.");
                 }
                 else
                 {
+                    loopCredit=Constant.amount;
+                    paytmCash=Math.abs(pp)+"";
                     tvPrice.setText(Math.abs(pp)+"");
                     tvCredit.setText("After using ₹"+Constant.amount+" Loop credit.");
                 }
@@ -323,6 +333,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             case R.id.booking_screen_btn:
 
                 if(timeSelected){
+                    String price="₹ "+totalPrice+" (Loop credit ₹ "+loopCredit+", Paytm ₹ "+paytmCash+")";
                     if(loginID==null)
                     {
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id,startPointID);
@@ -330,7 +341,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID,routeId);
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_Run_ID,runID);
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,spnTimePicker.getSelectedItem().toString());
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,tvPrice.getText().toString());
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,totalPrice);
 
                         startActivity(new Intent(BookingNew.this, SignUpScreen.class));
                     }
@@ -341,7 +352,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         objBookingBE.setStartPoint(startPointID);
                         objBookingBE.setEndPoint(endPointID);
                         objBookingBE.setRunID(runID);
-                        objBookingBE.setPrice(tvPrice.getText().toString());
+                        objBookingBE.setPrice(totalPrice);
                         objBookingBE.setTime(spnTimePicker.getSelectedItem().toString());
 
                         new InsertBooking().execute();
@@ -635,4 +646,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

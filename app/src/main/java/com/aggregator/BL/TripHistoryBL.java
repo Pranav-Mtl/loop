@@ -31,54 +31,58 @@ public class TripHistoryBL {
 
     private String validate(String result)
     {
-        String status="";
-        if(result.equals("[]"))
-        {
-            status=Constant.WS_RESULT_FAILURE;
-        }
-        else {
-            status = Constant.WS_RESULT_SUCCESS;
-            JSONParser jsonP = new JSONParser();
-            try {
+        String status = "";
+       try {
 
-                Object obj = jsonP.parse(result);
-                JSONArray jsonArrayObject = (JSONArray) obj;
-                Constant.tripRouteID = new String[jsonArrayObject.size()];
-                Constant.tripStartID = new String[jsonArrayObject.size()];
-                Constant.tripStartName = new String[jsonArrayObject.size()];
-                Constant.tripEndID = new String[jsonArrayObject.size()];
-                Constant.tripEndName = new String[jsonArrayObject.size()];
+           if (result.equals("[]")) {
+               status = Constant.WS_RESULT_FAILURE;
+           } else {
+               status = Constant.WS_RESULT_SUCCESS;
+               JSONParser jsonP = new JSONParser();
 
-                Constant.tripDate = new String[jsonArrayObject.size()];
-                Constant.tripFav = new String[jsonArrayObject.size()];
+               try {
+                   Object obj = jsonP.parse(result);
+                   JSONArray jsonArrayObject = (JSONArray) obj;
+                   Constant.tripRouteID = new String[jsonArrayObject.size()];
+                   Constant.tripStartID = new String[jsonArrayObject.size()];
+                   Constant.tripStartName = new String[jsonArrayObject.size()];
+                   Constant.tripEndID = new String[jsonArrayObject.size()];
+                   Constant.tripEndName = new String[jsonArrayObject.size()];
 
-                Constant.tripTime = new String[jsonArrayObject.size()];
-                Constant.tripPrice = new String[jsonArrayObject.size()];
-                Constant.tripStatus = new String[jsonArrayObject.size()];
-                Constant.tripRunId = new String[jsonArrayObject.size()];
+                   Constant.tripDate = new String[jsonArrayObject.size()];
+                   Constant.tripFav = new String[jsonArrayObject.size()];
+
+                   Constant.tripTime = new String[jsonArrayObject.size()];
+                   Constant.tripPrice = new String[jsonArrayObject.size()];
+                   Constant.tripStatus = new String[jsonArrayObject.size()];
+                   Constant.tripRunId = new String[jsonArrayObject.size()];
 
 
-                for (int i = 0; i < jsonArrayObject.size(); i++) {
-                    JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
+                   for (int i = 0; i < jsonArrayObject.size(); i++) {
+                       JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
 
-                    Constant.tripRouteID[i] = jsonObject.get("route_id").toString();
-                    Constant.tripStartID[i] = jsonObject.get("start_point").toString();
-                    Constant.tripStartName[i] = jsonObject.get("start_point_name").toString();
-                    Constant.tripEndID[i] = jsonObject.get("end_point").toString();
-                    Constant.tripEndName[i] = jsonObject.get("end_point_name").toString();
-                    Constant.tripDate[i] = jsonObject.get("booking_date").toString();
-                    Constant.tripFav[i] = jsonObject.get("route_status").toString();
-                    Constant.tripTime[i] = jsonObject.get("departure_time").toString();
-                    Constant.tripPrice[i] = jsonObject.get("price").toString();
-                    Constant.tripStatus[i] = jsonObject.get("status").toString();
-                    Constant.tripRunId[i]=jsonObject.get("user_run_id").toString();
+                       Constant.tripRouteID[i] = jsonObject.get("route_id").toString();
+                       Constant.tripStartID[i] = jsonObject.get("start_point").toString();
+                       Constant.tripStartName[i] = jsonObject.get("start_point_name").toString();
+                       Constant.tripEndID[i] = jsonObject.get("end_point").toString();
+                       Constant.tripEndName[i] = jsonObject.get("end_point_name").toString();
+                       Constant.tripDate[i] = jsonObject.get("booking_date").toString();
+                       Constant.tripFav[i] = jsonObject.get("route_status").toString();
+                       Constant.tripTime[i] = jsonObject.get("departure_time").toString();
+                       Constant.tripPrice[i] = jsonObject.get("price").toString();
+                       Constant.tripStatus[i] = jsonObject.get("status").toString();
+                       Constant.tripRunId[i] = jsonObject.get("user_run_id").toString();
 
-                }
+                   }
 
-            } catch (Exception e) {
-                e.getLocalizedMessage();
-            }
-        }
+               } catch (Exception e) {
+                   e.getLocalizedMessage();
+               }
+           }
+       }
+       catch (NullPointerException e){
+           e.printStackTrace();
+       }
 
         return status;
     }

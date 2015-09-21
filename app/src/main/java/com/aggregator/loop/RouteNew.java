@@ -1,0 +1,828 @@
+package com.aggregator.loop;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.aggregator.Adapters.DrawerAdapter;
+import com.aggregator.Adapters.FavouriteAdapter;
+import com.aggregator.Adapters.RouteAdapter;
+import com.aggregator.Adapters.RoutesAdapter;
+import com.aggregator.Adapters.RoutesAdapterSearch;
+import com.aggregator.BL.RoutesBL;
+import com.aggregator.Configuration.Util;
+import com.aggregator.Constant.Constant;
+import com.aggregator.WS.RestFullWS;
+import com.twotoasters.android.support.v7.widget.RecyclerView;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class RouteNew extends AppCompatActivity implements View.OnClickListener,ExpandableListView.OnGroupClickListener  {
+
+    TextView tvRecentOne,tvRecentTwo;
+    RoutesBL objRoutesBL;
+    ProgressDialog mProgressDialog;
+    ImageButton btnDone;
+
+    AutoCompleteTextView tvSearchRoute;
+    ImageButton routesCross;
+
+    ExpandableListView expListView;
+    private boolean[] mGroupStates;
+    private boolean[] mGroupSearch;
+    private boolean[] mGroupSearchedList;
+
+    ArrayList<String> adapterList = new ArrayList<String>();
+
+    String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Rate Us","Notifications","Tutorial","Help",};
+
+    int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_rate,R.drawable.ic_side_notification, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
+
+    List<String> listDataHeaderSearch;
+    HashMap<String, List<String>> listDataChildSearch;
+
+    RoutesAdapter objRoutesAdapter;
+    RoutesAdapterSearch objRoutesAdapterSearch;
+
+    int routeID=-1;
+
+
+
+    RecyclerView mRecyclerView;                           // Declaring RecyclerView
+    RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
+    RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
+    DrawerLayout Drawer;                                  // Declaring DrawerLayout
+    ActionBarDrawerToggle mDrawerToggle;
+
+    DrawerAdapter drawerAdapter;
+
+    String NAME = "";
+    String LoopCredit = "";
+    String PayTMWalet ="";
+    String logInType;
+
+    View currentGroup;
+
+    private Toolbar toolbar;
+
+    LinearLayout llFavourite,llAllRoute,llBottomRoute,llRecent,llNoRoute;
+
+    RelativeLayout rlMain;
+
+    ExpandableListView elvSearch;
+
+    TextView tvTabRoute,tvTabFav;
+    TextView tvSelectedRouteSource,tvSelectedRouteDestination;
+
+    android.support.v7.widget.RecyclerView lvFav,lvRecent;
+
+    int selectedGroupPosition=-1;
+    int selectedSearchGroup=-1;
+
+    FavouriteAdapter objFavRouteAdapter;
+    RouteAdapter objRecentRouteAdapter;
+
+    View _itemColoured;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_route_new);
+
+        initialize();
+
+        btnDone.setOnClickListener(this);
+        routesCross.setOnClickListener(this);
+        tvTabRoute.setOnClickListener(this);
+        tvTabFav.setOnClickListener(this);
+        expListView.setOnGroupClickListener(this);
+        elvSearch.setOnGroupClickListener(this);
+
+        logInType= Util.getSharedPrefrenceValue(RouteNew.this, Constant.SHARED_PREFERENCE_User_id);
+
+
+        if(logInType==null) {
+            TITLES = new String[3];
+            TITLES[0] = "Book a Ride";
+            TITLES[1] = "Tutorial";
+            TITLES[2] = "Rate us";
+            ICONS = new int[3];
+            ICONS[0] = R.drawable.ic_side_bus;
+            ICONS[1] = R.drawable.ic_side_tutorial;
+            ICONS[2] = R.drawable.ic_side_rate;
+
+            Constant.NAME = "Sign In";
+            Constant.LoopCredit = "";
+            Constant.PayTMWalet = "";
+        }
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
+        mRecyclerView.setHasFixedSize(true);
+
+        drawerAdapter = new DrawerAdapter(TITLES, ICONS, Constant.NAME, Constant.LoopCredit,Constant.PayTMWalet, getApplicationContext());       // Creating the Adapter of com.example.balram.sampleactionbar.MyAdapter class(which we are going to see in a bit)
+
+        // And passing the titles,icons,header view name, header view email,
+        // and header  view profile picture
+        mRecyclerView.setAdapter(drawerAdapter);
+
+        mLayoutManager = new com.twotoasters.android.support.v7.widget.LinearLayoutManager(this);                 // Creating a layout Manager
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //System.out.println("At home Screen2");
+        setSupportActionBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        actionBar.setTitle("");
+
+
+
+        // Setting the adapter to RecyclerView
+
+
+        Drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);        // Drawer object Assigned to the view
+        mDrawerToggle = new ActionBarDrawerToggle(this, Drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
+                // open I am not going to put anything here)
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                // Code here will execute once drawer is closed
+            }
+
+
+        }; // Drawer Toggle Object Made
+        Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+        mDrawerToggle.syncState();
+
+
+
+
+        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousGroup = -1;
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (groupPosition != previousGroup)
+                    expListView.collapseGroup(previousGroup);
+
+                System.out.println("PREVIOUS GROUP" + previousGroup);
+                System.out.println("CURRENT GROUP" + groupPosition);
+                previousGroup = groupPosition;
+                llBottomRoute.setVisibility(View.VISIBLE);
+                btnDone.setVisibility(View.VISIBLE);
+            }
+
+        });
+
+        if(Util.isInternetConnection(RouteNew.this))
+        {
+
+            if(logInType==null)
+            {
+
+                try {
+                    tvTabRoute.setText("Routes");
+                    tvTabRoute.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
+                    tvTabFav.setText("Recent");
+                    llAllRoute.setVisibility(View.VISIBLE);
+                    llFavourite.setVisibility(View.GONE);
+                    llNoRoute.setVisibility(View.GONE);
+                    new GetRoutes().execute();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+            else
+            {
+                tvTabRoute.setText("Routes");
+                tvTabFav.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
+                tvTabFav.setText("Favourites");
+                llAllRoute.setVisibility(View.GONE);
+                llFavourite.setVisibility(View.GONE);
+                llNoRoute.setVisibility(View.GONE);
+                new GetRoutesLogin().execute(logInType);
+
+            }
+        }
+
+
+
+        /* GET DATA FOR SEARCHED KEYWORD*/
+
+        tvSearchRoute.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 1 && s.length() <= 10) {
+                    // Toast.makeText(getApplicationContext(),"char:"+s,Toast.LENGTH_LONG).show();
+                    llBottomRoute.setVisibility(View.INVISIBLE);
+                    btnDone.setVisibility(View.INVISIBLE);
+                    new GetSearchedRoutes().execute(s.toString());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+
+                        if (position != 0) {
+                            if (_itemColoured != null) {
+                                _itemColoured.setBackgroundColor(Color.parseColor("#66daae"));
+                                _itemColoured.invalidate();
+                            }
+                            _itemColoured = view;
+                            view.setBackgroundColor(Color.parseColor("#1fc796"));
+                        }
+
+                        if (logInType == null) {
+                            if (position == 0) {
+                                startActivity(new Intent(getApplicationContext(), SignIn.class));
+                            } else if (position == 1) {
+
+                            }
+                        } else {
+                            if (position == 0) {
+                                startActivity(new Intent(getApplicationContext(), LoopProfile.class));
+                            } else if (position == 1) {
+                                Drawer.closeDrawers();
+                            } else if (position == 2) {
+                                startActivity(new Intent(getApplicationContext(), TripHistory.class));
+                            } else if (position == 3) {
+                                startActivity(new Intent(getApplicationContext(), PromoCode.class));
+                            } else if (position == 4) {
+                                startActivity(new Intent(getApplicationContext(), InviteActivity.class));
+                            } else if (position == 8) {
+                                startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+                            } else if (position == 7) {
+
+                            } else if (position == 6) {
+                                //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                            }
+
+                        }
+
+
+                    }
+                }));
+
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initialize(){
+        btnDone= (ImageButton) findViewById(R.id.route_done);
+        routesCross= (ImageButton) findViewById(R.id.routes_cross);
+        expListView= (ExpandableListView) findViewById(R.id.expandable_list);
+        tvSearchRoute= (AutoCompleteTextView) findViewById(R.id.route_search);
+        llFavourite= (LinearLayout) findViewById(R.id.route_layout_fav);
+        llRecent= (LinearLayout) findViewById(R.id.route_layout_recent);
+        llAllRoute= (LinearLayout) findViewById(R.id.route_layout_allroute);
+        llBottomRoute= (LinearLayout) findViewById(R.id.ll_bottom_route);
+        llNoRoute= (LinearLayout) findViewById(R.id.route_layout_norecent);
+        rlMain= (RelativeLayout) findViewById(R.id.route_main);
+        lvFav= (android.support.v7.widget.RecyclerView) findViewById(R.id.routes_lv_fav);
+        lvRecent= (android.support.v7.widget.RecyclerView) findViewById(R.id.routes_lv_recent);
+
+        tvSelectedRouteSource= (TextView) findViewById(R.id.routes_selected_source);
+        tvSelectedRouteDestination= (TextView) findViewById(R.id.routes_selected_destination);
+
+
+        tvTabRoute= (TextView) findViewById(R.id.toolbar_Tab1);
+        tvTabFav= (TextView) findViewById(R.id.toolbar_Tab2);
+
+        elvSearch=(ExpandableListView) findViewById(R.id.expandable_searched_list);
+
+        objRoutesBL=new RoutesBL();
+        mProgressDialog=new ProgressDialog(RouteNew.this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId())
+        {
+            case R.id.route_done:
+                startActivity(new Intent(getApplicationContext(), BookingNew.class).putExtra("RouteId", routeID));
+                break;
+            case R.id.toolbar_Tab1:
+
+                tvTabRoute.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
+                tvTabFav.setBackgroundColor(getResources().getColor(R.color.LightGreen));
+                llAllRoute.setVisibility(View.VISIBLE);
+                llFavourite.setVisibility(View.GONE);
+                llRecent.setVisibility(View.GONE);
+                llNoRoute.setVisibility(View.GONE);
+                llBottomRoute.setVisibility(View.INVISIBLE);
+                btnDone.setVisibility(View.INVISIBLE);
+
+                if (Constant._lastColored != null) {
+                    Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
+                    Constant._lastColored.invalidate();
+                }
+
+
+
+
+                break;
+            case R.id.toolbar_Tab2:
+                tvTabRoute.setBackgroundColor(getResources().getColor(R.color.LightGreen));
+                tvTabFav.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
+
+                llBottomRoute.setVisibility(View.INVISIBLE);
+                btnDone.setVisibility(View.INVISIBLE);
+
+                if(selectedGroupPosition!=-1) {
+                    expListView.collapseGroup(selectedGroupPosition);
+                    objRoutesAdapter.notifyDataSetChanged();
+                }
+
+                if(selectedSearchGroup!=-1) {
+                    elvSearch.collapseGroup(selectedSearchGroup);
+                    objRoutesAdapterSearch.notifyDataSetChanged();
+                }
+
+
+
+                if(logInType==null)
+                {
+                    llAllRoute.setVisibility(View.GONE);
+                    llNoRoute.setVisibility(View.VISIBLE);
+                }
+                else {
+
+                    llAllRoute.setVisibility(View.GONE);
+                    llNoRoute.setVisibility(View.GONE);
+                    if(Constant.favJson){
+                        llFavourite.setVisibility(View.VISIBLE);
+
+                    }
+                    if(Constant.recentJson){
+                        llRecent.setVisibility(View.VISIBLE);
+
+                    }
+                }
+                break;
+            case R.id.routes_cross:
+                elvSearch.setVisibility(View.GONE);
+                expListView.setVisibility(View.VISIBLE);
+                tvSearchRoute.setText("");
+
+                break;
+        }
+    }
+
+    /* EXPENDABLE LIST CLICK LISTENER */
+
+    @Override
+    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+        Log.d("Group Clicked",groupPosition + "");
+        Log.d("Group ID", parent.getId() +"");
+        Log.d("list ID", R.id.expandable_list + "");
+            switch (parent.getId()){
+                case R.id.expandable_list:
+                   // groupParentClicked(groupPosition);
+                    selectedGroupPosition=groupPosition;
+                    routeID = Integer.valueOf(Constant.routeId[groupPosition]);
+
+
+                    llBottomRoute.setVisibility(View.VISIBLE);
+                    btnDone.setVisibility(View.VISIBLE);
+
+                    String headerName = listDataHeader.get(groupPosition);
+
+                    String SDSplit[] = headerName.split("-");
+                    String source = SDSplit[0];
+                    String destination = SDSplit[1];
+
+                    Log.d("Source",source);
+                    Log.d("Destination",destination);
+
+                    tvSelectedRouteSource.setText(source);
+                    tvSelectedRouteDestination.setText(destination);
+
+                    mGroupStates[groupPosition] = !mGroupStates[groupPosition];
+
+                    if (mGroupStates[groupPosition]) {
+                        } else {
+                            // group is being collapsed
+                            llBottomRoute.setVisibility(View.INVISIBLE);
+                            btnDone.setVisibility(View.INVISIBLE);
+                        }
+                    break;
+                case R.id.expandable_searched_list:
+                    //groupParentClickedSearched(groupPosition);
+                    selectedSearchGroup=groupPosition;
+
+                    Constant.favSelectedItem = -1;
+                    Constant.recSelectedItem = -1;
+
+                    mGroupSearch[groupPosition] = !mGroupSearch[groupPosition];
+                    // Check expanding or collapsing
+                    llBottomRoute.setVisibility(View.VISIBLE);
+                    btnDone.setVisibility(View.VISIBLE);
+
+                    String headerName1 = listDataHeaderSearch.get(groupPosition);
+
+                    String SDSplit1[] = headerName1.split("-");
+                    String source1 = SDSplit1[0];
+                    String destination1 = SDSplit1[1];
+
+                    tvSelectedRouteSource.setText(source1);
+                    tvSelectedRouteDestination.setText(destination1);
+
+                    mGroupSearch[groupPosition] = !mGroupSearch[groupPosition];
+                    // Check expanding or collapsing
+
+
+                    if (mGroupSearch[groupPosition]) {
+                        // group is being expanded
+
+                    } else {
+                        // group is being collapsed
+                        llBottomRoute.setVisibility(View.INVISIBLE);
+                        btnDone.setVisibility(View.INVISIBLE);
+                    }
+                    break;
+            }
+
+        return false;
+    }
+
+
+    private void groupParentClicked(int groupPosition){
+
+
+
+        // Check expanding or collapsing
+        System.out.println("GROUP COLLAPSE DATA" + mGroupStates[groupPosition]);
+       /* if (mGroupStates[groupPosition]) {
+            // group is being expanded
+
+
+        } else {
+            // group is being collapsed
+            llBottomRoute.setVisibility(View.INVISIBLE);
+            btnDone.setVisibility(View.INVISIBLE);
+        }*/
+
+        /*  _lastColored = currentGroup;
+           currentGroup.setBackgroundColor(getResources().getColor(R.color.RouteSelectedColor));*/
+
+
+
+
+    }
+
+    private void groupParentClickedSearched(int groupPosition){
+
+
+        Log.d("Search List Clicked", groupPosition + "");
+
+
+
+        if (mGroupSearch[groupPosition]) {
+            // group is being expanded
+
+        } else {
+            // group is being collapsed
+             llBottomRoute.setVisibility(View.INVISIBLE);
+             btnDone.setVisibility(View.INVISIBLE);
+        }
+
+                                                      /*    _lastColored = v;
+                                                          v.setBackgroundColor(getResources().getColor(R.color.RouteSelectedColor));*/
+
+
+
+        //btnDone.setVisibility(View.VISIBLE);
+    }
+
+
+    private class GetRoutes extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog.show();
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setCancelable(false);
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String result=objRoutesBL.getAllRoutes();
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            try {
+                prepareListData();
+                objRoutesAdapter = new RoutesAdapter(RouteNew.this, listDataHeader, listDataChild,llBottomRoute);
+                expListView.setAdapter(objRoutesAdapter);
+                mGroupStates = new boolean[objRoutesAdapter.getGroupCount()];
+            }
+            catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            finally {
+                mProgressDialog.dismiss();
+            }
+        }
+    }
+
+
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+        List<String> TrainerTutor = new ArrayList<String>();
+        //String strSubRoute[]=new String[Constant.routeId.length];
+
+
+        // Adding child data
+
+        for(int i=0;i<Constant.routeId.length;i++){
+            System.out.println("Route name"+Constant.routeName[i]);
+            System.out.println("Route expand"+Constant.routeExpand[i]);
+            listDataHeader.add(Constant.routeName[i]);
+            TrainerTutor.add(Constant.routeExpand[i]);
+
+        }
+
+        for(int i=0;i<Constant.routeId.length;i++){
+            List<String> listRoute = new ArrayList<String>();
+            listRoute.add(Constant.routeExpand[i]);
+            listDataChild.put(listDataHeader.get(i),listRoute);
+        }
+
+    }
+
+    private class GetSearchedRoutes extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+
+           /* progressDialog.show();
+            progressDialog.setMessage("Loading");*/
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            String URL="route_name="+ params[0];
+            String txtJson = RestFullWS.callWS(URL, Constant.WEBSERVICE_Route_Search);
+            return txtJson;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //set adapter here
+            try {
+
+                validate(result);
+                prepareListSearchData();
+                expListView.setVisibility(View.GONE);
+                elvSearch.setVisibility(View.VISIBLE);
+                objRoutesAdapterSearch = new RoutesAdapterSearch(RouteNew.this, listDataHeaderSearch, listDataChildSearch);
+
+                elvSearch.setAdapter(objRoutesAdapterSearch);
+
+                mGroupSearch = new boolean[objRoutesAdapterSearch.getGroupCount()];
+
+
+
+                elvSearch.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+                    int previousGroup = -1;
+
+                    @Override
+                    public void onGroupExpand(int groupPosition) {
+                        if (groupPosition != previousGroup)
+                            elvSearch.collapseGroup(previousGroup);
+
+                        System.out.println("PREVIOUS GROUP" + previousGroup);
+                        System.out.println("CURRENT GROUP" + groupPosition);
+                        previousGroup = groupPosition;
+
+                        llBottomRoute.setVisibility(View.VISIBLE);
+                        btnDone.setVisibility(View.VISIBLE);
+
+                    }
+
+                });
+
+
+
+                //progressDialog.dismiss();
+            }
+            catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private String validate(String result)
+    {
+        String status="";
+        JSONParser jsonP=new JSONParser();
+        try {
+
+            Object obj =jsonP.parse(result);
+            JSONArray jsonArrayObject = (JSONArray) obj;
+            Constant.routeSearchId=new String[jsonArrayObject.size()];
+            Constant.routeSearchName=new String[jsonArrayObject.size()];
+            Constant.routeSearchExpand=new String[jsonArrayObject.size()];
+
+            for(int i=0;i<jsonArrayObject.size();i++) {
+                JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
+                Constant.routeSearchId[i]=jsonObject.get("route_id").toString();
+                Constant.routeSearchName[i]=jsonObject.get("route_name").toString();
+                Constant.routeSearchExpand[i]=jsonObject.get("sub_route").toString().replace("[","").replace("]","").replaceAll("\"", "").replaceAll(",", " ● ");
+            }
+
+        } catch (Exception e) {
+            e.getLocalizedMessage();
+        }
+
+        return "";
+    }
+
+    private void prepareListSearchData() {
+        listDataHeaderSearch = new ArrayList<String>();
+        listDataChildSearch = new HashMap<String, List<String>>();
+        List<String> TrainerTutor = new ArrayList<String>();
+        String strSubRoute[] = new String[Constant.routeSearchId.length];
+
+
+        // Adding child data
+
+        for (int i = 0; i < Constant.routeSearchId.length; i++) {
+            System.out.println("Route name" + Constant.routeSearchName[i]);
+            System.out.println("Route expand" + Constant.routeSearchExpand[i]);
+            listDataHeaderSearch.add(Constant.routeSearchName[i]);
+            TrainerTutor.add(Constant.routeSearchExpand[i]);
+        }
+
+        for (int i = 0; i < Constant.routeSearchId.length; i++) {
+            List<String> listRoute = new ArrayList<String>();
+            listRoute.add(Constant.routeSearchExpand[i]);
+            listDataChildSearch.put(listDataHeaderSearch.get(i), listRoute);
+        }
+    }
+
+
+    private class GetRoutesLogin extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog.show();
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setCancelable(false);
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String result=objRoutesBL.getAllRoutesLogin(params[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try
+            {
+
+                if(Constant.favJson)
+                {
+                    Log.d("Fav json truw-->",Constant.favJson+"");
+                    llFavourite.setVisibility(View.VISIBLE);
+                    objFavRouteAdapter=new FavouriteAdapter(getApplicationContext(),tvSelectedRouteSource,tvSelectedRouteDestination,logInType,llBottomRoute,btnDone,RouteNew.this);
+                    LinearLayoutManager llm = new LinearLayoutManager(RouteNew.this);
+                    llm.setOrientation(LinearLayoutManager.VERTICAL);
+                    lvFav.setLayoutManager(llm);
+
+                    lvFav.setAdapter(objFavRouteAdapter);
+                }
+                if(Constant.recentJson) {
+                    Log.d("Recent json truw-->", Constant.recentJson + "");
+                    llRecent.setVisibility(View.VISIBLE);
+                    objRecentRouteAdapter = new RouteAdapter(getApplicationContext(), tvSelectedRouteSource, tvSelectedRouteDestination,logInType,llBottomRoute,btnDone,RouteNew.this);
+                    lvRecent.setAdapter(objRecentRouteAdapter);
+                    LinearLayoutManager llm = new LinearLayoutManager(RouteNew.this);
+                    llm.setOrientation(LinearLayoutManager.VERTICAL);
+                    lvRecent.setLayoutManager(llm);
+                }
+
+                drawerAdapter.notifyDataSetChanged();
+
+                prepareListData();
+
+                objRoutesAdapter = new RoutesAdapter(RouteNew.this, listDataHeader, listDataChild,llBottomRoute);
+                expListView.setAdapter(objRoutesAdapter);
+
+                mGroupStates = new boolean[objRoutesAdapter.getGroupCount()];
+
+
+
+                tvTabFav.setText(Constant.Tab2Name);
+
+
+
+            }
+            catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                mProgressDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawerAdapter.notifyDataSetChanged();
+    }
+}

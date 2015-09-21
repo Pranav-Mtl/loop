@@ -1,5 +1,7 @@
 package com.aggregator.Constant;
 
+import android.view.View;
+
 import com.aggregator.loop.R;
 
 /**
@@ -123,6 +125,7 @@ public class Constant {
     public static String favRouteEndID[];
     public static String favRouteStartName[];
     public static String favRouteEndName[];
+    public static String favRouteFavStatus[];
 
     ///////////      Recent Route Variable     ////////////////
 
@@ -131,7 +134,7 @@ public class Constant {
     public static String recentRouteEndID[];
     public static String recentRouteStartName[];
     public static String recentRouteEndName[];
-
+    public static String recentRouteFavStatus[];
     //////////     Login User Details       //////////////////
 
     public static String name;
@@ -150,7 +153,7 @@ public class Constant {
 
     public static String NAME="";
     public static String LoopCredit="";
-    public static String amount;
+    public static String amount="00.00";
     public static String LoopCreditText="Loop Credit : ₹ ";
     public static String PayTMWalet="";
     public static String PayTMWaletText="Paytm Credit : ₹ ";
@@ -192,6 +195,8 @@ public class Constant {
 
     public static int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_rate,R.drawable.ic_side_notification, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
 
+
+    public static View _lastColored;
 
 
 

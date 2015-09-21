@@ -118,7 +118,7 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
                 new OTPResend().execute(mobile,txtOTP);
                 break;
             case R.id.otp_not:
-                startActivity(new Intent(getApplicationContext(),Routes.class));
+                startActivity(new Intent(getApplicationContext(),RouteNew.class));
                 break;
 
         }
@@ -173,7 +173,7 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
                     bookingRouteId=Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID);
                     if(bookingRouteId==null)
                     {
-                        startActivity(new Intent(OTP.this,Routes.class));
+                        startActivity(new Intent(OTP.this,RouteNew.class));
                     }
                     else
                     {

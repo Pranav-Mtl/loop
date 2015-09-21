@@ -6,36 +6,29 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
+import com.aggregator.Adapters.CardAdapter;
 import com.aggregator.Adapters.DrawerAdapter;
-import com.aggregator.Adapters.TripHistoryAdapter;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
-import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
-import com.twotoasters.android.support.v7.widget.RecyclerView;
 
 public class TripHistory extends AppCompatActivity {
 
-    ListView lvTrips;
+    RecyclerView recList;
+    CardAdapter cd;
 
-    TripHistoryAdapter objTripHistoryAdapter;
+    String userId;
 
-    ProgressDialog mProgressDialog;
-
-    String userID;
-
-    RecyclerView mRecyclerView;                           // Declaring RecyclerView
-    RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
-    RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
+    com.twotoasters.android.support.v7.widget.RecyclerView mRecyclerView;                           // Declaring RecyclerView
+    com.twotoasters.android.support.v7.widget.RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
+    com.twotoasters.android.support.v7.widget.RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
     DrawerLayout Drawer;                                  // Declaring DrawerLayout
     ActionBarDrawerToggle mDrawerToggle;
 
@@ -43,35 +36,27 @@ public class TripHistory extends AppCompatActivity {
 
     View _itemColoured;
 
+    ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trip_history);
+        setContentView(R.layout.activity_test);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        ActionBar actionBar=getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        lvTrips= (ListView) findViewById(R.id.trips_lv);
-
         mProgressDialog=new ProgressDialog(TripHistory.this);
-
-        userID= Util.getSharedPrefrenceValue(getApplicationContext(), Constant.SHARED_PREFERENCE_User_id);
-
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
+        mRecyclerView = (com.twotoasters.android.support.v7.widget.RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
         mRecyclerView.setHasFixedSize(true);
-
 
         drawerAdapter = new DrawerAdapter(Constant.TITLES,Constant.ICONS, Constant.NAME, Constant.LoopCredit,Constant.PayTMWalet, getApplicationContext());       // Creating the Adapter of com.example.balram.sampleactionbar.MyAdapter class(which we are going to see in a bit)
 
+        // And passing the titles,icons,header view name, header view email,
+        // and header  view profile picture
         mRecyclerView.setAdapter(drawerAdapter);
 
-        mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
+        mLayoutManager = new com.twotoasters.android.support.v7.widget.LinearLayoutManager(this);                 // Creating a layout Manager
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         Drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);        // Drawer object Assigned to the view
@@ -95,7 +80,21 @@ public class TripHistory extends AppCompatActivity {
         Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();
 
-        new GetTripHistory().execute(userID);
+
+
+
+        recList = (RecyclerView) findViewById(R.id.cardList);
+        recList.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recList.setLayoutManager(llm);
+
+
+
+        userId= Util.getSharedPrefrenceValue(getApplicationContext(), Constant.SHARED_PREFERENCE_User_id);
+
+        new GetHistory().execute(userId);
 
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -115,9 +114,9 @@ public class TripHistory extends AppCompatActivity {
                         if (position == 0) {
                             startActivity(new Intent(getApplicationContext(), LoopProfile.class));
                         } else if (position == 1) {
-
+                            startActivity(new Intent(getApplicationContext(), RouteNew.class));
                         } else if (position == 2) {
-                            startActivity(new Intent(getApplicationContext(), TripHistory.class));
+                            Drawer.closeDrawers();
                         } else if (position == 3) {
                             startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 4) {
@@ -136,9 +135,36 @@ public class TripHistory extends AppCompatActivity {
                 }));
 
 
+
     }
 
+   private class GetHistory extends AsyncTask<String,String,String>{
 
+       @Override
+       protected void onPreExecute() {
+            mProgressDialog.show();
+           mProgressDialog.setMessage("Loading...");
+           mProgressDialog.setCancelable(false);
+       }
+
+       @Override
+       protected String doInBackground(String... params) {
+           cd=new CardAdapter(TripHistory.this,params[0]);
+           return "";
+       }
+
+       @Override
+       protected void onPostExecute(String s) {
+           try {
+               recList.setAdapter(cd);
+           } catch (NullPointerException e){
+               e.printStackTrace();
+           }
+           finally {
+               mProgressDialog.dismiss();
+           }
+       }
+   }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -148,52 +174,10 @@ public class TripHistory extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) {
-
-            //Toast.makeText(getApplicationContext(),"BAck Clicked",Toast.LENGTH_SHORT).show();
-            finish();
+        if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private class GetTripHistory extends AsyncTask<String,String,String>{
-
-        @Override
-        protected void onPreExecute() {
-            mProgressDialog.show();
-            mProgressDialog.setMessage("Loading...");
-            mProgressDialog.setCancelable(false);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            objTripHistoryAdapter=new TripHistoryAdapter(getApplicationContext(),params[0]);
-            return "";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-          try {
-              lvTrips.setAdapter(objTripHistoryAdapter);
-
-              lvTrips.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                  @Override
-                  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                      Log.d("CLICKED--->", view.getId()+"");
-
-                      objTripHistoryAdapter.notifyDataSetChanged();
-                  }
-              });
-          }
-          catch (Exception e){
-              e.printStackTrace();
-          }
-            finally {
-              mProgressDialog.dismiss();
-          }
-        }
     }
 }

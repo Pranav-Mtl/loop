@@ -474,4 +474,9 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         return null;
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

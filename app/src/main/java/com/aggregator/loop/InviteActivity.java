@@ -231,13 +231,13 @@ public class InviteActivity extends AppCompatActivity {
                         if (position == 0) {
                             startActivity(new Intent(getApplicationContext(), LoopProfile.class));
                         } else if (position == 1) {
-
+                            startActivity(new Intent(getApplicationContext(), RouteNew.class));
                         } else if (position == 2) {
                             startActivity(new Intent(getApplicationContext(), TripHistory.class));
                         } else if (position == 3) {
                             startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 4) {
-                            startActivity(new Intent(getApplicationContext(), InviteActivity.class));
+                            Drawer.closeDrawers();
                         } else if (position == 8) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         } else if (position == 7) {
@@ -340,6 +340,8 @@ public class InviteActivity extends AppCompatActivity {
     }
 
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

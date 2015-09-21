@@ -18,14 +18,18 @@
         android:layout_height="50dp"
         android:background="#1ebd9d"
         app:theme="@style/Toolbar_Theme"
+        android:layout_gravity="center"
+
         android:minHeight="?attr/actionBarSize">
 
        >
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Help"
+            android:layout_gravity="center"
             android:gravity="center"
+            android:layout_centerInParent="true"
             android:textSize="20dp"
             android:textColor="#ffffff"
 
@@ -60,7 +64,7 @@
             android:layout_height="wrap_content"
             android:text="For any issues reach out to us at:"
             android:textColor="#34495e"
-            android:textSize="18dp"
+            android:textSize="17dp"
 
 
 
@@ -93,7 +97,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="9716722592"
-                android:textSize="22dp"
+                android:textSize="17dp"
                 android:textColor="#34495e"
 
                 />
@@ -115,7 +119,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Send us a short email using comments section below"
-            android:textSize="18dp"
+            android:textSize="17dp"
             android:textColor="#34495e"
             />
 
@@ -126,19 +130,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Comments :"
-            android:textSize="22dp"
+            android:textSize="20dp"
             android:textColor="#34495e"
             />
 
         <EditText
             android:id="@+id/message"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="wirte your comments here"
             android:singleLine="true"
+            android:textSize="13sp"
+            android:imeOptions="actionDone"
             android:background="@android:color/transparent"
             />
         <LinearLayout

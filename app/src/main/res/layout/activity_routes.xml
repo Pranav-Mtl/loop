@@ -251,7 +251,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:textColor="@color/WhiteColor"
-                android:text="Source"
+
                 android:textSize="14sp"
                 />
             <ImageView
@@ -265,7 +265,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:textColor="@color/WhiteColor"
-                android:text="Destination"
+
                 android:textSize="14sp"
                 />
 
@@ -289,7 +289,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:visibility="invisible"
-                android:background="@drawable/ic_routes_next"
+                android:background="@drawable/route_next_selector"
                 />
         </LinearLayout>
     </RelativeLayout>

@@ -27,7 +27,7 @@
         <!-- Launching Activity -->
 
         <activity
-            android:name=".Routes"
+            android:name=".RouteNew"
             android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,37 +39,42 @@
         <!-- Other Activities -->
 
 
-        <!--
+
         <activity
-            android:name=".TestActivity"
-            android:label="@string/title_activity_test" >
+            android:name=".TripHistory"
+            android:label="" >
         </activity>
-        -->
+
         <activity
             android:name=".SignUpScreen"
-            android:label="@string/title_activity_sign_up_screen"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            >
+            android:label=""
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name=".ResetPassword"
-            android:label="" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SignIn"
-            android:label="@string/title_activity_sign_in" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".BookingScreen"
-            android:label="" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TicketScreen"
-            android:label="@string/title_activity_ticket_screen" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".LoopProfile"
             android:label=""
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
 
@@ -84,34 +89,40 @@
 
         <activity
             android:name=".OTP"
-            android:label="@string/title_activity_otp" >
+            android:label="@string/title_activity_otp"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".InviteActivity"
-            android:label="" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".HelpActivity"
             android:label=""
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name=".TripFeedback"
-            android:label="@string/title_activity_trip_feedback"
+            android:label=""
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name=".BookingNew"
-            android:label="@string/title_activity_booking_new" >
-        </activity>
-        <activity
-            android:name=".TripHistory"
-            android:label="@string/title_activity_trip_history" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PromoCode"
-            android:label="@string/title_activity_promo_code" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
+       <!-- <activity
+            android:name=".RouteNew"
+            android:label="@string/title_activity_route_new" >
+        </activity>-->
     </application>
 
 </manifest>

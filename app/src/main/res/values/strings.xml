@@ -30,4 +30,5 @@
     <string name="title_activity_booking_new">BookingNew</string>
     <string name="title_activity_trip_history">TripHistory</string>
     <string name="title_activity_promo_code">PromoCode</string>
+    <string name="title_activity_route_new">RouteNew</string>
 </resources>

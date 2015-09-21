@@ -28,7 +28,9 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_centerInParent="true"
                 android:text="PromoCode"
                 android:textColor="#ffffff"
                 android:textSize="16sp" />

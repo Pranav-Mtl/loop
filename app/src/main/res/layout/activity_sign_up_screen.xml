@@ -223,9 +223,9 @@
                 android:background="@android:color/transparent"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="Promo"
+                android:text="Referrer"
+                android:textAllCaps="false"
                 android:drawablePadding="10dp"
-
                 android:drawableRight="@drawable/ic_right_arrow"
                 />
         </RelativeLayout>

@@ -125,7 +125,7 @@ public class HelpActivity extends AppCompatActivity {
                             if (position == 0) {
                                 startActivity(new Intent(getApplicationContext(), LoopProfile.class));
                             } else if (position == 1) {
-
+                                startActivity(new Intent(getApplicationContext(), RouteNew.class));
                             } else if (position == 2) {
                                 startActivity(new Intent(getApplicationContext(), TripHistory.class));
                             } else if (position == 3) {
@@ -133,7 +133,8 @@ public class HelpActivity extends AppCompatActivity {
                             } else if (position == 4) {
                                 startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                             } else if (position == 8) {
-                                startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+
+                                Drawer.closeDrawers();
                             } else if (position == 7) {
 
                             } else if (position == 6) {

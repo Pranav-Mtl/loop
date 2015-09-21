@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    android:elevation="4dp"
+android:layout_gravity="center"
+    android:layout_marginTop="10dp"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        android:background="@drawable/trip_back">
+
+        <!-- Left Main Inner layout -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <!-- Left Inner top layout -->
+
+            <LinearLayout
+                android:id="@+id/trip_ll_left_top"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/trip_left_top_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    ></ImageView>
+                <TextView
+                    android:id="@+id/trip_left_top_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textColor="@color/TextColor"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/LightGreen"
+                />
+
+            <!-- Left Inner Bottom layout -->
+            <LinearLayout
+                android:id="@+id/trip_ll_left_bottom"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/trip_left_bottom_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    ></ImageView>
+                <TextView
+                    android:id="@+id/trip_left_bottom_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textSize="12sp"
+                    android:textColor="@color/TextColor"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:background="@color/LightGreen"
+            />
+
+        <!-- Right Main Inner Layout -->
+        <LinearLayout
+            android:id="@+id/trip_ll_right"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            >
+            <TextView
+                android:id="@+id/trip_tv_date_time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:padding="5dp"
+                android:textColor="@color/TextColor"
+                />
+            <TextView
+                android:id="@+id/trip_start_point"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:drawableLeft="@drawable/ic_trip_pick"
+                android:drawablePadding="5dp"
+                android:padding="5dp"
+                android:textColor="@color/TextColor"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_trip_down"
+                android:layout_marginLeft="40dp"
+
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/trip_end_point"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:padding="5dp"
+                android:textColor="@color/TextColor"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_trip_drop"
+                />
+            <TextView
+                android:id="@+id/trip_cost"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:padding="5dp"
+                android:textColor="@color/TextColor"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+    </android.support.v7.widget.CardView>

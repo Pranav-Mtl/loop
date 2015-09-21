@@ -116,11 +116,11 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
                         if (position == 0) {
                             startActivity(new Intent(getApplicationContext(), LoopProfile.class));
                         } else if (position == 1) {
-
+                            startActivity(new Intent(getApplicationContext(), RouteNew.class));
                         } else if (position == 2) {
                             startActivity(new Intent(getApplicationContext(), TripHistory.class));
                         } else if (position == 3) {
-                            startActivity(new Intent(getApplicationContext(), PromoCode.class));
+                            Drawer.closeDrawers();
                         } else if (position == 4) {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                         } else if (position == 8) {
@@ -215,5 +215,10 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
                 mPrograProgressDialog.dismiss();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

@@ -2,6 +2,7 @@ package com.aggregator.loop;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,12 +10,17 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.aggregator.BE.SignUpBE;
@@ -31,7 +37,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     SignUpBL objSignUpBL;
     SignUpBE objSignUpBE;
     int count=0;
-    Button tvSignIn,btnDone;
+    Button tvSignIn,btnDone,btnReferrer;
 
     ProgressDialog mProgressDialog;
 
@@ -50,6 +56,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         btnBack= (ImageButton) findViewById(R.id.signup_back);
         btnDone= (Button) findViewById(R.id.signup_done);
+        btnReferrer= (Button) findViewById(R.id.signup_promo);
 
         objSignUpBL=new SignUpBL();
         objSignUpBE=new SignUpBE();
@@ -58,10 +65,12 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         btnDone.setOnClickListener(this);
         btnBack.setOnClickListener(this);
+        btnReferrer.setOnClickListener(this);
 
         btnDone.setVisibility(View.VISIBLE);
 
         tvSignIn.setOnClickListener(this);
+
 
         tvMobileNo.setText("+91", TextView.BufferType.EDITABLE);
 
@@ -258,6 +267,9 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
             case R.id.signup_signin:
                 startActivity(new Intent(getApplicationContext(),SignIn.class));
                 break;
+            case R.id.signup_promo:
+                initiatePopupWindow();
+                break;
             default:
                 break;
         }
@@ -424,4 +436,52 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
+    PopupWindow pwindo;
+    private void initiatePopupWindow() {
+        final EditText edittext;
+        TextView tvTitle;
+        Button btnClosePopup,btnsave;
+        try {
+// We need to get the instance of the LayoutInflater
+            LayoutInflater inflater = (LayoutInflater) SignUpScreen.this
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.signup_referrer_code,
+                    (ViewGroup) findViewById(R.id.popup_element));
+            pwindo = new PopupWindow(layout, 500, 550, true);
+            pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+            edittext= (EditText) layout.findViewById(R.id.signup_referrer);
+            btnClosePopup = (Button) layout.findViewById(R.id.referrer_cancel);
+            btnsave= (Button) layout.findViewById(R.id.referrer_add);
+
+
+
+
+            btnClosePopup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                    pwindo.dismiss();
+                }
+            });
+
+            btnsave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String subcategory=edittext.getText().toString();
+                    if(subcategory.trim().length()>0) {
+                        promoCode=subcategory;
+                    }
+                    pwindo.dismiss();
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

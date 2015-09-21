@@ -155,7 +155,7 @@ public class LoopProfile extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_User_id, null);
-                Intent intent = new Intent(getApplicationContext(), Routes.class);
+                Intent intent = new Intent(getApplicationContext(), RouteNew.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -264,9 +264,9 @@ public class LoopProfile extends ActionBarActivity {
                         }
 
                         if (position == 0) {
-                            startActivity(new Intent(getApplicationContext(), LoopProfile.class));
+                            Drawer.closeDrawers();
                         } else if (position == 1) {
-
+                            startActivity(new Intent(getApplicationContext(), RouteNew.class));
                         } else if (position == 2) {
                             startActivity(new Intent(getApplicationContext(), TripHistory.class));
                         } else if (position == 3) {
@@ -386,5 +386,9 @@ public class LoopProfile extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
 
