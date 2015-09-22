@@ -71,12 +71,18 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
         mProgressDialog=new ProgressDialog(OTP.this);
 
         mobile=getIntent().getExtras().get("Mobile").toString();
+        String status=getIntent().getExtras().get("Previous").toString();
+
+        if(status.equals("Login")){
+            String txtOTP=Util.generatePIN();
+            Constant.OTP=txtOTP;
+            new OTPResend().execute(mobile,txtOTP);
+        }
 
         msg=msg+mobile;
 
         tvOTPMessage.setText(msg);
 
-        emailID= Util.getSharedPrefrenceValue(OTP.this,Constant.SHARED_PREFERENCE_EMAIL);
 
 
 
@@ -142,7 +148,7 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
         }
         else
         {
-            new UpdateStatus().execute(emailID);
+            new UpdateStatus().execute(mobile);
         }
 
     }
@@ -183,7 +189,8 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
                         objBookingBE.setEndPoint(Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id));
                         objBookingBE.setTime(Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_TIME));
                         objBookingBE.setPrice((Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_PRICE)));
-                        objBookingBE.setUserID(Util.getSharedPrefrenceValue(OTP.this,Constant.SHARED_PREFERENCE_User_id));
+                        objBookingBE.setUserID(Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_User_id));
+                        objBookingBE.setLoopCredit(Util.getSharedPrefrenceValue(OTP.this,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT));
 
                         booking();
                     }
@@ -251,12 +258,13 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
             {
                 if(!s.equals(Constant.WS_RESULT_FAILURE)){
                     Toast.makeText(getApplicationContext(),"Ride Successfully Booked",Toast.LENGTH_LONG).show();
-                    Util.setSharedPrefrenceValue(OTP.this, Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_Run_ID,null);
+                    Util.setSharedPrefrenceValue(OTP.this, Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_Run_ID, null);
                     Util.setSharedPrefrenceValue(OTP.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID,null);
                     Util.setSharedPrefrenceValue(OTP.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id,null);
                     Util.setSharedPrefrenceValue(OTP.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id,null);
                     Util.setSharedPrefrenceValue(OTP.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,null);
                     Util.setSharedPrefrenceValue(OTP.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,null);
+                    Util.setSharedPrefrenceValue(OTP.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT,null);
                     startActivity(new Intent(OTP.this,TicketScreen.class).putExtra("BookingID",s).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }
                 else{

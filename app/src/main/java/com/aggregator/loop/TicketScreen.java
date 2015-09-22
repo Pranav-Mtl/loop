@@ -85,6 +85,8 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
     private static LatLng Source,Destinatiom;
 
+    ImageButton btnTicket;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         llMap= (LinearLayout) findViewById(R.id.ticket_map_ll);
         imgTicket= (ImageView) findViewById(R.id.ticket_image);
         btnCross= (ImageButton) findViewById(R.id.ticket_cross);
+        btnTicket= (ImageButton) findViewById(R.id.ticket_img);
 
         tvPick= (TextView) findViewById(R.id.ticket_pick);
         tvDrop= (TextView) findViewById(R.id.ticket_drop);
@@ -166,7 +169,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
             initializeMap(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
 
-            llHeader.startAnimation(animBlink);
+            btnTicket.startAnimation(animBlink);
 
 
 

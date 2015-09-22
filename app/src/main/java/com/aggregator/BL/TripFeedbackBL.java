@@ -34,10 +34,7 @@ public class TripFeedbackBL {
 
     private String fetRecord(String userId,String id)
     {
-
-
         String url="user_run_id="+userId+"&user_id="+id;
-
         String text= RestFullWS.callWS(url, Constant.WEBSERVICE_FEEDBACK);
         return text;
     }
@@ -55,15 +52,17 @@ public class TripFeedbackBL {
             Constant.date=jsonObject1.get("trip_date").toString();
             Constant.pickPoint=jsonObject1.get("start_point").toString();
             Constant.dropPoint=jsonObject1.get("end_point").toString();
-            Constant.rate=jsonObject1.get("price").toString();
+            Constant.rate=Double.valueOf(jsonObject1.get("wallet_used_amount").toString());
+            Constant.rateCredit=Double.valueOf(jsonObject1.get("credits_used_amount").toString());
+            Constant.totalAmount=Constant.rate+Constant.rateCredit;
             status=jsonObject1.get("feedback_check").toString();
             if(status.equalsIgnoreCase("y")){
                 Constant.feedback_comment=jsonObject1.get("feedback_comment").toString();
                 Constant.feedback_rating=(Float.valueOf(jsonObject1.get("feedback_rating").toString()));
             }
-            System.out.println("getting record---->"+Constant.usrname+"  "+Constant.dropPoint);
+
         } catch (Exception e) {
-            System.out.println("in second catch block");
+
             e.printStackTrace();
         }
         return status;

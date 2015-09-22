@@ -12,8 +12,8 @@ import org.json.simple.parser.JSONParser;
  * Appslure WebSolution LLP
  * www.appslure.com
  */
-public class PromoCodeBL {
 
+public class PromoCodeBL {
 
     public String sendCode(String userID,String code){
         String result=callWsOTP(userID,code);
@@ -22,9 +22,6 @@ public class PromoCodeBL {
     }
 
     private String callWsOTP(String userID,String code){
-
-        //
-        //http://appslure.in//loop/webservices/loop1/promo_code.php?user_id=10&promo_code=TEXT
 
         String URL="user_id="+userID+"&promo_code="+code;
         String txtJson= RestFullWS.callWS(URL, Constant.WEBSERVICE_PROMO_CODE);
@@ -43,7 +40,8 @@ public class PromoCodeBL {
             status = jsonObject.get("result").toString();
 
             if(status.equals(Constant.WS_RESULT_SUCCESS)){
-                Constant.LoopCredit=jsonObject.get("user_credit").toString();
+                Constant.amount=jsonObject.get("user_credits").toString();
+                Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
                 Constant.LoopCreditUsed=jsonObject.get("promo_value").toString();
             }
         }catch (Exception e){

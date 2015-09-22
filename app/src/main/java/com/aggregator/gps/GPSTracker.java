@@ -132,8 +132,14 @@ public class GPSTracker implements LocationListener
 	@Override
 	public void onLocationChanged(Location arg0) {
 		// TODO Auto-generated method stub
-		latitude = location.getLatitude();
-	    longitude = location.getLongitude();
+		try {
+			latitude = location.getLatitude();
+			longitude = location.getLongitude();
+		}
+		catch (NullPointerException e){
+
+		}
+
 	}
 
 	@Override

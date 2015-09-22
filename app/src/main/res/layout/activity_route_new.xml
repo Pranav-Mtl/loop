@@ -31,7 +31,6 @@
                 android:orientation="horizontal"
                 android:weightSum="2"
                 >
-
                 <TextView
                     android:id="@+id/toolbar_Tab1"
                     android:layout_width="0dp"
@@ -95,6 +94,7 @@
                     android:id="@+id/routes_lv_fav"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+
                     />
 
             </LinearLayout>
@@ -196,6 +196,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:groupIndicator="@null"
+                    android:footerDividersEnabled="false"
                     >
 
                 </ExpandableListView>
@@ -215,17 +216,19 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:background="@color/TabSelectedColor"
             >
             <LinearLayout
                 android:id="@+id/ll_bottom_route"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:visibility="invisible"
+                android:layout_marginRight="60dp"
+
                 >
 
                 <TextView
@@ -254,9 +257,11 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ll_bottom_route_done"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
+                android:layout_alignRight="@id/ll_bottom_route"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 >
@@ -279,7 +284,7 @@
 
     </RelativeLayout>
 
-  <com.twotoasters.android.support.v7.widget.RecyclerView
+<com.twotoasters.android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView"
         android:layout_width="300dp"
         android:layout_height="match_parent"

@@ -264,32 +264,25 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                         objBookingBE.setEndPoint(Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id));
                         objBookingBE.setTime(Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_BOOKING_TIME));
                         objBookingBE.setPrice((Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_BOOKING_PRICE)));
-                        objBookingBE.setUserID(Util.getSharedPrefrenceValue(SignIn.this,Constant.SHARED_PREFERENCE_User_id));
+                        objBookingBE.setUserID(Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_User_id));
+                        objBookingBE.setLoopCredit(Util.getSharedPrefrenceValue(SignIn.this,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT));
 
                         booking();
                     }
 
-
+                }
+                else if(result.equals("verify")){
+                    startActivity(new Intent(getApplicationContext(),OTP.class).putExtra("Mobile",etEmail.getText().toString()).putExtra("Previous","Login"));
                 }
                 else
                 {
-                    if(loginType.equals("email")) {
-                        Snackbar
-                                .make(findViewById(R.id.login_root),
-                                        "Wrong Email or Password",
-                                        Snackbar.LENGTH_LONG).setText("Wrong Email or Password")
-                                .show();
-                        etPassword.setError("Wrong Email or Password");
-                    }
-                    else
-                    {
-                        Snackbar
+                    Snackbar
                                 .make(findViewById(R.id.login_root),
                                         "Wrong Mobile or Password",
                                         Snackbar.LENGTH_LONG).setText("Wrong Mobile or Password")
                                 .show();
                         etPassword.setError("Wrong Mobile or password");
-                    }
+
                 }
 
             }
@@ -352,12 +345,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
             {
                 if(!s.equals(Constant.WS_RESULT_FAILURE)){
                     Toast.makeText(getApplicationContext(),"Ride Successfully Booked",Toast.LENGTH_LONG).show();
-                    Util.setSharedPrefrenceValue(SignIn.this, Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_Run_ID,null);
+                    Util.setSharedPrefrenceValue(SignIn.this, Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_Run_ID, null);
                     Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID,null);
                     Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id,null);
                     Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id,null);
                     Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,null);
                     Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,null);
+                    Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT,null);
                     startActivity(new Intent(SignIn.this,TicketScreen.class).putExtra("BookingID",s).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }
                 else{

@@ -21,6 +21,7 @@
 
         android:orientation="horizontal"
         android:layout_height="wrap_content">
+
         <EditText
             android:id="@+id/signin_email"
             android:layout_width="fill_parent"
@@ -31,14 +32,14 @@
             android:imeOptions="actionNext"
             android:textColor="@color/TextColor"
             android:textColorHint="@color/TextColor"
-
-            android:hint="      Enter your Email or Mobile"/>
+            android:inputType="number"
+            android:maxLength="10"
+            android:hint="      Enter your Mobile no."/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/passwordLayout"
         android:layout_width="fill_parent"
-
         android:orientation="horizontal"
         android:layout_height="wrap_content">
         <EditText

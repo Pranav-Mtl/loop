@@ -87,6 +87,7 @@ public class RoutesBL {
             jsonAllRoutes=jsonObject.get("all_routes").toString();
             jsonFav=jsonObject.get("fav_route").toString();
             jsonRecent = jsonObject.get("recent_route").toString();
+
             if(jsonFav.equals("[]")) {
 
                 Constant.Tab2Name="Recent";
@@ -153,8 +154,8 @@ public class RoutesBL {
         catch (Exception e) {
             e.getLocalizedMessage();
         }
-
     }
+
     private void parseRecent(String result){
         System.out.println("Recent Routes JSON ----->"+result);
 
@@ -170,14 +171,27 @@ public class RoutesBL {
             Constant.recentRouteEndName=new String[jsonArrayObject.size()];
             Constant.recentRouteFavStatus=new String[jsonArrayObject.size()];
 
-            for(int i=0;i<jsonArrayObject.size();i++) {
+            for(int i=0;i<jsonArrayObject.size();i++){
                 JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
+
+              /*  int endId=(int)jsonObject.get("end_point");
+                int startID=(int)jsonObject.get("start_point");
+
+                if(Constant.favJson)
+                {
+                    for(int j=0;j<Constant.favRouteID.length;j++){
+                        if((Constant.favRouteStartID[j] && Constant.favRouteEndID[j])==(startID && endId)){
+
+                        }
+                    }
+
+                }*/
                 Constant.recentRouteID[i]=jsonObject.get("route_id").toString();
                 Constant.recentRouteStartID[i]=jsonObject.get("start_point").toString();
                 Constant.recentRouteEndID[i]=jsonObject.get("end_point").toString();
                 Constant.recentRouteStartName[i]=jsonObject.get("start_name").toString();
                 Constant.recentRouteEndName[i]=jsonObject.get("end_name").toString();
-                Constant.recentRouteFavStatus[i]="No";
+                Constant.recentRouteFavStatus[i]=jsonObject.get("fav_route").toString();
             }
 
         } catch (Exception e) {

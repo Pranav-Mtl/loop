@@ -2,6 +2,7 @@ package com.aggregator.Adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -104,13 +105,10 @@ public class FavouriteAdapter extends  RecyclerView.Adapter<FavouriteAdapter.Fav
 
                     try {
                       new GetFav().execute(userId, Constant.favRouteID[position], Constant.favRouteStartID[position], Constant.favRouteEndID[position]);
-
-
                     }
                     catch (Exception e){
                         e.printStackTrace();
                     }
-
                     break;
                 case R.id.fav_ll:
                     llBottom.setVisibility(View.VISIBLE);
@@ -122,6 +120,7 @@ public class FavouriteAdapter extends  RecyclerView.Adapter<FavouriteAdapter.Fav
                     Log.d("Destination--->", Constant.favRouteEndName[position]);
                     Constant.favSelectedItem=position;
                     Constant.recSelectedItem=-1;
+                    objRouteNew.routeID=Integer.valueOf(Constant.favRouteID[position]);
 
                     if (Constant._lastColored != null) {
                         Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -172,9 +171,7 @@ public class FavouriteAdapter extends  RecyclerView.Adapter<FavouriteAdapter.Fav
 
         @Override
         protected String doInBackground(String... params) {
-
             String result=objAddFav.addfav(params[0], params[1], params[2], params[3]);
-
             return result;
         }
 
@@ -182,14 +179,16 @@ public class FavouriteAdapter extends  RecyclerView.Adapter<FavouriteAdapter.Fav
         protected void onPostExecute(String result) {
             try {
                 if (result.equals(Constant.WS_RESULT_SUCCESS)) {
-                    Toast.makeText(mContext, "Added Fav", Toast.LENGTH_LONG).show();
-                    Constant.favRouteFavStatus[position] = "Yes";
-                } else {
-                    Toast.makeText(mContext, "Remove Fav", Toast.LENGTH_LONG).show();
-                    Constant.favRouteFavStatus[position] = "No";
-                }
+                    Toast.makeText(mContext, "Route Added to Fav.", Toast.LENGTH_LONG).show();
+                    //Constant.favRouteFavStatus[position] = "Yes";
+                    mContext.startActivity(new Intent(objRouteNew,RouteNew.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
-                notifyDataSetChanged();
+                } else {
+                    Toast.makeText(mContext, "Route Removed from Fav.", Toast.LENGTH_LONG).show();
+                    mContext.startActivity(new Intent(objRouteNew, RouteNew.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    //Constant.favRouteFavStatus[position] = "No";
+                }
+               notifyDataSetChanged();
             }
             catch (Exception e){
 

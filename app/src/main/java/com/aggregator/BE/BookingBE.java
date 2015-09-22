@@ -7,11 +7,6 @@ package com.aggregator.BE;
  */
 public class BookingBE {
 
-
-
-
-
-
     private String userID;
     private String routeID;
     private String runID;
@@ -19,6 +14,15 @@ public class BookingBE {
     private String endPoint;
     private String price;
     private String time;
+    private String loopCredit;
+
+    public String getLoopCredit() {
+        return loopCredit;
+    }
+
+    public void setLoopCredit(String loopCredit) {
+        this.loopCredit = loopCredit;
+    }
 
     public String getTime() {
         return time;

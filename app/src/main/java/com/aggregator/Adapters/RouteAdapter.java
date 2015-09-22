@@ -2,6 +2,7 @@ package com.aggregator.Adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -116,6 +117,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
                     Log.d("Destination--->", Constant.recentRouteEndName[position]);
                     Constant.recSelectedItem = position;
                     Constant.favSelectedItem = -1;
+                    objRouteNew.routeID=Integer.valueOf(Constant.recentRouteID[position]);
 
                     if (Constant._lastColored != null) {
                         Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -151,8 +153,6 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
             ivHeart= (ImageButton) itemView.findViewById(R.id.fav_heart);
             ll= (LinearLayout) itemView.findViewById(R.id.fav_ll);
         }
-
-
     }
     private class GetFav extends AsyncTask<String,String,String> {
 
@@ -165,9 +165,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
 
         @Override
         protected String doInBackground(String... params) {
-
             String result=objAddFav.addfav(params[0], params[1], params[2], params[3]);
-
             return result;
         }
 
@@ -176,11 +174,13 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
             try
             {
                 if (result.equals(Constant.WS_RESULT_SUCCESS)) {
-                    Toast.makeText(mContext, "Added Fav", Toast.LENGTH_LONG).show();
-                    Constant.recentRouteFavStatus[position]="Yes";
+                    Toast.makeText(mContext, "Route Added to Fav.", Toast.LENGTH_LONG).show();
+                    //Constant.recentRouteFavStatus[position]="Yes";
+                    mContext.startActivity(new Intent(objRouteNew,RouteNew.class).setFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                 } else {
-                    Toast.makeText(mContext, "Remove Fav", Toast.LENGTH_LONG).show();
-                    Constant.recentRouteFavStatus[position]="No";
+                    Toast.makeText(mContext, "Route Removed from Fav.", Toast.LENGTH_LONG).show();
+                    //Constant.recentRouteFavStatus[position]="No";
+                    mContext.startActivity(new Intent(objRouteNew,RouteNew.class).setFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
                 notifyDataSetChanged();
 

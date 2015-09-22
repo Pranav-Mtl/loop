@@ -53,9 +53,11 @@ public class TripHistoryBL {
                    Constant.tripFav = new String[jsonArrayObject.size()];
 
                    Constant.tripTime = new String[jsonArrayObject.size()];
-                   Constant.tripPrice = new String[jsonArrayObject.size()];
+                   Constant.tripPrice = new Double[jsonArrayObject.size()];
+                   Constant.tripLoopCredit = new Double[jsonArrayObject.size()];
                    Constant.tripStatus = new String[jsonArrayObject.size()];
                    Constant.tripRunId = new String[jsonArrayObject.size()];
+                   Constant.tripTotalAmount = new Double[jsonArrayObject.size()];
 
 
                    for (int i = 0; i < jsonArrayObject.size(); i++) {
@@ -69,9 +71,11 @@ public class TripHistoryBL {
                        Constant.tripDate[i] = jsonObject.get("booking_date").toString();
                        Constant.tripFav[i] = jsonObject.get("route_status").toString();
                        Constant.tripTime[i] = jsonObject.get("departure_time").toString();
-                       Constant.tripPrice[i] = jsonObject.get("price").toString();
+                       Constant.tripPrice[i] = Double.valueOf(jsonObject.get("wallet_used_amount").toString());
+                       Constant.tripLoopCredit[i] = Double.valueOf(jsonObject.get("credits_used_amount").toString());
                        Constant.tripStatus[i] = jsonObject.get("status").toString();
                        Constant.tripRunId[i] = jsonObject.get("user_run_id").toString();
+                       Constant.tripTotalAmount[i]=Double.valueOf(jsonObject.get("credits_used_amount").toString())+Double.valueOf(jsonObject.get("wallet_used_amount").toString());;
 
                    }
 

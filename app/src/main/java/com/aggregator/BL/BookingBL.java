@@ -14,6 +14,7 @@ import org.json.simple.parser.JSONParser;
 public class BookingBL {
 
     BookingBE objBookingBE;
+    public String status="";
 
     // get selected route
 
@@ -109,22 +110,19 @@ public class BookingBL {
         objBookingBE=bookingBE;
         String result=callInsertWS();
         String status=validateInsert(result);
-
         return status;
     }
 
-    //http://appslure.in/loop/booking_create.php?email=z@gmail.com&route_id=5&source=Pitampura&destination=Narela&cost=50&date=26-08-2015&time=10:40
-    //http://appslure.in/loop/webservices/loop1/booking.php?user_id=1&route_id=1&run_id=2&start_point=22&end_point=22&price=100
     private String callInsertWS()
     {
-        String URL="user_id="+objBookingBE.getUserID()+"&route_id="+objBookingBE.getRouteID()+"&start_point="+objBookingBE.getStartPoint()+"&end_point="+objBookingBE.getEndPoint()+"&run_id="+objBookingBE.getRunID()+"&price="+objBookingBE.getPrice()+"&trip_date="+objBookingBE.getTime();
+        String URL="user_id="+objBookingBE.getUserID()+"&route_id="+objBookingBE.getRouteID()+"&start_point="+objBookingBE.getStartPoint()+"&end_point="+objBookingBE.getEndPoint()+"&run_id="+objBookingBE.getRunID()+"&price="+objBookingBE.getPrice()+"&trip_date="+objBookingBE.getTime()+"&loop_credit="+objBookingBE.getLoopCredit();
         String txtJson= RestFullWS.callWS(URL, Constant.WEBSERVICE_BOOKING);
         return txtJson;
     }
 
     private String validateInsert(String result){
 
-        String status="";
+        String statusResult="";
         JSONParser jsonP=new JSONParser();
         try {
 
@@ -134,13 +132,15 @@ public class BookingBL {
             status=jsonObject.get("result").toString();
 
             if(status.equals(Constant.WS_RESULT_SUCCESS)){
-                status=jsonObject.get("user_run_id").toString();
+                statusResult=jsonObject.get("user_run_id").toString();
+                Constant.amount=jsonObject.get("credit").toString();
+                Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
             }
 
         } catch (Exception e) {
             e.getLocalizedMessage();
         }
 
-        return status;
+        return statusResult;
     }
 }

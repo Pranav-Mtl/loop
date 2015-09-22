@@ -28,7 +28,7 @@ public class SignInBL {
 
     private String callWsUrl(String Email,String password,String type){
 
-        String URL="email="+Email+"&password="+password;
+        String URL="mobile="+Email+"&password="+password;
         String txtJson= RestFullWS.callWS(URL, Constant.WEBSERVICE_LOGIN);
 
         return txtJson;

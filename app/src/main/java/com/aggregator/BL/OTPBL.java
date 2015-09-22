@@ -29,7 +29,7 @@ public class OTPBL {
 
     private String callWsUrl(String Email){
 
-        String URL="email="+Email;
+        String URL="mobile="+Email;
         String txtJson= RestFullWS.callWS(URL, Constant.WEBSERVICE_UPDATE_STATUS);
 
         return txtJson;

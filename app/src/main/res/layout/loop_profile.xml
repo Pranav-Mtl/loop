@@ -22,36 +22,31 @@
         android:layout_alignParentTop="true"
         android:background="@color/LightGreen"
         android:minHeight="?attr/actionBarSize">
-
-
-
-    <RelativeLayout
-        android:id="@+id/header"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-
-        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Profile"
             android:textColor="#ffffff"
             android:textSize="20dp"
-
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_centerInParent="true"
             />
         <Button
             android:id="@+id/saveBtn"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:layout_alignParentRight="true"
+            android:layout_gravity="end"
+
+
             android:text="Save"
             android:layout_centerVertical="true"
             android:textColor="#ffffff"
             />
-    </RelativeLayout>
+
     </android.support.v7.widget.Toolbar>
     <ScrollView
         android:layout_width="fill_parent"
@@ -148,13 +143,23 @@
                 android:layout_toRightOf="@id/profile_img1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:paddingLeft="10dp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
-                android:editable="false"
 
+
+                />
+
+            />
+            <ImageView
+                android:id="@+id/numberBtn"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/loop_pen_selector"
                 />
 
         </RelativeLayout>
@@ -194,19 +199,9 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
-                android:editable="false"
+                android:editable="false"/>
 
-                />
-            <ImageView
-                android:id="@+id/numberBtn"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
-                android:visibility="gone"
-                android:background="@drawable/loop_pen_selector"
-                />
+
         </RelativeLayout>
 
 

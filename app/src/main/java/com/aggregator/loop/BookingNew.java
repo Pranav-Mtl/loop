@@ -90,6 +90,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
     String totalPrice,loopCredit,paytmCash;
 
+    TextView tvError;
+
     View _itemColoured;
 
     @Override
@@ -111,6 +113,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         btnDone= (Button) findViewById(R.id.booking_screen_btn);
         btnSwipe= (ImageButton) findViewById(R.id.booking_swap_button);
         back= (ImageButton) findViewById(R.id.booking_float);
+        tvError= (TextView) findViewById(R.id.booking_noride);
 
         objBookingBL=new BookingBL();
         objBookingBE=new BookingBE();
@@ -193,6 +196,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 endPointDist=Constant.pointDistance[dropPos];
 
                 double price=calculatePrice();
+
                 Log.d("Drop Point ID", endPointID);
                 Log.d("Drop Point Distance", endPointDist + "");
 
@@ -341,8 +345,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID,routeId);
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_Run_ID,runID);
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,spnTimePicker.getSelectedItem().toString());
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,totalPrice);
-
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,paytmCash);
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT,loopCredit);
                         startActivity(new Intent(BookingNew.this, SignUpScreen.class));
                     }
                     else {
@@ -352,7 +356,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         objBookingBE.setStartPoint(startPointID);
                         objBookingBE.setEndPoint(endPointID);
                         objBookingBE.setRunID(runID);
-                        objBookingBE.setPrice(totalPrice);
+                        objBookingBE.setPrice(paytmCash);
+                        objBookingBE.setLoopCredit(loopCredit);
                         objBookingBE.setTime(spnTimePicker.getSelectedItem().toString());
 
                         new InsertBooking().execute();
@@ -442,7 +447,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
         distance=Math.abs(distance);
 
-        Log.d("Calculated Distance",distance+"");
+        Log.d("Calculated Distance", distance + "");
 
         price=(Constant.routeFixedPrice)+(Constant.routePerKmPrice * distance);
 
@@ -521,6 +526,10 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
         listPickTime.add("Select Time");
 
+        tvError.setVisibility(View.GONE);
+
+        int cc=-1;
+
         listRun.clear();
 
         String timeArray[]=Constant.pointTime[pos].split(",");
@@ -537,8 +546,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 if (dtArray.compareTo(dtCurrent)>0){
 
                     Log.d("COMPARE-->", "UNDER IF");
-                    listPickTime.add(timeArray[i]);
+                    listPickTime.add(new SimpleDateFormat("K:mm a").format(dtArray));
                     listRun.add(Constant.pointRunArray[i]);
+                    cc++;
                 }
                 else
                 {
@@ -548,10 +558,10 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             }catch (Exception e){
                 e.printStackTrace();
             }
+            if(cc==-1){
+                tvError.setVisibility(View.VISIBLE);
+            }
         }
-
-
-
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(BookingNew.this,R.layout.spinner_item,listPickTime);
         spnTimePicker.setAdapter(adapter);
     }
@@ -602,7 +612,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
          }
 
-        String compareValue = "some value";
+        Toast.makeText(BookingNew.this,"Direction Swapped.",Toast.LENGTH_SHORT).show();
+
+
 
 
     }
@@ -628,11 +640,15 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         protected void onPostExecute(String s) {
             try
             {
-                if(!s.equals(Constant.WS_RESULT_FAILURE)){
+                if(objBookingBL.status.equals(Constant.WS_RESULT_SUCCESS)){
                     Log.d("Booking id-->", s);
-                    Toast.makeText(getApplicationContext(), "Ride Successfully Booked", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Ride Successfully Booked", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(BookingNew.this, TicketScreen.class).putExtra("BookingID", s).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Something went wrong. Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }
             catch (Exception e)
@@ -649,5 +665,11 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawerAdapter.notifyDataSetChanged();
     }
 }

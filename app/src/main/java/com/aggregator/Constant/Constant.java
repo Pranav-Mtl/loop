@@ -29,12 +29,14 @@ public class Constant {
     public static String WEBSERVICE_RESEND_OTP="reset_otp.php";
     public static String WEBSERVICE_TICKET="ticket.php";
     public static String WEBSERVICE_Route_Search="search.php";
-
+    public static String WEBSERVICE_RESET_PASSWORD="reset_password.php";
     public static String WEBSERVICE_PROFILE="profile.php";
     public static String WEBSERVICE_COMMENT="comment.php";
     public static String WEBSERVICE_FEEDBACK="feedback.php";
     public static String WEBSERVICE_TRIP="trip_history.php";
     public static String WEBSERVICE_FAV="fav.php";
+    public static String WEBSERVICE_ADDFAV="fav1.php";
+
     public static String WEBSERVICE_HELP="help.php";
     public static String WEBSERVICE_SHARE_EARN="user_referrals.php";
     public static String WEBSERVICE_PROMO_CODE="promo_code.php";
@@ -71,12 +73,9 @@ public class Constant {
     public static String SHARED_PREFERENCE_BOOKING_Run_ID="date";
     public static String SHARED_PREFERENCE_BOOKING_TIME="time";
     public static String SHARED_PREFERENCE_BOOKING_PRICE="price";
-
-
-
+    public static String SHARED_PREFERENCE_BOOKING_LOOP_CREDIT="credit";
 
     //////////////        ALL ROUTES VARIABLE      /////////////////////
-
 
     public static String routeId[];
     public static String routeExpand[];
@@ -150,6 +149,7 @@ public class Constant {
     public static boolean favJson=false;
     public static boolean recentJson=false;
 
+    /*  VARIABLES TO SHOW ON SIDE MENU */
 
     public static String NAME="";
     public static String LoopCredit="";
@@ -169,25 +169,32 @@ public class Constant {
     public static int favSelectedItem=-1;
     public static int recSelectedItem=-1;
 
+    /* feedback Variables */
+
     public static String date;
     public static String pickPoint;
     public static String dropPoint;
-    public static String rate;
+    public static double rate;
+    public static double rateCredit;
+    public static double totalAmount;
     public static String feedback_comment;
     public static Float feedback_rating;
 
+    /* TRIP HISTORY VARIABLES */
 
     public static String tripRouteID[];
     public static String tripStartID[];
     public static String tripStartName[];
     public static String tripEndID[];
     public static String tripEndName[];
-    public static String tripPrice[];
+    public static Double tripPrice[];
     public static String tripDate[];
     public static String tripTime[];
     public static String tripFav[];
     public static String tripStatus[];
     public static String tripRunId[];
+    public static Double tripLoopCredit[];
+    public static Double tripTotalAmount[];
 
 
 

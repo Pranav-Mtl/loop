@@ -344,4 +344,10 @@ public class InviteActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawerAdapter.notifyDataSetChanged();
+    }
 }

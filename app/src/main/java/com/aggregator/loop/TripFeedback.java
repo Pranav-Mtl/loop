@@ -187,11 +187,6 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                          finalString = check3;
                      }
 
-
-
-
-
-
                 }
                   if(four.isChecked()) {
                     String check4 = four.getText().toString();
@@ -341,12 +336,12 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                 pick.setText(Constant.pickPoint);
                 drop.setText(Constant.dropPoint);
                 date.setText(Constant.date);
-                rate.setText(Constant.rate);
+                rate.setText("Cost : ₹ "+Constant.totalAmount+" (Loop Credit: ₹ "+Constant.rateCredit+", Paytm: ₹ "+Constant.rate+")");
 
                 if(s.equalsIgnoreCase("y")){
                     ratingBar.setRating(Constant.feedback_rating);
                     ratingBar.setIsIndicator(true);
-                    btnFeedback.setEnabled(false);
+                    btnFeedback.setVisibility(View.INVISIBLE);
                     llIssues.setVisibility(View.GONE);
                     comment.setEnabled(false);
                 }
@@ -412,5 +407,11 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
             super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawerAdapter.notifyDataSetChanged();
     }
 }

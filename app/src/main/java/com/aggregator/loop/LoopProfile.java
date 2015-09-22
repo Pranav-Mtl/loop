@@ -68,9 +68,6 @@ public class LoopProfile extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-
         userId= Util.getSharedPrefrenceValue(getApplicationContext(),Constant.SHARED_PREFERENCE_User_id);
 
         userName=(EditText)findViewById(R.id.userName);
@@ -85,11 +82,11 @@ public class LoopProfile extends ActionBarActivity {
         saveBtn=(Button)findViewById(R.id.saveBtn);
         userEmail=(EditText)findViewById(R.id.userEmail);
         btnClick=(LinearLayout)findViewById(R.id.arrow_btn1);
-
         btnSignOUT= (Button) findViewById(R.id.profile_signout);
 
 
         userName.setEnabled(false);
+        userEmail.setEnabled(false);
         userMobileNum.setEnabled(false);
 
 
@@ -191,7 +188,20 @@ public class LoopProfile extends ActionBarActivity {
                 userName.setEnabled(true);
                 saveBtn.setVisibility(View.VISIBLE);
                 userName.setSelection(userName.getText().length());
+                userName.setFocusable(true);
 
+
+
+            }
+        });
+
+        mobileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userEmail.setEnabled(true);
+                saveBtn.setVisibility(View.VISIBLE);
+                userEmail.setSelection(userEmail.getText().length());
+                userEmail.setFocusable(true);
 
 
             }
@@ -229,14 +239,18 @@ public class LoopProfile extends ActionBarActivity {
 
             else
             {
-                Toast.makeText(getApplicationContext(), "Old password did not match", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Old password didn't matched", Toast.LENGTH_LONG).show();
             }
         }
-
         else
         {
-
-            new UpdateProfile().execute(name, email, mobileNumber,Constant.password);
+            if(email.length()==0){
+                userEmail.setError("Required");
+                Toast.makeText(getApplicationContext(), "Please enter Email-id.", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                new UpdateProfile().execute(name, email, mobileNumber, Constant.password);
+            }
 
 
         }
@@ -389,6 +403,12 @@ public class LoopProfile extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawerAdapter.notifyDataSetChanged();
     }
 }
 

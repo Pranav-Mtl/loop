@@ -10,11 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aggregator.BL.SendEmail;
-
-import java.util.regex.Pattern;
 
 
 public class ResetPassword extends AppCompatActivity {
@@ -23,16 +22,6 @@ public class ResetPassword extends AppCompatActivity {
     String email;
     SendEmail sendEmail;
     ProgressDialog mProgressDialog;
-    public final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
-            "[a-zA-Z0-9+._%-+]{1,256}" +
-                    "@" +
-                    "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" +
-                    "(" +
-                    "." +
-                    "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" +
-                    ")+"
-    );
-
     ImageButton back;
 
     @Override
@@ -42,21 +31,29 @@ public class ResetPassword extends AppCompatActivity {
         sendEmail=new SendEmail();
         emailId=(EditText)findViewById(R.id.emailId);
 
+        emailId.setText("+91", TextView.BufferType.EDITABLE);
+        emailId.setSelection(emailId.getText().length());
+
         back= (ImageButton) findViewById(R.id.reset_back);
         mProgressDialog=new ProgressDialog(ResetPassword.this);
 
         submit=(Button)findViewById(R.id.submitBtn);
+
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email = emailId.getText().toString();
                 if (email.length() == 0) {
-                    Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_LONG).show();
-                } else if (!checkEmail(email)) {
-                    Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_LONG).show();
-                } else if (checkEmail(email)) {
-                    new Email().execute(email);
+                   emailId.setError("Required");
+                }
+                else if (email.length()!=13) {
+                    emailId.setError("Required");
+                }
+                else {
+                    email=email.substring(3);
 
+                    new Email().execute(email);
                 }
             }
         });
@@ -88,9 +85,6 @@ public class ResetPassword extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean checkEmail(String email) {
-        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
-    }
 
 
 
@@ -105,18 +99,19 @@ public class ResetPassword extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            sendEmail.getData(params[0]);
-            return "pp";
+            String result=sendEmail.getData(params[0]);
+            return result;
         }
 
         @Override
         protected void onPostExecute(String s) {
             try {
-                if (sendEmail.status == 1) {
-                    Toast.makeText(getApplicationContext(), "Temporary password sent", Toast.LENGTH_LONG).show();
+                if (s.equals("1")) {
+                    Toast.makeText(getApplicationContext(), "Temporary password sent at Email and Mobile.", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(), SignIn.class));
                 } else {
-                    Toast.makeText(getApplicationContext(), "Email doesn’t exist", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Mobile no. doesn’t exist.", Toast.LENGTH_LONG).show();
+                    emailId.setError("Mobile no. doesn't exist.");
                 }
             }
             catch (NullPointerException e){

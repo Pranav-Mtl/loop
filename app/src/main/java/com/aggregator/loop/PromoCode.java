@@ -221,4 +221,9 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
     public void onBackPressed() {
         super.onBackPressed();
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawerAdapter.notifyDataSetChanged();
+    }
 }

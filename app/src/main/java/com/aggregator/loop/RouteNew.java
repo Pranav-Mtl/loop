@@ -1,10 +1,13 @@
 package com.aggregator.loop;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -71,7 +74,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
     RoutesAdapter objRoutesAdapter;
     RoutesAdapterSearch objRoutesAdapterSearch;
 
-    int routeID=-1;
+   public int routeID=-1;
 
 
 
@@ -213,7 +216,6 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
             if(logInType==null)
             {
-
                 try {
                     tvTabRoute.setText("Routes");
                     tvTabRoute.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
@@ -227,7 +229,6 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                 {
                     e.printStackTrace();
                 }
-
             }
             else
             {
@@ -240,6 +241,33 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                 new GetRoutesLogin().execute(logInType);
 
             }
+        }
+        else{
+            AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(RouteNew.this);
+
+            alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
+
+            alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
+
+            alertDialog2.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog
+                            startActivity(new Intent(Settings.ACTION_SETTINGS));
+                        }
+                    });
+
+            alertDialog2.setNegativeButton("NO",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog
+
+                            dialog.cancel();
+                        }
+                    });
+
+
+            alertDialog2.show();
         }
 
 

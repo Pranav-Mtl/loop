@@ -408,9 +408,10 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                     //Toast.makeText(getApplicationContext(),"You are successfully registered",Toast.LENGTH_LONG).show();
 
                     Util.setSharedPrefrenceValue(SignUpScreen.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_EMAIL,txtEmail);
-                    Util.setSharedPrefrenceValue(SignUpScreen.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_PHONE,txtMobile);
+                    Util.setSharedPrefrenceValue(SignUpScreen.this, Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_PHONE, txtMobile);
                     Intent intent = new Intent(getApplicationContext(), OTP.class);
                     intent.putExtra("Mobile",txtMobile);
+                    intent.putExtra("Previous","SignUp");
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }

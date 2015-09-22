@@ -107,7 +107,17 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="5.4"
-                ></LinearLayout>
+                android:gravity="center"
+                >
+                <TextView
+                    android:id="@+id/booking_noride"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No ride available for today at selected direction."
+                    android:visibility="gone"
+                    android:textColor="#fe1119"
+                    />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
