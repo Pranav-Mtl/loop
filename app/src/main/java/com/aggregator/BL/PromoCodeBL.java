@@ -40,10 +40,11 @@ public class PromoCodeBL {
             status = jsonObject.get("result").toString();
 
             if(status.equals(Constant.WS_RESULT_SUCCESS)){
-                Constant.amount=jsonObject.get("user_credits").toString();
+                Constant.amount=jsonObject.get("user_credit").toString();
                 Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
                 Constant.LoopCreditUsed=jsonObject.get("promo_value").toString();
             }
+
         }catch (Exception e){
 
         }

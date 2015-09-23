@@ -18,6 +18,7 @@ import com.aggregator.BL.BookingBL;
 import com.aggregator.BL.OTPBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
+import com.appsee.Appsee;
 
 public class OTP extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,6 +53,8 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
 
         /*ActionBar actionBar=getSupportActionBar();

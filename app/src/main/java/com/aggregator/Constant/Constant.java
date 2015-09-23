@@ -41,10 +41,6 @@ public class Constant {
     public static String WEBSERVICE_SHARE_EARN="user_referrals.php";
     public static String WEBSERVICE_PROMO_CODE="promo_code.php";
     public static String WEBSERVICE_EDIT_PROFILE="edit_profile.php";
-    ///////////////    INTERNET CONNECTION MESSAGE     //////////////////////
-
-    public static String ERR_INTERNET_CONNECTION_NOT_FOUND_MSG="Click YES to open settings or Click NO to go back";
-    public static String ERR_INTERNET_CONNECTION_NOT_FOUND="No Internet Connection";
 
     public static String ERR_DROP_PICK_LOCATION="drop location must be after pick location";
 
@@ -100,6 +96,13 @@ public class Constant {
     public static Double pointDistance[];
     public static String pointTime[];
     public static String pointRun[];
+    public static String pointTotalSeat[];
+    public static String pointBookedSeat[];
+    public static int pointAvailableSeat[];
+
+    /* Variables to test down run */
+
+    public static String pointDownRun[];
 
     public static String pointRunArray[];
 
@@ -149,6 +152,9 @@ public class Constant {
     public static boolean favJson=false;
     public static boolean recentJson=false;
 
+    public static boolean upRun=false;
+    public static boolean downRun=false;
+
     /*  VARIABLES TO SHOW ON SIDE MENU */
 
     public static String NAME="";
@@ -197,6 +203,7 @@ public class Constant {
     public static Double tripTotalAmount[];
 
 
+    /* MENU ITEMS AFTER USER SIGN IN*/
 
     public static String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Rate Us","Notifications","Tutorial","Help",};
 
@@ -204,6 +211,15 @@ public class Constant {
 
 
     public static View _lastColored;
+
+    /* ERROR MESSAGES */
+
+    public static String ERR_INTERNET_CONNECTION_NOT_FOUND_MSG="Click YES to open settings or Click NO to go back";
+    public static String ERR_INTERNET_CONNECTION_NOT_FOUND="No Internet Connection";
+    public static String ERR_SLOW_INTERNET_CONNECTION="Something went wrong.";
+    public static String ERR_NO_SERVER_RESPONSE="Something went wrong.";
+
+
 
 
 

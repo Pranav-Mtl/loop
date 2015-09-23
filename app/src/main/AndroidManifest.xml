@@ -62,11 +62,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".BookingScreen"
-            android:label=""
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".TicketScreen"
             android:label=""
             android:screenOrientation="portrait" >
@@ -123,6 +118,8 @@
             android:name=".RouteNew"
             android:label="@string/title_activity_route_new" >
         </activity>-->
+
+        <service android:name="com.appsee.AppseeBackgroundUploader" />
     </application>
 
 </manifest>

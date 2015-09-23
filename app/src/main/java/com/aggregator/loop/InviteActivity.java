@@ -1,7 +1,9 @@
 package com.aggregator.loop;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
@@ -10,6 +12,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +28,7 @@ import com.aggregator.BE.InviteActivityBE;
 import com.aggregator.BL.InviteActivityBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
+import com.appsee.Appsee;
 import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
@@ -59,6 +63,8 @@ public class InviteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
+
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -116,7 +122,38 @@ public class InviteActivity extends AppCompatActivity {
 
         try{
 
-            new SharePromocode().execute(userId);
+            if(Util.isInternetConnection(InviteActivity.this)){
+                new SharePromocode().execute(userId);
+            }
+            else
+            {
+                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(InviteActivity.this);
+
+                alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
+
+                alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
+
+                alertDialog2.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+                                startActivity(new Intent(Settings.ACTION_SETTINGS));
+                            }
+                        });
+
+                alertDialog2.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+
+                                dialog.cancel();
+                            }
+                        });
+
+
+                alertDialog2.show();
+            }
+
         }
         catch (Exception e)
         {

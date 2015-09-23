@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -30,9 +31,12 @@ import android.widget.TextView;
 
 import com.aggregator.BE.TicketScreenBE;
 import com.aggregator.BL.TicketScreenBL;
+import com.aggregator.Configuration.Util;
+import com.aggregator.Constant.Constant;
 import com.aggregator.gps.GMapV2Direction;
 import com.aggregator.gps.GPSTracker;
 import com.aggregator.gps.GetDirectionsAsyncTask;
+import com.appsee.Appsee;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -55,7 +59,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     ImageView imgTicket;
     LinearLayout btnShare,btnRateTrip;
 
-    ImageButton btnCross;
+    LinearLayout btnCross;
 
     TextView tvPick,tvDrop,tvTime,tvVehicle;
 
@@ -93,13 +97,15 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket_screen);
 
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
+
         btnMap= (Button) findViewById(R.id.ticket_btn_map);
         btnImage= (Button) findViewById(R.id.ticket_btn_image);
         btnShare= (LinearLayout) findViewById(R.id.ticket_btn_share);
         btnRateTrip= (LinearLayout) findViewById(R.id.ticket_rate_trip);
         llMap= (LinearLayout) findViewById(R.id.ticket_map_ll);
         imgTicket= (ImageView) findViewById(R.id.ticket_image);
-        btnCross= (ImageButton) findViewById(R.id.ticket_cross);
+        btnCross= (LinearLayout) findViewById(R.id.ticket_cross);
         btnTicket= (ImageButton) findViewById(R.id.ticket_img);
 
         tvPick= (TextView) findViewById(R.id.ticket_pick);
@@ -140,36 +146,37 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
         try
         {
-            mProgressDialog.show();
-            new GetTicketData().execute(userRunID).get();
+           if(Util.isInternetConnection(TicketScreen.this)) {
+               new GetTicketData().execute(userRunID);
+           }
+            else{
+               AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(TicketScreen.this);
 
-            SpannableString spanString = new SpannableString("Pickup :" + objTicketScreenBE.getPickPointName());
+               alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
 
-            spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, 6, 0);
+               alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
 
-            SpannableString spanString2 = new SpannableString("Drop :"+objTicketScreenBE.getDropPointName());
+               alertDialog2.setPositiveButton("YES",
+                       new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int which) {
+                               // Write your code here to execute after dialog
+                               startActivity(new Intent(Settings.ACTION_SETTINGS));
+                           }
+                       });
 
-            spanString2.setSpan(new StyleSpan(Typeface.BOLD), 0, 4, 0);
+               alertDialog2.setNegativeButton("NO",
+                       new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int which) {
+                               // Write your code here to execute after dialog
 
-            SpannableString spanString3 = new SpannableString("In :"+objTicketScreenBE.getVehicleType()+"-"+objTicketScreenBE.getVehicleRegistration());
-
-            spanString3.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
-
-            SpannableString spanString4 = new SpannableString("@ :"+objTicketScreenBE.getDepartureTime());
-
-            spanString4.setSpan(new StyleSpan(Typeface.BOLD), 0, 1, 0);
+                               dialog.cancel();
+                           }
+                       });
 
 
-            tvPick.setText(spanString);
-            tvDrop.setText(spanString2);
-            tvVehicle.setText(spanString3);
-            tvTime.setText(spanString4);
+               alertDialog2.show();
+           }
 
-            PickText=objTicketScreenBE.getPickPointName();
-
-            initializeMap(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
-
-            btnTicket.startAnimation(animBlink);
 
 
 
@@ -180,9 +187,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         catch (Exception e){
             e.printStackTrace();
         }
-        finally {
-            mProgressDialog.dismiss();
-        }
+
 
 
     }
@@ -293,7 +298,43 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            try {
+                SpannableString spanString = new SpannableString("Pickup :" + objTicketScreenBE.getPickPointName());
+
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, 6, 0);
+
+                SpannableString spanString2 = new SpannableString("Drop :" + objTicketScreenBE.getDropPointName());
+
+                spanString2.setSpan(new StyleSpan(Typeface.BOLD), 0, 4, 0);
+
+                SpannableString spanString3 = new SpannableString("In :" + objTicketScreenBE.getVehicleType() + "-" + objTicketScreenBE.getVehicleRegistration());
+
+                spanString3.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
+
+                SpannableString spanString4 = new SpannableString("@ :" + objTicketScreenBE.getDepartureTime());
+
+                spanString4.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
+
+
+                tvPick.setText(spanString);
+                tvDrop.setText(spanString2);
+                tvVehicle.setText(spanString3);
+                tvTime.setText(spanString4);
+
+                PickText = objTicketScreenBE.getPickPointName();
+
+                initializeMap(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
+
+                btnTicket.startAnimation(animBlink);
+            }catch (NullPointerException e){
+                NoResponseServer();
+            }catch (Exception e){
+                NoResponseServer();
+            }
+            finally {
+                mProgressDialog.dismiss();
+            }
+
 
         }
     }
@@ -410,11 +451,17 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Please enable location service to see your location on map.")
                 .setCancelable(false)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.dismiss();
+                    }
+                })
                 .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 });
+
 
         final AlertDialog alert = builder.create();
         alert.show();
@@ -481,5 +528,26 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
 
+    }
+
+    private void NoResponseServer()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(Constant.ERR_NO_SERVER_RESPONSE)
+                .setCancelable(false)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        new GetTicketData().execute(userRunID);
+                    }
+                });
+
+
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }

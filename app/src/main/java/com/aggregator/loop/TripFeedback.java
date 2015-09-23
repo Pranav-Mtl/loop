@@ -1,11 +1,14 @@
 package com.aggregator.loop;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,6 +29,7 @@ import com.aggregator.BL.SendCommentBL;
 import com.aggregator.BL.TripFeedbackBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
+import com.appsee.Appsee;
 import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
@@ -60,6 +64,9 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_feedback);
+
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
+
         pd=new ProgressDialog(TripFeedback.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -147,7 +154,37 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
 
         try{
             tripFeedbackBL=new TripFeedbackBL();
-            new FetchRecord().execute(userRunID,usedID);
+            if(Util.isInternetConnection(TripFeedback.this)){
+                new FetchRecord().execute(userRunID,usedID);
+            }
+            else{
+                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(TripFeedback.this);
+
+                alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
+
+                alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
+
+                alertDialog2.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+                                startActivity(new Intent(Settings.ACTION_SETTINGS));
+                            }
+                        });
+
+                alertDialog2.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+
+                                dialog.cancel();
+                            }
+                        });
+
+
+                alertDialog2.show();
+            }
+
         }
         catch(Exception e)
         {
@@ -348,10 +385,10 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
             }
             catch (NullPointerException e)
             {
-                e.printStackTrace();
+               NoResponseServer();
             }
             catch (Exception e){
-                e.printStackTrace();
+             NoResponseServer();
             }
             finally {
                 pd.dismiss();
@@ -413,5 +450,27 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         drawerAdapter.notifyDataSetChanged();
+    }
+
+
+    private void NoResponseServer()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(Constant.ERR_NO_SERVER_RESPONSE)
+                .setCancelable(false)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        new FetchRecord().execute(userRunID,usedID);
+                    }
+                });
+
+
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }

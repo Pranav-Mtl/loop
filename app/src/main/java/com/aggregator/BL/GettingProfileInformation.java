@@ -46,25 +46,24 @@ public class GettingProfileInformation {
     }
 
 
-    public String validate(String strValue)
+    private String validate(String strValue)
     {
-        System.out.println("ththththththpppppppppp------>"+strValue);
 
         JSONParser jsonP=new JSONParser();
         try {
             Object obj =jsonP.parse(strValue);
             JSONArray jsonArrayObject = (JSONArray)obj;
             JSONObject jsonObject1=(JSONObject)jsonP.parse(jsonArrayObject.get(0).toString());//
+
             Constant.usrname=jsonObject1.get("name").toString();
             Constant.phoneNumber=jsonObject1.get("mobile").toString();
             Constant.emaiId=jsonObject1.get("email").toString();
             Constant.password=jsonObject1.get("password").toString();
-            System.out.println("getting record---->"+Constant.usrname+"  "+Constant.phoneNumber);
+
 
 
         } catch (Exception e) {
-            System.out.println("in second catch block");
-            e.printStackTrace();
+
         }
         return status;
     }

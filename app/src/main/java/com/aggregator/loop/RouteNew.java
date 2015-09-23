@@ -35,6 +35,7 @@ import com.aggregator.BL.RoutesBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.aggregator.WS.RestFullWS;
+import com.appsee.Appsee;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
 import org.json.simple.JSONArray;
@@ -120,6 +121,8 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         setContentView(R.layout.activity_route_new);
 
         initialize();
+
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
         btnDone.setOnClickListener(this);
         routesCross.setOnClickListener(this);
@@ -263,6 +266,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                             // Write your code here to execute after dialog
 
                             dialog.cancel();
+                            finish();
                         }
                     });
 
@@ -318,7 +322,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                             if (position == 0) {
                                 startActivity(new Intent(getApplicationContext(), SignIn.class));
                             } else if (position == 1) {
-
+                                Drawer.closeDrawers();
                             }
                         } else {
                             if (position == 0) {
@@ -837,15 +841,40 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
             }
             catch (NullPointerException e){
-                e.printStackTrace();
+                NoResponseServer();
             }
             catch (Exception e) {
-                e.printStackTrace();
+                NoResponseServer();
             }
             finally {
                 mProgressDialog.dismiss();
             }
         }
+    }
+
+
+    private void NoResponseServer()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(Constant.ERR_NO_SERVER_RESPONSE)
+                .setCancelable(false)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        if (logInType == null)
+                            new GetRoutes().execute();
+                        else
+                            new GetRoutesLogin().execute(logInType);
+                    }
+                });
+
+
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override

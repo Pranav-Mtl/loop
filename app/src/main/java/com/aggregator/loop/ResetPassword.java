@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aggregator.BL.SendEmail;
+import com.appsee.Appsee;
 
 
 public class ResetPassword extends AppCompatActivity {
@@ -28,6 +29,8 @@ public class ResetPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reset_password);
+
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
         sendEmail=new SendEmail();
         emailId=(EditText)findViewById(R.id.emailId);
 

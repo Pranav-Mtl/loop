@@ -1,10 +1,13 @@
 package com.aggregator.loop;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +21,7 @@ import com.aggregator.Adapters.CardAdapter;
 import com.aggregator.Adapters.DrawerAdapter;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
+import com.appsee.Appsee;
 
 public class TripHistory extends AppCompatActivity {
 
@@ -42,6 +46,8 @@ public class TripHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,7 +100,36 @@ public class TripHistory extends AppCompatActivity {
 
         userId= Util.getSharedPrefrenceValue(getApplicationContext(), Constant.SHARED_PREFERENCE_User_id);
 
-        new GetHistory().execute(userId);
+        if(Util.isInternetConnection(TripHistory.this)) {
+            new GetHistory().execute(userId);
+        }
+        else{
+            AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(TripHistory.this);
+
+            alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
+
+            alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
+
+            alertDialog2.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog
+                            startActivity(new Intent(Settings.ACTION_SETTINGS));
+                        }
+                    });
+
+            alertDialog2.setNegativeButton("NO",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog
+
+                            dialog.cancel();
+                        }
+                    });
+
+
+            alertDialog2.show();
+        }
 
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -158,7 +193,7 @@ public class TripHistory extends AppCompatActivity {
            try {
                recList.setAdapter(cd);
            } catch (NullPointerException e){
-               e.printStackTrace();
+              NoResponseServer();
            }
            finally {
                mProgressDialog.dismiss();
@@ -185,5 +220,26 @@ public class TripHistory extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         drawerAdapter.notifyDataSetChanged();
+    }
+
+    private void NoResponseServer()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(Constant.ERR_NO_SERVER_RESPONSE)
+                .setCancelable(false)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        new GetHistory().execute(userId);
+                    }
+                });
+
+
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }

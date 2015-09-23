@@ -20,6 +20,7 @@ import com.aggregator.BL.BookingBL;
 import com.aggregator.BL.SignInBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
+import com.appsee.Appsee;
 
 public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,6 +50,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
         mProgressDialog=new ProgressDialog(SignIn.this);
 

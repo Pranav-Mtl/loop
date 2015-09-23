@@ -44,6 +44,7 @@
                 android:textSize="20sp" />
 
             <LinearLayout
+                android:id="@+id/ticket_cross"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:gravity="center"
@@ -51,7 +52,7 @@
                 >
 
                 <ImageButton
-                    android:id="@+id/ticket_cross"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -183,6 +184,7 @@
                 android:layout_height="match_parent"
                 class="com.google.android.gms.maps.SupportMapFragment"
                 />
+
             </LinearLayout>
         </LinearLayout>
 

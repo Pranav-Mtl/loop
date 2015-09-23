@@ -27,6 +27,7 @@ import com.aggregator.BE.SignUpBE;
 import com.aggregator.BL.SignUpBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
+import com.appsee.Appsee;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,6 +46,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_screen);
+
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
         tvFName= (TextView) findViewById(R.id.signup_name);
         //tvLName= (TextView) findViewById(R.id.signup_lastname);

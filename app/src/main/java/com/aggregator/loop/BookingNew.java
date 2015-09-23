@@ -27,6 +27,7 @@ import com.aggregator.BE.BookingBE;
 import com.aggregator.BL.BookingBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
+import com.appsee.Appsee;
 import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
@@ -50,6 +51,10 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     BookingBE objBookingBE;
     List listPickTime=new ArrayList<>();
     List listRun=new ArrayList<>();
+
+    String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Rate Us","Notifications","Tutorial","Help",};
+
+    int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_rate,R.drawable.ic_side_notification, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
 
     int pickPointPosition,dropPointPosition;
 
@@ -99,6 +104,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_new);
 
+        Appsee.start("de8395d3ae424245b695b4c9d6642f71");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -122,6 +129,21 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
         loginID=Util.getSharedPrefrenceValue(getApplicationContext(),Constant.SHARED_PREFERENCE_User_id);
 
+        if(loginID==null) {
+            TITLES = new String[3];
+            TITLES[0] = "Book a Ride";
+            TITLES[1] = "Tutorial";
+            TITLES[2] = "Rate us";
+            ICONS = new int[3];
+            ICONS[0] = R.drawable.ic_side_bus;
+            ICONS[1] = R.drawable.ic_side_tutorial;
+            ICONS[2] = R.drawable.ic_side_rate;
+
+            Constant.NAME = "Sign In";
+            Constant.LoopCredit = "";
+            Constant.PayTMWalet = "";
+        }
+
         btnSwipe.setOnClickListener(this);
         btnDone.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -129,7 +151,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
         mRecyclerView.setHasFixedSize(true);
 
-        drawerAdapter = new DrawerAdapter(Constant.TITLES,Constant.ICONS, Constant.NAME, Constant.LoopCredit,Constant.PayTMWalet, getApplicationContext());       // Creating the Adapter of com.example.balram.sampleactionbar.MyAdapter class(which we are going to see in a bit)
+        drawerAdapter = new DrawerAdapter(TITLES,ICONS, Constant.NAME, Constant.LoopCredit,Constant.PayTMWalet, getApplicationContext());       // Creating the Adapter of com.example.balram.sampleactionbar.MyAdapter class(which we are going to see in a bit)
 
         // And passing the titles,icons,header view name, header view email,
         // and header  view profile picture
@@ -207,19 +229,25 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                 totalPrice=pp+"";
 
+
+
                 if(pp>0)
                 {
                     loopCredit=price+"";
                     paytmCash="0";
                     tvPrice.setText("0");
-                    tvCredit.setText("After using ₹"+price+" Loop credit.");
+                    tvCredit.setText("After using ₹"+Math.round(price)+" Loop credit.");
                 }
                 else
                 {
-                    loopCredit=Constant.amount;
-                    paytmCash=Math.abs(pp)+"";
-                    tvPrice.setText(Math.abs(pp)+"");
-                    tvCredit.setText("After using ₹"+Constant.amount+" Loop credit.");
+                    loopCredit=Math.round(Double.valueOf(Constant.amount))+"";
+                    paytmCash=Math.round(Math.abs(pp))+"";
+                    tvPrice.setText(Math.round(Math.abs(pp))+"");
+                    if(Math.round(Double.valueOf(Constant.amount))==0){
+                        tvCredit.setText("");
+                     }
+                    else
+                        tvCredit.setText("After using ₹"+Math.round(Double.valueOf(Constant.amount))+" Loop credit.");
                 }
 
 
@@ -304,22 +332,33 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                             view.setBackgroundColor(Color.parseColor("#1fc796"));
                         }
 
-                        if (position == 0) {
-                            startActivity(new Intent(getApplicationContext(), LoopProfile.class));
-                        } else if (position == 1) {
+                        if(loginID==null)
+                        {
+                            if (position == 0) {
+                                startActivity(new Intent(getApplicationContext(), SignIn.class));
+                            } else if (position == 1) {
+                                Drawer.closeDrawers();
+                            }
+                        }
+                        else {
 
-                        } else if (position == 2) {
-                            startActivity(new Intent(getApplicationContext(), TripHistory.class));
-                        } else if (position == 3) {
-                            startActivity(new Intent(getApplicationContext(), PromoCode.class));
-                        } else if (position == 4) {
-                            startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                        } else if (position == 8) {
-                            startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                        } else if (position == 7) {
+                            if (position == 0) {
+                                startActivity(new Intent(getApplicationContext(), LoopProfile.class));
+                            } else if (position == 1) {
+                                    finish();
+                            } else if (position == 2) {
+                                startActivity(new Intent(getApplicationContext(), TripHistory.class));
+                            } else if (position == 3) {
+                                startActivity(new Intent(getApplicationContext(), PromoCode.class));
+                            } else if (position == 4) {
+                                startActivity(new Intent(getApplicationContext(), InviteActivity.class));
+                            } else if (position == 8) {
+                                startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+                            } else if (position == 7) {
 
-                        } else if (position == 6) {
-                            //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                            } else if (position == 6) {
+                                //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                            }
                         }
 
                     }
@@ -408,24 +447,56 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             String result = objBookingBL.getRoutesDetail(params[0]);
             return result;
         }
-
         @Override
         protected void onPostExecute(String s) {
             try {
 
                 setPickPoint(Constant.pointName);  // Initialize Pick Point DropDown
                 setDropPoint(Constant.pointName);  // Initialize Drop Point DropDown
-                String ss[]=Constant.pointRun[0].split(",");
-                Constant.pointRunArray=new String[ss.length];
-                for(int i=0;i<ss.length;i++)
-                {
-                    Constant.pointRunArray[i]=ss[i];
+
+
+                Log.v("POINT RUN", Constant.pointRun[0] + "");
+
+                if(Constant.pointRun[0].trim().length()==0){
+
+                    Log.v("Under if condition", Constant.pointRun[0].trim().length() + "");
+                    if(Constant.pointDownRun[0].trim().length()==0){
+                        tvError.setText("No trips for this route today.");
+                        tvError.setVisibility(View.VISIBLE);
+                        btnSwipe.setVisibility(View.GONE);
+                    }
+                    else {
+                        tvError.setText("No vehicles going in this direction today. Tip - Use Swap button to see runs in reverse direction.");
+                        tvError.setVisibility(View.VISIBLE);
+                    }
+
+                }
+                else {
+                    Log.v("Under else condition", Constant.pointRun[0].trim().length() + "");
+                    String ss[] = Constant.pointRun[0].split(",");
+                    Log.d("Length", ss.length + "");
+
+                        Constant.pointRunArray = new String[ss.length];
+                        for (int i = 0; i < ss.length; i++) {
+                            Constant.pointRunArray[i] = ss[i];
+                        }
+
                 }
 
+
+                String strTotal[]=Constant.pointTotalSeat[0].split(",");
+                String strBooked[]=Constant.pointBookedSeat[0].split(",");
+
+                Constant.pointAvailableSeat=new int[strTotal.length];
+                for(int i=0;i<strTotal.length;i++){
+                    Constant.pointAvailableSeat[i]=Integer.valueOf(strTotal[i])-Integer.valueOf(strBooked[i]);
+                }
+
+
             }catch (NullPointerException e){
-                e.printStackTrace();
+                NoResponseServer();
             }catch (Exception e){
-                e.printStackTrace();
+                //NoResponseServer();
             }finally {
                 mProgressDialog.dismiss();
             }
@@ -526,7 +597,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
         listPickTime.add("Select Time");
 
-        tvError.setVisibility(View.GONE);
+        //tvError.setVisibility(View.GONE);
 
         int cc=-1;
 
@@ -539,16 +610,23 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         Log.d("Current Time--",dtCurrent+"");
 
         for(int i=0;i<timeArray.length;i++){
-            try {
+             try {
                 dtArray = dateFormat.parse(timeArray[i]);
                 //String format=dateFormat.format(dd);
                 Log.d(" Time Array --",dtArray+"");
                 if (dtArray.compareTo(dtCurrent)>0){
 
-                    Log.d("COMPARE-->", "UNDER IF");
-                    listPickTime.add(new SimpleDateFormat("K:mm a").format(dtArray));
-                    listRun.add(Constant.pointRunArray[i]);
-                    cc++;
+                    try {
+
+                        if (Constant.pointAvailableSeat[i] > 0) {
+                            listPickTime.add(new SimpleDateFormat("K:mm a").format(dtArray));
+                            listRun.add(Constant.pointRunArray[i]);
+                            cc++;
+                        }
+                    }
+                    catch (Exception e){
+
+                    }
                 }
                 else
                 {
@@ -558,10 +636,22 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             }catch (Exception e){
                 e.printStackTrace();
             }
-            if(cc==-1){
-                tvError.setVisibility(View.VISIBLE);
-            }
+
         }
+        if(tvError.getVisibility()==View.VISIBLE){
+
+        }
+        else
+        {
+            if(cc==-1){
+            tvError.setVisibility(View.VISIBLE);
+            tvError.setText("No vehicles going in this direction today.");
+        }
+        else{
+            tvError.setVisibility(View.INVISIBLE);
+        }
+        }
+
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(BookingNew.this,R.layout.spinner_item,listPickTime);
         spnTimePicker.setAdapter(adapter);
     }
@@ -585,11 +675,30 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     private void swapButtonClicked(){
         pickPos=spnPick.getSelectedItemPosition();
         dropPos=spnDrop.getSelectedItemPosition();
+
+        tvError.setVisibility(View.INVISIBLE);
+
         if(Constant.swapRoute){
             objBookingBL.parseSubJson(Constant.jsonUP);
             setPickPoint(Constant.pointName);  // Initialize Pick Point DropDown
             setDropPoint(Constant.pointName);  // Initialize Drop Point DropDown
             String ss[]=Constant.pointRun[0].split(",");
+
+            String strTotal[]=Constant.pointTotalSeat[0].split(",");
+            String strBooked[]=Constant.pointBookedSeat[0].split(",");
+
+            if(Constant.pointRun[0].trim().length()!=0) {
+                Constant.pointAvailableSeat = new int[strTotal.length];
+                for (int i = 0; i < strTotal.length; i++) {
+                    Constant.pointAvailableSeat[i] = Integer.valueOf(strTotal[i]) - Integer.valueOf(strBooked[i]);
+                }
+            }
+            else
+            {
+                tvError.setVisibility(View.VISIBLE);
+                tvError.setText("No vehicles going in this direction today. Tip - Use Swap button to see runs in reverse direction.");
+            }
+
             Constant.pointRunArray=new String[ss.length];
             for(int i=0;i<ss.length;i++)
             {
@@ -608,6 +717,23 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             {
                 Constant.pointRunArray[i]=ss[i];
             }
+
+            String strTotal[]=Constant.pointTotalSeat[0].split(",");
+            String strBooked[]=Constant.pointBookedSeat[0].split(",");
+            if(Constant.pointDownRun[0].trim().length()!=0) {
+                Constant.pointAvailableSeat = new int[strTotal.length];
+                for (int i = 0; i < strTotal.length; i++) {
+                    Constant.pointAvailableSeat[i] = Integer.valueOf(strTotal[i]) - Integer.valueOf(strBooked[i]);
+                }
+            }
+            else
+            {
+                tvError.setVisibility(View.VISIBLE);
+                tvError.setText("No vehicles going in this direction today. Tip - Use Swap button to see runs in reverse direction.");
+            }
+
+
+
             Constant.swapRoute=true;
 
          }
@@ -627,7 +753,6 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             mProgressDialog.show();
             mProgressDialog.setMessage("Loading...");
             mProgressDialog.setCancelable(false);
-
         }
 
         @Override
@@ -672,4 +797,25 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         super.onResume();
         drawerAdapter.notifyDataSetChanged();
     }
+
+    private void NoResponseServer()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(Constant.ERR_NO_SERVER_RESPONSE)
+                .setCancelable(false)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        new GetSelectedRoute().execute(routeId);
+                    }
+                });
+
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 }

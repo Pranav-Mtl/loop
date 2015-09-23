@@ -46,6 +46,7 @@ public class BookingBL {
                 Constant.jsonRoutePrice=jsonObject.get("route_price").toString();
 
             parseSubJson(Constant.jsonUP);
+            parseDownJson(Constant.jsonDOWN);
             parseRoutePrice(Constant.jsonRoutePrice);
 
         } catch (Exception e) {
@@ -83,6 +84,8 @@ public class BookingBL {
             Constant.pointTime=new String[jsonArrayObject.size()];
             Constant.pointOrder=new String[jsonArrayObject.size()];
             Constant.pointRun=new String[jsonArrayObject.size()];
+            Constant.pointTotalSeat=new String[jsonArrayObject.size()];
+            Constant.pointBookedSeat=new String[jsonArrayObject.size()];
 
             for(int i=0;i<jsonArrayObject.size();i++){
                 JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
@@ -90,9 +93,40 @@ public class BookingBL {
                 Constant.pointID[i]=jsonObject.get("point_id").toString();
                 Constant.pointName[i]=jsonObject.get("point_name").toString();
                 Constant.pointDistance[i]=(Double.valueOf(jsonObject.get("distance").toString()));
-                Constant.pointTime[i]=jsonObject.get("departure_time").toString().replace("[","").replace("]","").replaceAll("\"","");
+                Constant.pointTime[i]=jsonObject.get("departure_time").toString().replace("[","").replace("]", "").replaceAll("\"", "");
                 Constant.pointOrder[i]=jsonObject.get("route_point_order").toString();
-                Constant.pointRun[i]=jsonObject.get("run").toString().replace("[", "").replace("]", "").replaceAll("\"","");
+                Constant.pointRun[i]=jsonObject.get("run").toString().replace("[", "").replace("]", "").replaceAll("\"", "");
+                Constant.pointTotalSeat[i]=jsonObject.get("seat_available").toString().replace("[", "").replace("]", "").replaceAll("\"", "");
+                Constant.pointBookedSeat[i]=jsonObject.get("booking_done").toString().replace("[", "").replace("]", "").replaceAll("\"", "");
+
+            }
+
+
+
+        } catch (Exception e) {
+            e.getLocalizedMessage();
+        }
+
+    }
+
+    public void parseDownJson(String result)
+    {
+        String status="";
+        JSONParser jsonP=new JSONParser();
+        try {
+            Object obj =jsonP.parse(result);
+            JSONArray jsonArrayObject = (JSONArray) obj;
+
+
+            Constant.pointDownRun=new String[jsonArrayObject.size()];
+
+            for(int i=0;i<jsonArrayObject.size();i++){
+                JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
+
+
+                Constant.pointDownRun[i]=jsonObject.get("run").toString().replace("[", "").replace("]", "").replaceAll("\"", "");
+
+
             }
 
 
