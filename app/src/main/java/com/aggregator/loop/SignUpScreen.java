@@ -422,12 +422,12 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                 {
                     Snackbar
                             .make(findViewById(R.id.signup_root),
-                                    "Email  or Mobile already exists",
-                                    Snackbar.LENGTH_LONG).setText("Email  or Mobile already exists")
+                                    "Mobile no. already exists",
+                                    Snackbar.LENGTH_LONG).setText("Mobile no. already exists")
                             .show();
 
-                    tvEmail.setError("Email or Mobile already exists");
-                    tvMobileNo.setError("Email or Mobile already exists");
+
+                    tvMobileNo.setError("Mobile no. already exists");
                     //Toast.makeText(getApplicationContext(),"Email address already exists",Toast.LENGTH_LONG).show();
                 }
             }

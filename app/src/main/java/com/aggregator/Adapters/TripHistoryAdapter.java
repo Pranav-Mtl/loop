@@ -96,7 +96,7 @@ public class TripHistoryAdapter extends BaseAdapter implements View.OnClickListe
                 llLeftBottom= (LinearLayout) gridView.findViewById(R.id.trip_ll_left_bottom);
             }
 
-            if(Constant.tripStatus[position].equals("ACTIVE")){
+            if("ACTIVE".equals(Constant.tripStatus[position])){
                 ivLeftTop.setBackgroundResource(R.drawable.ic_ticket);
                 tvLeftTop.setText("Ticket");
             }
@@ -106,7 +106,7 @@ public class TripHistoryAdapter extends BaseAdapter implements View.OnClickListe
                 tvLeftTop.setText("Rate Trip");
             }
 
-            if(Constant.tripFav[position].equals("No")){
+            if("No".equals(Constant.tripFav[position])){
                 ivLeftBottom.setBackgroundResource(R.drawable.ic_white_heart);
                 tvLeftBottom.setText("Add to favourites.");
             }
@@ -173,8 +173,6 @@ public class TripHistoryAdapter extends BaseAdapter implements View.OnClickListe
                             updateAdapter(position, "No");
                             //notifyDataSetChanged();
                         }
-
-
                     }
                     catch (Exception e){
                         e.printStackTrace();

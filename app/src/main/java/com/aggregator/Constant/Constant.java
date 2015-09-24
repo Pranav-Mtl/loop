@@ -10,6 +10,9 @@ import com.aggregator.loop.R;
 public class Constant {
     public static  String STREMAILADDREGEX="^[_A-Za-z0-9]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,4})$"; //EMAIL REGEX
 
+    public static final String MSG_KEY = "m";
+
+
     ////////////////       WEB SERVICE URL      //////////////////////\
 
     public static String WS_HTTP="Http";
@@ -215,6 +218,7 @@ public class Constant {
     /* ERROR MESSAGES */
 
     public static String ERR_INTERNET_CONNECTION_NOT_FOUND_MSG="Click YES to open settings or Click NO to go back";
+    public static String ERR_INTERNET_CONNECTION_SMAILL_MSG="Please Check your internet connection.";
     public static String ERR_INTERNET_CONNECTION_NOT_FOUND="No Internet Connection";
     public static String ERR_SLOW_INTERNET_CONNECTION="Something went wrong.";
     public static String ERR_NO_SERVER_RESPONSE="Something went wrong.";

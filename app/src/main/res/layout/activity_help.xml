@@ -65,9 +65,6 @@
             android:text="For any issues reach out to us at:"
             android:textColor="#34495e"
             android:textSize="17dp"
-
-
-
             />
 
         <LinearLayout
@@ -141,7 +138,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="wirte your comments here"
+            android:hint="write your comments here.."
             android:singleLine="true"
             android:textSize="13sp"
             android:imeOptions="actionDone"

@@ -211,7 +211,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 int pos = dropPointPosition;
-                dropPos=pickPos+position;
+                dropPos=pickPos+position+1;
 
                 endPointID=Constant.pointID[dropPos];
                 dropselected=true;
@@ -219,6 +219,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                 double price=calculatePrice();
 
+                Log.d("Drop  Position", position+"");
+                Log.d("Drop Down Position",dropPos+"");
                 Log.d("Drop Point ID", endPointID);
                 Log.d("Drop Point Distance", endPointDist + "");
 
@@ -226,10 +228,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                 double pp=Double.valueOf(Constant.amount)-price;
                 Log.d("PRICE CATCULATED", pp + "");
-
                 totalPrice=pp+"";
-
-
 
                 if(pp>0)
                 {
@@ -545,7 +544,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(BookingNew.this,R.layout.spinner_item,listDropPoint);
         spnDrop.setAdapter(adapter);
         spnDrop.setSelection(counter - 1);
-        dropPos=counter-1;
+        dropPos=counter;
     }
 
     /* set pick points on page load */
@@ -614,7 +613,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 dtArray = dateFormat.parse(timeArray[i]);
                 //String format=dateFormat.format(dd);
                 Log.d(" Time Array --",dtArray+"");
-                if (dtArray.compareTo(dtCurrent)>0){
+                if (dtArray.compareTo(dtCurrent)>=0){
 
                     try {
 
@@ -770,6 +769,11 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                     Toast.makeText(getApplicationContext(), "Ride Successfully Booked", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(BookingNew.this, TicketScreen.class).putExtra("BookingID", s).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
+                }
+                else if(objBookingBL.status.equals("full"))
+                {
+                    Toast.makeText(getApplicationContext(), "Ticket not available for selected run.", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 else
                 {

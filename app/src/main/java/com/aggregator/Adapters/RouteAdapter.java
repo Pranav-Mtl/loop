@@ -66,9 +66,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
     public void onBindViewHolder(RecList holder, int position) {
 
         if("No".equals(Constant.recentRouteFavStatus[position]))
-             holder.ivHeart.setBackgroundResource(R.drawable.ic_white_heart);
+             holder.ivHeart.setBackgroundResource(R.drawable.ic_white_heart_route);
         else
-            holder.ivHeart.setBackgroundResource(R.drawable.ic_red_heart);
+            holder.ivHeart.setBackgroundResource(R.drawable.ic_red_heart_route);
         // ivHeart.setOnClickListener(this);
         //ivHeart.setTag(position);
 
@@ -78,9 +78,6 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
 
         holder.ivHeart.setTag(holder);
         holder.ll.setTag(holder);
-
-
-
 
         holder.tvSource.setText(Constant.recentRouteStartName[position]);
         holder.tvDestination.setText(Constant.recentRouteEndName[position]);

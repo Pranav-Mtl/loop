@@ -61,22 +61,18 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginBottom="60dp"
             android:orientation="vertical"
             android:weightSum="2"
-
             >
 
             <LinearLayout
                 android:id="@+id/route_layout_fav"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:weightSum="2"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:visibility="gone"
@@ -85,9 +81,10 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Favourites"
-                    android:padding="10dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/TextColor"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/WhiteColor"
+                    android:background="@color/FavBG"
                     />
 
                 <android.support.v7.widget.RecyclerView
@@ -103,9 +100,8 @@
                 android:id="@+id/route_layout_recent"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight=".8"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:visibility="gone"
@@ -114,9 +110,10 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Recent"
-                    android:padding="10dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/TextColor"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/WhiteColor"
+                    android:background="@color/FavBG"
                     />
 
                 <android.support.v7.widget.RecyclerView
@@ -152,7 +149,8 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
-
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:descendantFocusability="beforeDescendants"
                 android:focusableInTouchMode="true"
                 >
@@ -216,7 +214,7 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:background="@color/TabSelectedColor"
             >
@@ -228,7 +226,7 @@
                 android:layout_marginLeft="5dp"
                 android:visibility="invisible"
                 android:layout_marginRight="60dp"
-
+                android:orientation="vertical"
                 >
 
                 <TextView
@@ -236,22 +234,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:drawablePadding="5dp"
                     android:textColor="@color/WhiteColor"
-
+                    android:drawableLeft="@drawable/ic_pick_route"
                     android:textSize="14sp"
                     />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_bidirectional"
-                    />
+
                 <TextView
                     android:id="@+id/routes_selected_destination"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:drawablePadding="5dp"
                     android:textColor="@color/WhiteColor"
-
+                    android:drawableLeft="@drawable/ic_drop_route"
                     android:textSize="14sp"
                     />
 

@@ -59,7 +59,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     ImageView imgTicket;
     LinearLayout btnShare,btnRateTrip;
 
-    LinearLayout btnCross;
+    ImageButton btnCross;
 
     TextView tvPick,tvDrop,tvTime,tvVehicle;
 
@@ -105,7 +105,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         btnRateTrip= (LinearLayout) findViewById(R.id.ticket_rate_trip);
         llMap= (LinearLayout) findViewById(R.id.ticket_map_ll);
         imgTicket= (ImageView) findViewById(R.id.ticket_image);
-        btnCross= (LinearLayout) findViewById(R.id.ticket_cross);
+        btnCross= (ImageButton) findViewById(R.id.ticket_cross);
         btnTicket= (ImageButton) findViewById(R.id.ticket_img);
 
         tvPick= (TextView) findViewById(R.id.ticket_pick);
@@ -326,6 +326,13 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 initializeMap(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
 
                 btnTicket.startAnimation(animBlink);
+
+             /*   Picasso.with(getApplicationContext())
+                        .load(Constant.categoryImageURL[position])
+                        .placeholder(R.drawable.ticket_pick)
+                        .error(R.drawable.ticket_pick)
+                        .into(imgTicket);*/
+
             }catch (NullPointerException e){
                 NoResponseServer();
             }catch (Exception e){

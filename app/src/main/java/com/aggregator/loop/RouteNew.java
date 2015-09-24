@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -250,21 +249,12 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
             alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
 
-            alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
+            alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_SMAILL_MSG);
 
-            alertDialog2.setPositiveButton("YES",
+            alertDialog2.setPositiveButton("OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // Write your code here to execute after dialog
-                            startActivity(new Intent(Settings.ACTION_SETTINGS));
-                        }
-                    });
-
-            alertDialog2.setNegativeButton("NO",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Write your code here to execute after dialog
-
                             dialog.cancel();
                             finish();
                         }
@@ -512,6 +502,8 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                 case R.id.expandable_searched_list:
                     //groupParentClickedSearched(groupPosition);
                     selectedSearchGroup=groupPosition;
+
+                    routeID = Integer.valueOf(Constant.routeSearchId[groupPosition]);
 
                     Constant.favSelectedItem = -1;
                     Constant.recSelectedItem = -1;
