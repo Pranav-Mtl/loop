@@ -1,10 +1,16 @@
 package com.aggregator.gps;
 
+/**
+ * Created by Pranav Mittal on 9/25/2015.
+ * Appslure WebSolution LLP
+ * www.appslure.com
+ */
+
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.aggregator.loop.TicketScreen;
+import com.aggregator.loop.TicketMapFullScreen;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.w3c.dom.Document;
@@ -12,23 +18,25 @@ import org.w3c.dom.Document;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class GetDirectionsAsyncTask extends AsyncTask<Map<String, String>, Object, ArrayList<LatLng>>
+
+public class GetDirections extends AsyncTask<Map<String, String>, Object, ArrayList<LatLng>>
 {
     public static final String USER_CURRENT_LAT = "user_current_lat";
     public static final String USER_CURRENT_LONG = "user_current_long";
     public static final String DESTINATION_LAT = "destination_lat";
     public static final String DESTINATION_LONG = "destination_long";
     public static final String DIRECTIONS_MODE = "directions_mode";
-    private TicketScreen activity;
+    private TicketMapFullScreen activity;
 
     private Exception exception;
     private ProgressDialog progressDialog;
- 
-    public GetDirectionsAsyncTask(TicketScreen activity)
+
+    public GetDirections(TicketMapFullScreen activity)
     {
         super();
         this.activity = activity;
     }
+
 
     public void onPreExecute()
     {
@@ -37,7 +45,7 @@ public class GetDirectionsAsyncTask extends AsyncTask<Map<String, String>, Objec
         progressDialog.show();
         progressDialog.setCancelable(false);
     }
- 
+
     @Override
     public void onPostExecute(ArrayList result)
     {
@@ -51,7 +59,7 @@ public class GetDirectionsAsyncTask extends AsyncTask<Map<String, String>, Objec
             processException();
         }
     }
- 
+
     @Override
     protected ArrayList<LatLng> doInBackground(Map<String, String>... params)
     {
@@ -61,13 +69,8 @@ public class GetDirectionsAsyncTask extends AsyncTask<Map<String, String>, Objec
             LatLng fromPosition = new LatLng(Double.valueOf(paramMap.get(USER_CURRENT_LAT)) , Double.valueOf(paramMap.get(USER_CURRENT_LONG)));
             LatLng toPosition = new LatLng(Double.valueOf(paramMap.get(DESTINATION_LAT)) , Double.valueOf(paramMap.get(DESTINATION_LONG)));
             GMapV2Direction md = new GMapV2Direction();
-
             Document doc = md.getDocument(fromPosition, toPosition, paramMap.get(DIRECTIONS_MODE));
             ArrayList<LatLng> directionPoints = md.getDirection(doc);
-            md.getDurationValue(doc);
-            md.getDurationText(doc);
-            md.getDistanceText(doc);
-            md.getDistanceValue(doc);
             return directionPoints;
         }
         catch (Exception e)
@@ -76,7 +79,7 @@ public class GetDirectionsAsyncTask extends AsyncTask<Map<String, String>, Objec
             return null;
         }
     }
- 
+
     private void processException()
     {
         Toast.makeText(activity, "Error retriving data", 3000).show();

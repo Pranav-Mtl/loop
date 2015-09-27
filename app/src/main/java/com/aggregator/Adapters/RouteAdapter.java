@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +35,12 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
     TextView source,destination;
     ProgressDialog mProgressDialog;
     RouteNew objRouteNew;
-    LinearLayout llBottom;
+    RelativeLayout llBottom;
     ImageButton btnDone;
 
     int position;
 
-    public  RouteAdapter(Context context,TextView s,TextView d,String userID,LinearLayout ll,ImageButton btn,RouteNew routeNew){
+    public  RouteAdapter(Context context,TextView s,TextView d,String userID,RelativeLayout ll,ImageButton btn,RouteNew routeNew){
         mContext=context;
         userId=userID;
         objAddFav=new AddFav();
@@ -66,9 +67,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
     public void onBindViewHolder(RecList holder, int position) {
 
         if("No".equals(Constant.recentRouteFavStatus[position]))
-             holder.ivHeart.setBackgroundResource(R.drawable.ic_white_heart_route);
+             holder.ivHeart.setBackgroundResource(R.drawable.ic_white_heart);
         else
-            holder.ivHeart.setBackgroundResource(R.drawable.ic_red_heart_route);
+            holder.ivHeart.setBackgroundResource(R.drawable.ic_red_heart);
         // ivHeart.setOnClickListener(this);
         //ivHeart.setTag(position);
 
@@ -81,10 +82,6 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
 
         holder.tvSource.setText(Constant.recentRouteStartName[position]);
         holder.tvDestination.setText(Constant.recentRouteEndName[position]);
-
-
-
-
 
     }
 
@@ -102,7 +99,6 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                     break;
                 case R.id.fav_ll:
                     llBottom.setVisibility(View.VISIBLE);
@@ -117,11 +113,24 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
                     objRouteNew.routeID=Integer.valueOf(Constant.recentRouteID[position]);
 
                     if (Constant._lastColored != null) {
-                        Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
-                        Constant._lastColored.invalidate();
+                        if(Constant._lastColored==view){
+                            Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
+                            Constant._lastColored.invalidate();
+                            llBottom.setVisibility(View.GONE);
+                            btnDone.setVisibility(View.INVISIBLE);
+                            Constant._lastColored=null;
+                        }
+                        else {
+                            Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
+                            Constant._lastColored.invalidate();
+                            Constant._lastColored = view;
+                            view.setBackgroundColor(Color.parseColor("#66daae"));
+                        }
                     }
-                    Constant._lastColored = view;
-                    view.setBackgroundColor(Color.parseColor("#66daae"));
+                    else {
+                        Constant._lastColored = view;
+                        view.setBackgroundColor(Color.parseColor("#66daae"));
+                    }
 
                     //objFavRouteAdapter.notifyDataSetChanged();
                     break;

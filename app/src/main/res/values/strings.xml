@@ -12,6 +12,8 @@
 
 
     <color name="LightGreen">#66daae</color>
+    <color name="MenuItems">#75d9b3</color>
+    <color name="MenuHeader">#51a898</color>
     <color name="LightBG">#f8f9fb</color>
     <color name="DarkGreen">#049da2</color>
     <color name="TextColor">#1d1d26</color>
@@ -21,6 +23,7 @@
     <color name="BlueTextColor">#34495e</color>
     <color name="TabSelectedColor">#1fc796</color>
     <color name="RouteSelectedColor">#66daae</color>
+    <color name="GrayBG">#f2f2f2</color>
 
     <string name="title_activity_sign_in">SignIn</string>
     <string name="title_activity_booking_screen">BookingScreen</string>
@@ -32,4 +35,11 @@
     <string name="title_activity_trip_history">TripHistory</string>
     <string name="title_activity_promo_code">PromoCode</string>
     <string name="title_activity_route_new">RouteNew</string>
+    <string name="title_activity_map_test">MapTestActivity</string>
+    <string name="title_activity_custom_view_testing">CustomViewTesting</string>
+    <string name="title_activity_add_loop_credit">AddLoopCredit</string>
+    <string name="title_activity_ticket_track_bus">TicketTrackBus</string>
+
+    <integer name="id">100</integer>
+    <string name="title_activity_suggest_route">SuggestRoute</string>
 </resources>

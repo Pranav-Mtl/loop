@@ -235,7 +235,6 @@ public class HelpActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "please try again", Toast.LENGTH_LONG).show();
                 }
 
-
             }
             catch (NullPointerException e){
 
@@ -246,8 +245,6 @@ public class HelpActivity extends AppCompatActivity {
             finally {
                 pd.dismiss();
             }
-
-
         }
     }
 

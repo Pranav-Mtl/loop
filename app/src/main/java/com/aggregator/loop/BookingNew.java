@@ -14,10 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -99,6 +103,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
     View _itemColoured;
 
+    RelativeLayout rlDiagram;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +114,6 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         spnTimePicker= (Spinner) findViewById(R.id.booking_timepicker);
         tvPrice= (TextView) findViewById(R.id.booking_price);
@@ -121,6 +126,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         btnSwipe= (ImageButton) findViewById(R.id.booking_swap_button);
         back= (ImageButton) findViewById(R.id.booking_float);
         tvError= (TextView) findViewById(R.id.booking_noride);
+        rlDiagram= (RelativeLayout) findViewById(R.id.booking_relative_diagram);
 
         objBookingBL=new BookingBL();
         objBookingBE=new BookingBE();
@@ -192,10 +198,28 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 spinnerPickSelected(position);
                 pickPos = position;
                 pickselected = true;
+                timeSelected=false;
                 startPointID = Constant.pointID[position];
                 startPointDist = Constant.pointDistance[position];
                 Log.d("Pick Point ID", startPointID);
-                Log.d("Pick Point Dist", startPointDist+"");
+                Log.d("Pick Point Dist", startPointDist + "");
+
+                ViewGroup layout = (ViewGroup) findViewById(R.id.booking_relative_diagram);
+                View command = layout.findViewById(getResources().getInteger(R.integer.id));
+
+                try {
+                    if (command == null) {
+
+                    } else {
+                        layout.removeView(command);
+                    }
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+
+
+
+                createCustomNew(pickPos,Constant.pointID.length);
             }
 
             @Override
@@ -212,6 +236,12 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                 int pos = dropPointPosition;
                 dropPos=pickPos+position+1;
+
+                ViewGroup layout = (ViewGroup) findViewById(R.id.booking_relative_diagram);
+                View command = layout.findViewById(getResources().getInteger(R.integer.id));
+                layout.removeView(command);
+
+                createCustomNew(pickPos,dropPos);
 
                 endPointID=Constant.pointID[dropPos];
                 dropselected=true;
@@ -397,15 +427,12 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         objBookingBE.setPrice(paytmCash);
                         objBookingBE.setLoopCredit(loopCredit);
                         objBookingBE.setTime(spnTimePicker.getSelectedItem().toString());
-
                         new InsertBooking().execute();
                     }
                 }
                 else{
-                Toast.makeText(getApplicationContext(),"Please select time of departure.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Please select time of departure.",Toast.LENGTH_SHORT).show();
             }
-
-
                 break;
             case R.id.booking_swap_button:
                 swapButtonClicked();
@@ -453,6 +480,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 setPickPoint(Constant.pointName);  // Initialize Pick Point DropDown
                 setDropPoint(Constant.pointName);  // Initialize Drop Point DropDown
 
+                Constant.swapRoute=false;
 
                 Log.v("POINT RUN", Constant.pointRun[0] + "");
 
@@ -465,8 +493,12 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         btnSwipe.setVisibility(View.GONE);
                     }
                     else {
-                        tvError.setText("No vehicles going in this direction today. Tip - Use Swap button to see runs in reverse direction.");
-                        tvError.setVisibility(View.VISIBLE);
+                        btnSwipe.setEnabled(false);
+                        swapButtonClicked();
+
+                        /*tvError.setText("No vehicles going in this direction today. Tip - Use Swap button to see runs in reverse direction.");
+                        tvError.setVisibility(View.VISIBLE);*/
+
                     }
 
                 }
@@ -490,6 +522,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 for(int i=0;i<strTotal.length;i++){
                     Constant.pointAvailableSeat[i]=Integer.valueOf(strTotal[i])-Integer.valueOf(strBooked[i]);
                 }
+
+
 
 
             }catch (NullPointerException e){
@@ -644,7 +678,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         {
             if(cc==-1){
             tvError.setVisibility(View.VISIBLE);
-            tvError.setText("No vehicles going in this direction today.");
+            //tvError.setText("No vehicles going in this direction today.");
         }
         else{
             tvError.setVisibility(View.INVISIBLE);
@@ -676,6 +710,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         dropPos=spnDrop.getSelectedItemPosition();
 
         tvError.setVisibility(View.INVISIBLE);
+        timeSelected=false;
 
         if(Constant.swapRoute){
             objBookingBL.parseSubJson(Constant.jsonUP);
@@ -728,10 +763,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             else
             {
                 tvError.setVisibility(View.VISIBLE);
-                tvError.setText("No vehicles going in this direction today. Tip - Use Swap button to see runs in reverse direction.");
+                tvError.setText("No vehicles going in this direction today. \n Tip - Use Swap button to see runs in reverse direction.");
             }
-
-
 
             Constant.swapRoute=true;
 
@@ -821,5 +854,82 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
+        void createCustomNew(int pick,int drop){
+
+            int pos=100;
+            LinearLayout llMain=new LinearLayout(this);
+            llMain.setId(getResources().getInteger(R.integer.id));
+            llMain.setOrientation(LinearLayout.VERTICAL);
+
+            for(int i=0;i<Constant.pointID.length;i++) {
+
+                LinearLayout LL = new LinearLayout(this);
+                LL.setOrientation(LinearLayout.HORIZONTAL);
+
+                ViewGroup.LayoutParams LLParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                LL.setLayoutParams(LLParams);
+
+                LinearLayout llFirst=new LinearLayout(this);
+                llFirst.setOrientation(LinearLayout.VERTICAL);
+
+                ViewGroup.LayoutParams LLParamsFirst = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                llFirst.setLayoutParams(LLParamsFirst);
+
+                LinearLayout llSecond=new LinearLayout(this);
+                llSecond.setOrientation(LinearLayout.VERTICAL);
+
+                ViewGroup.LayoutParams LLParamsSecond = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                llSecond.setLayoutParams(LLParamsSecond);
+
+
+                ImageView ladder = new ImageView(this);
+
+                if(i==pick){
+                    ladder.setImageResource(R.drawable.ic_source);
+                }
+                else if(i==drop){
+                    ladder.setImageResource(R.drawable.ic_destination);
+                }
+                else {
+                    ladder.setImageResource(R.drawable.ic_booking_bottom_circle);
+                }
+                TextView title=new TextView(this);
+                title.setText(Constant.pointName[i]);
+                title.setPadding(10, 0, 0, 0);
+                title.setTextColor(getResources().getColor(R.color.TextColor));
+
+
+                llFirst.addView(ladder);
+                llSecond.addView(title);
+
+                if(i!=Constant.pointID.length-1) {
+                    ImageView ivLine = new ImageView(this);
+                    ivLine.setImageResource(R.drawable.ic_booking_lines);
+
+                    ImageView ivLineInvisible = new ImageView(this);
+                    ivLineInvisible.setImageResource(R.drawable.ic_booking_lines);
+                    ivLineInvisible.setVisibility(View.INVISIBLE);
+
+
+                    llFirst.addView(ivLine);
+                    llSecond.addView(ivLineInvisible);
+                }
+
+
+                LL.addView(llFirst);
+                LL.addView(llSecond);
+
+
+                llMain.addView(LL);
+
+
+            }
+
+
+            rlDiagram.addView(llMain);
+
+        }
+
 
 }

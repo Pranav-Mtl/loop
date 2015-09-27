@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.aggregator.Adapters.DrawerAdapter;
@@ -45,6 +47,8 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
     DrawerAdapter drawerAdapter;
 
     View _itemColoured;
+    RadioGroup rg;
+    RadioButton rbPromo,rbReferrer;
 
 
     @Override
@@ -64,6 +68,7 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
 
         etPromocode= (EditText) findViewById(R.id.promocode);
         btnVerify= (Button) findViewById(R.id.promocode_done);
+
         btnVerify.setOnClickListener(this);
 
         mPrograProgressDialog=new ProgressDialog(PromoCode.this);
@@ -170,6 +175,7 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
         switch (v.getId()){
             case R.id.promocode_done:
                 String text=etPromocode.getText().toString();
+
                 if(text.length()==0){
                     etPromocode.setError("Enter PromoCode");
                 }
@@ -197,7 +203,6 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // Write your code here to execute after dialog
-
                                         dialog.cancel();
                                     }
                                 });
@@ -234,11 +239,18 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
                     Toast.makeText(getApplicationContext(),"₹"+Constant.LoopCreditUsed+" Loop Credited to your account. ",Toast.LENGTH_LONG).show();
                     finish();
                 }
+                else if(s.equals("used"))
+                {
+                    Toast.makeText(getApplicationContext(),"Referral code can be applied only once and before first booking.",Toast.LENGTH_LONG).show();
+                    //etPromocode.setError("The promo/referral code is invalid.");
+                }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"Invalid PromoCode",Toast.LENGTH_LONG).show();
-                    etPromocode.setError("Invalid Promo code");
+                    Toast.makeText(getApplicationContext(),"The promo/referral code is invalid.",Toast.LENGTH_LONG).show();
+                    etPromocode.setError("The promo/referral code is invalid.");
                 }
+
+
             }
             catch (NullPointerException e){
                 e.printStackTrace();

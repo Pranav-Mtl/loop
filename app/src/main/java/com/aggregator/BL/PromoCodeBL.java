@@ -44,6 +44,11 @@ public class PromoCodeBL {
                 Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
                 Constant.LoopCreditUsed=jsonObject.get("promo_value").toString();
             }
+            else if(status.equals("valid")){
+                Constant.amount=jsonObject.get("user_credit").toString();
+                Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
+                Constant.LoopCreditUsed=Constant.amount;
+            }
 
         }catch (Exception e){
 

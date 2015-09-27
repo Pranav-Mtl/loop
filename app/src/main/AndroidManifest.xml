@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -35,7 +34,7 @@
         <!-- Launching Activity -->
 
         <activity
-            android:name=".RouteNew"
+            android:name=".SplashScreen"
             android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,13 +45,10 @@
 
         <!-- Other Activities -->
 
-
-
         <activity
             android:name=".TripHistory"
             android:label="" >
         </activity>
-
         <activity
             android:name=".SignUpScreen"
             android:label=""
@@ -122,10 +118,10 @@
             android:label=""
             android:screenOrientation="portrait" >
         </activity>
-       <!-- <activity
+        <activity
             android:name=".RouteNew"
             android:label="@string/title_activity_route_new" >
-        </activity>-->
+        </activity>
 
         <receiver
             android:name=".GcmBroadcastReceiver"
@@ -138,8 +134,34 @@
         </receiver>
 
         <service android:name=".GCMNotificationIntentService" />
-
         <service android:name="com.appsee.AppseeBackgroundUploader" />
+
+        <activity
+            android:name=".TicketMapFullScreen"
+            android:label="" >
+        </activity>
+        <!--
+        <activity
+            android:name=".CustomViewTesting"
+            android:label="@string/title_activity_custom_view_testing" >
+        </activity>
+        -->
+
+
+        <!--
+        <activity
+            android:name=".AddLoopCredit"
+            android:label="@string/title_activity_add_loop_credit" >
+        </activity>
+        -->
+        <activity
+            android:name=".TicketTrackBus"
+            android:label="@string/title_activity_ticket_track_bus" >
+        </activity>
+        <activity
+            android:name=".SuggestRoute"
+            android:label="@string/title_activity_suggest_route" >
+        </activity>
     </application>
 
 </manifest>

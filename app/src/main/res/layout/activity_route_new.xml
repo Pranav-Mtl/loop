@@ -80,9 +80,10 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Favourites"
-                    android:padding="5dp"
-                    android:textSize="18sp"
+                    android:text="Favourite Trips"
+                    android:padding="3dp"
+                    android:paddingLeft="5dp"
+                    android:textSize="15sp"
                     android:textColor="@color/WhiteColor"
                     android:background="@color/FavBG"
                     />
@@ -109,9 +110,10 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Recent"
-                    android:padding="5dp"
-                    android:textSize="18sp"
+                    android:text="Recent Trips"
+                    android:padding="3dp"
+                    android:paddingLeft="5dp"
+                    android:textSize="15sp"
                     android:textColor="@color/WhiteColor"
                     android:background="@color/FavBG"
                     />
@@ -213,18 +215,19 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/ll_bottom_route"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
+            android:visibility="gone"
             android:background="@color/TabSelectedColor"
             >
             <LinearLayout
-                android:id="@+id/ll_bottom_route"
+                android:id="@+id/ll_bottom_route_new"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:visibility="invisible"
                 android:layout_marginRight="60dp"
                 android:orientation="vertical"
                 >
@@ -237,7 +240,7 @@
                     android:drawablePadding="5dp"
                     android:textColor="@color/WhiteColor"
                     android:drawableLeft="@drawable/ic_pick_route"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     />
 
                 <TextView
@@ -248,7 +251,7 @@
                     android:drawablePadding="5dp"
                     android:textColor="@color/WhiteColor"
                     android:drawableLeft="@drawable/ic_drop_route"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     />
 
             </LinearLayout>
@@ -257,7 +260,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
-                android:layout_alignRight="@id/ll_bottom_route"
+                android:layout_alignRight="@id/ll_bottom_route_new"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 >

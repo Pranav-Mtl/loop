@@ -1,0 +1,143 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.aggregator.loop.AddLoopCredit">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/LightGreen"
+        app:theme="@style/Toolbar_Theme"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:text="Loop Credits"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_marginTop="50dp"
+        android:weightSum="10"
+        android:orientation="vertical"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@color/GrayBG"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_money"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Loop credit: 500"
+                android:textColor="@color/TextColor"
+                android:layout_marginTop="20dp"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@color/WhiteColor"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Purchase Loop Credit"
+                android:textColor="@color/TextColor"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="(1 Loop credit = 1Rs)"
+                android:textColor="@color/TextColor"
+                />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                >
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_money_bg_small"
+                    android:hint="50"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/TextColor"
+                    android:editable="false"
+                    />
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_money_bg_small"
+                    android:hint="100"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/TextColor"
+                    android:editable="false"
+                    />
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_money_bg_small"
+                    android:hint="200"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/TextColor"
+                    android:editable="false"
+                    />
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_money_bg_big"
+                android:layout_marginTop="10dp"
+                android:hint="Enter amount between 50-2000"
+                android:paddingLeft="5dp"
+                android:textColor="@color/TextColor"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/booking_btn_customized"
+                android:text="Buy"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/WhiteColor"
+                android:textAllCaps="false"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

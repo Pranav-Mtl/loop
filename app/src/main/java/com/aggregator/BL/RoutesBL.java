@@ -10,6 +10,7 @@ import org.json.simple.parser.JSONParser;
 /**
  * Created by appslure on 8/25/2015.
  */
+
 public class RoutesBL {
 
     String jsonAllRoutes,jsonFav,jsonRecent,jsonPersonalInfo;

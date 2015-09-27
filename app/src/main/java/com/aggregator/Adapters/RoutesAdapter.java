@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aggregator.loop.R;
@@ -30,17 +31,16 @@ public class RoutesAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<String>> _listDataChild;
     private HashMap<String, List<Integer>> _listImgChild;
     TextView txtListChild;
-    LinearLayout llBottom;
+    RelativeLayout llBottom;
 
     ImageView imgIndicator;
 
     public RoutesAdapter(Context context, List<String> listDataHeader,
-                                           HashMap<String, List<String>> listChildData,LinearLayout bottom) {
+                                           HashMap<String, List<String>> listChildData,RelativeLayout bottom) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
         llBottom=bottom;
-
 
     }
 

@@ -8,7 +8,6 @@
         android:layout_width="fill_parent"
         android:gravity="center_vertical"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:weightSum="6"
         android:descendantFocusability="blocksDescendants"
         android:layout_height="wrap_content">
@@ -25,8 +24,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ic_red_heart_route"
             />
-        </LinearLayout>
 
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/fav_ll"
@@ -39,10 +38,10 @@
             android:id="@+id/fav_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="3dp"
             android:drawablePadding="5dp"
             android:textColor="@color/TextColor"
-            android:drawableLeft="@drawable/ic_trip_pick"
+            android:drawableLeft="@drawable/ic_black_pick"
             android:textSize="13sp"
             />
 <!--
@@ -56,11 +55,11 @@
             android:id="@+id/fav_destination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="3dp"
             android:drawablePadding="5dp"
             android:textColor="@color/TextColor"
             android:textSize="13sp"
-            android:drawableLeft="@drawable/ic_trip_drop"
+            android:drawableLeft="@drawable/ic_black_drop"
             />
 
 </LinearLayout>

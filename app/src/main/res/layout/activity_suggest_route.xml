@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/DrawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="7dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/header"
+        tools:context="com.example.appslure.loop.HelpActivity">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#1ebd9d"
+            app:theme="@style/Toolbar_Theme"
+            android:layout_gravity="center"
+
+            android:minHeight="?attr/actionBarSize">
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suggest A Route"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:textSize="20dp"
+                android:textColor="#ffffff"
+
+                />
+
+        </android.support.v7.widget.Toolbar>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="50dp"
+                >
+                <LinearLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_width="fill_parent"
+                    android:orientation="vertical"
+                    android:layout_height="fill_parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/vehicle_img"
+
+                        />
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tell us where do you want us to run the loop service."
+                        android:textColor="#34495e"
+                        android:textSize="17dp"
+                        />
+
+
+
+
+
+                    <EditText
+                        android:id="@+id/message"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mention starting locality and ending locality."
+                        android:singleLine="true"
+                        android:textSize="13sp"
+                        android:imeOptions="actionDone"
+                        android:background="@android:color/transparent"
+                        />
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:background="#34495e"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_height="1dp">
+
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/submitBtn"
+            android:layout_width="fill_parent"
+            android:background="#1ebd9d"
+            android:layout_alignParentBottom="true"
+            android:text="Submit"
+            android:textColor="#ffffff"
+            android:layout_height="50dp" />
+
+
+    </RelativeLayout>
+
+    <com.twotoasters.android.support.v7.widget.RecyclerView
+        android:id="@+id/RecyclerView"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@color/LightGreen"
+        android:scrollbars="vertical">
+
+    </com.twotoasters.android.support.v7.widget.RecyclerView>
+</android.support.v4.widget.DrawerLayout>

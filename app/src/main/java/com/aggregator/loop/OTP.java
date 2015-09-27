@@ -182,7 +182,7 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
                     bookingRouteId=Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID);
                     if(bookingRouteId==null)
                     {
-                        startActivity(new Intent(OTP.this,RouteNew.class));
+                        startActivity(new Intent(OTP.this,RouteNew.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     }
                     else
                     {

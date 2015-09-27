@@ -1,11 +1,13 @@
 package com.aggregator.BE;
 
+import java.io.Serializable;
+
 /**
  * Created by Pranav Mittal on 9/11/2015.
  * Appslure WebSolution LLP
  * www.appslure.com
  */
-public class TicketScreenBE {
+public class TicketScreenBE implements Serializable {
 
     private String pickPointName;
     private Double pickPointLat;
@@ -18,11 +20,47 @@ public class TicketScreenBE {
 
     private String vehicleType;
     private String vehicleRegistration;
-
     private String departureTime;
+
+    private Double startPointLat;
+    private Double endPointLong;
+    private Double startPointLong;
+    private Double endPointLat;
+
+    public Double getStartPointLong() {
+        return startPointLong;
+    }
+
+    public void setStartPointLong(Double startPointLong) {
+        this.startPointLong = startPointLong;
+    }
+
+    public Double getEndPointLat() {
+        return endPointLat;
+    }
+
+    public void setEndPointLat(Double endPointLat) {
+        this.endPointLat = endPointLat;
+    }
 
     public String getPickPointName() {
         return pickPointName;
+    }
+
+    public Double getStartPointLat() {
+        return startPointLat;
+    }
+
+    public void setStartPointLat(Double startPointLat) {
+        this.startPointLat = startPointLat;
+    }
+
+    public Double getEndPointLong() {
+        return endPointLong;
+    }
+
+    public void setEndPointLong(Double endPointLong) {
+        this.endPointLong = endPointLong;
     }
 
     public void setPickPointName(String pickPointName) {

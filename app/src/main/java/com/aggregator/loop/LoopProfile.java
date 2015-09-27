@@ -9,8 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +31,7 @@ import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
 
-public class LoopProfile extends ActionBarActivity {
+public class LoopProfile extends AppCompatActivity {
     ImageButton arroBtn;
     LinearLayout showPassword,btnClick;
     boolean flag=true;
@@ -49,7 +49,9 @@ public class LoopProfile extends ActionBarActivity {
     ImageButton back;
     Button btnSignOUT;
 
+
     String userId;
+
 
     RecyclerView mRecyclerView;                           // Declaring RecyclerView
     RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
@@ -274,10 +276,9 @@ public class LoopProfile extends ActionBarActivity {
                     }
                 }
             }
-
             else
             {
-                Toast.makeText(getApplicationContext(), "Old password didn't matched", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Old password did not match", Toast.LENGTH_LONG).show();
             }
         }
         else
@@ -360,6 +361,7 @@ public class LoopProfile extends ActionBarActivity {
     }
 
     /* UPDATE PROFILE DATA */
+
     private class UpdateProfile extends AsyncTask<String, String, String> {
 
         @Override
@@ -377,10 +379,16 @@ public class LoopProfile extends ActionBarActivity {
         protected void onPostExecute(String s) {
             try {
                 if (s.equals(Constant.WS_RESULT_SUCCESS)) {
-                    finish();
-                    Toast.makeText(getApplicationContext(), "Profile Updated successfully", Toast.LENGTH_LONG).show();
+                    userName.setEnabled(false);
+                    userEmail.setEnabled(false);
+                    userMobileNum.setEnabled(false);
+                    saveBtn.setVisibility(View.INVISIBLE);
+                    oldPass.setText("");
+                    newPass.setText("");
+                    confirmPass.setText("");
+                    Toast.makeText(getApplicationContext(), "Profile Updated successfully", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }
             catch (NullPointerException e){
@@ -392,9 +400,6 @@ public class LoopProfile extends ActionBarActivity {
             finally {
                 pd.dismiss();
             }
-
-
-
         }
     }
 
@@ -416,7 +421,6 @@ public class LoopProfile extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String s) {
-
             try {
                 userName.setText(Constant.usrname);
                 userMobileNum.setText(Constant.phoneNumber);
@@ -431,10 +435,6 @@ public class LoopProfile extends ActionBarActivity {
             finally {
                 pd.dismiss();
             }
-
-
-
-
         }
     }
 
@@ -465,7 +465,6 @@ public class LoopProfile extends ActionBarActivity {
                         new GettingProfileRecord().execute(userId);
                     }
                 });
-
 
         final AlertDialog alert = builder.create();
         alert.show();

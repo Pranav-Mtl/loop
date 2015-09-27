@@ -25,7 +25,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:paddingTop="7dp"
-        android:textSize="16dp"
+        android:textSize="13dp"
         android:paddingRight="5dp"
         android:text="cfcccccc"
         android:textColor="@color/BlueTextColor" />
@@ -40,7 +40,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:paddingTop="7dp"
-        android:textSize="16dp"
+        android:textSize="13dp"
         android:paddingLeft="5dp"
         android:text="cfcccccc"
         android:textColor="@color/BlueTextColor" />

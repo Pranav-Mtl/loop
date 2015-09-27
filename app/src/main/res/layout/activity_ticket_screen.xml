@@ -24,14 +24,31 @@
             android:layout_height="fill_parent"
             >
 
-            <ImageButton
-                android:id="@+id/ticket_img"
+            <LinearLayout
+                android:id="@+id/ll_blink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
-                android:background="@drawable/ic_ticket"
-                />
+                android:gravity="center"
+                >
+                <ImageButton
+                    android:id="@+id/ticket_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_ticket"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/error_color"
+                    android:text="Live"
+                    android:textSize="18sp"
+                    android:paddingLeft="5dp"
+                    />
+            </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -173,7 +190,7 @@
                 android:background="@drawable/ticket_pick"
                 android:visibility="gone"
                 />
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ticket_map_ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -184,8 +201,16 @@
                 android:layout_height="match_parent"
                 class="com.google.android.gms.maps.SupportMapFragment"
                 />
+                <Button
+                    android:id="@+id/ticket_btn_direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get Directions"
+                    android:padding="5dp"
+                    android:layout_alignParentBottom="true"
 
-            </LinearLayout>
+                    />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout

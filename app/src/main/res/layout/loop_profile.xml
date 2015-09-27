@@ -34,14 +34,12 @@
             />
         <Button
             android:id="@+id/saveBtn"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:layout_alignParentRight="true"
             android:layout_gravity="end"
-
-
             android:text="Save"
             android:layout_centerVertical="true"
             android:textColor="#ffffff"
@@ -188,7 +186,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@drawable/loop_phone"
-                android:visibility="gone"
                 />
             <EditText
                 android:id="@+id/userMobile"
@@ -420,15 +417,15 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="30dp">
-        <TextView
+       <!-- <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Loop Credit:Rs 200/-"
+            android:text="Paytm Wallet :Rs 200/-"
             android:paddingLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-
             />
+
         <ImageView
            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
@@ -446,7 +443,8 @@
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
             android:background="@drawable/delete_btn"
-            />
+            />-->
+
     </RelativeLayout>
     <LinearLayout
         android:layout_marginTop="5dp"

@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,11 +56,13 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
     GoogleMap googleMap;
     Button btnMap,btnImage;
-    LinearLayout llMap;
+    RelativeLayout llMap;
     ImageView imgTicket;
     LinearLayout btnShare,btnRateTrip;
 
     ImageButton btnCross;
+
+    Button btnGetDirection;
 
     TextView tvPick,tvDrop,tvTime,tvVehicle;
 
@@ -90,6 +93,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     private static LatLng Source,Destinatiom;
 
     ImageButton btnTicket;
+    LinearLayout llBlink;
 
 
     @Override
@@ -103,15 +107,17 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         btnImage= (Button) findViewById(R.id.ticket_btn_image);
         btnShare= (LinearLayout) findViewById(R.id.ticket_btn_share);
         btnRateTrip= (LinearLayout) findViewById(R.id.ticket_rate_trip);
-        llMap= (LinearLayout) findViewById(R.id.ticket_map_ll);
+        llMap= (RelativeLayout) findViewById(R.id.ticket_map_ll);
         imgTicket= (ImageView) findViewById(R.id.ticket_image);
         btnCross= (ImageButton) findViewById(R.id.ticket_cross);
         btnTicket= (ImageButton) findViewById(R.id.ticket_img);
+        llBlink= (LinearLayout) findViewById(R.id.ll_blink);
 
         tvPick= (TextView) findViewById(R.id.ticket_pick);
         tvDrop= (TextView) findViewById(R.id.ticket_drop);
         tvVehicle= (TextView) findViewById(R.id.ticket_vehicle);
         tvTime= (TextView) findViewById(R.id.ticket_time);
+        btnGetDirection= (Button) findViewById(R.id.ticket_btn_direction);
 
         llHeader= (RelativeLayout) findViewById(R.id.ticket_header_ll);
 
@@ -129,6 +135,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         btnImage.setOnClickListener(this);
         btnShare.setOnClickListener(this);
         btnRateTrip.setOnClickListener(this);
+        btnGetDirection.setOnClickListener(this);
 
         btnCross.setOnClickListener(this);
 
@@ -189,6 +196,14 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         }
 
 
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng arg0) {
+                // TODO Auto-generated method stub
+               startActivity(new Intent(TicketScreen.this,TicketMapFullScreen.class).putExtra("TicketScreenBE",objTicketScreenBE));
+            }
+        });
 
     }
 
@@ -216,7 +231,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         LatLng latLng = new LatLng(lat, lon);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
 
         //LatLng latlng=new LatLng(Double.valueOf(CreateGameRecord.latitude[0]),Double.valueOf(CreateGameRecord.longitude[0]));
 
@@ -258,6 +273,15 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ticket_cross:
                 startActivity(new Intent(TicketScreen.this,TripHistory.class));
+                break;
+            case R.id.ticket_btn_direction:
+                double destinationLatitude = objTicketScreenBE.getPickPointLat();
+                double destinationLongitude = objTicketScreenBE.getPickPointLong();
+
+                String url = "http://maps.google.com/maps?f=d&daddr="+ destinationLatitude+","+destinationLongitude+"&dirflg=d&layer=t";
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -321,11 +345,23 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 tvVehicle.setText(spanString3);
                 tvTime.setText(spanString4);
 
+                objTicketScreenBE.setStartPointLat(19.0236);
+                objTicketScreenBE.setStartPointLong(72.8709);
+
+                objTicketScreenBE.setEndPointLat(19.0557);
+                objTicketScreenBE.setEndPointLong(72.8539);
+
                 PickText = objTicketScreenBE.getPickPointName();
 
                 initializeMap(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
 
-                btnTicket.startAnimation(animBlink);
+                findDirections(objTicketScreenBE.getStartPointLat(), objTicketScreenBE.getStartPointLong(), objTicketScreenBE.getEndPointLat(), objTicketScreenBE.getEndPointLong(), GMapV2Direction.MODE_WALKING);
+
+                showMarkerPick(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
+
+                showMarkerDrop(objTicketScreenBE.getDropPointLat(), objTicketScreenBE.getDropPointLong());
+
+                llBlink.startAnimation(animBlink);
 
              /*   Picasso.with(getApplicationContext())
                         .load(Constant.categoryImageURL[position])
@@ -364,7 +400,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
 
         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-            buildAlertMessageNoGps();
+
         }
         else {
 
@@ -383,10 +419,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                     Log.d("Distance-->", distance + "");
                     Source = new LatLng(currentlatitude, currentlongtitude);
                     Destinatiom = new LatLng(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
-                    findDirections(currentlatitude, currentlongtitude, objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong(), GMapV2Direction.MODE_WALKING);
 
-
-                    showMarkerPick(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
 
                 }catch (NullPointerException e){
                     e.printStackTrace();
@@ -443,14 +476,33 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Latitude + "\n" + Longitude);
         try{
 
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pick));
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_booking_pic_drop));
             // adding marker
 
-            marker.title(PickText);
+
 
             googleMap.addMarker(marker);
         }catch(Exception e){}
 
+    }
+
+    public void showMarkerDrop(Double Latitude, Double Longitude) {
+
+        double latitude = Latitude;
+        double longitude = Longitude;
+
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(
+                new LatLng(latitude, longitude)).title(
+                Latitude + "\n" + Longitude);
+        try{
+
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_booking_pic_drop));
+            // adding marker
+
+
+            googleMap.addMarker(marker);
+        }catch(Exception e){}
     }
 
     private void buildAlertMessageNoGps()
@@ -503,7 +555,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     }
 
     public void handleGetDirectionsResult(ArrayList<LatLng> directionPoints) {
-        PolylineOptions rectLine = new PolylineOptions().width(5).color(Color.RED);
+        PolylineOptions rectLine = new PolylineOptions().width(5).color(Color.BLUE);
 
         for(int i = 0 ; i < directionPoints.size() ; i++)
         {
@@ -553,8 +605,41 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                     }
                 });
 
-
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
+    /* Way points code */
+
+   /* private String getDirectionsUrl(LatLng origin,LatLng dest){
+
+        // Origin of route
+        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Waypoints
+        String waypoints = "";
+        for(int i=2;i<markerPoints.size();i++){
+            LatLng point  = (LatLng) markerPoints.get(i);
+            if(i==2)
+                waypoints = "waypoints=";
+            waypoints += point.latitude + "," + point.longitude + "|";
+        }
+
+        // Building the parameters to the web service
+        String parameters = str_origin+"&"+str_dest+"&"+sensor+"&"+waypoints;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+
+        return url;
+    }*/
 }

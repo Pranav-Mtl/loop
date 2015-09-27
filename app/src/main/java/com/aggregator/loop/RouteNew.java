@@ -95,9 +95,9 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
     private Toolbar toolbar;
 
-    LinearLayout llFavourite,llAllRoute,llBottomRoute,llRecent,llNoRoute;
+    LinearLayout llFavourite,llAllRoute,llRecent,llNoRoute;
 
-    RelativeLayout rlMain;
+    RelativeLayout rlMain,llBottomRoute;
 
     ExpandableListView elvSearch;
 
@@ -279,7 +279,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() >= 1 && s.length() <= 10) {
                     // Toast.makeText(getApplicationContext(),"char:"+s,Toast.LENGTH_LONG).show();
-                    llBottomRoute.setVisibility(View.INVISIBLE);
+                    llBottomRoute.setVisibility(View.GONE);
                     btnDone.setVisibility(View.INVISIBLE);
                     new GetSearchedRoutes().execute(s.toString());
                 }
@@ -292,12 +292,10 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
             }
         });
 
-
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-
 
                         if (position != 0) {
                             if (_itemColoured != null) {
@@ -332,10 +330,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                             } else if (position == 6) {
                                 //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
                             }
-
                         }
-
-
                     }
                 }));
 
@@ -366,7 +361,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         llFavourite= (LinearLayout) findViewById(R.id.route_layout_fav);
         llRecent= (LinearLayout) findViewById(R.id.route_layout_recent);
         llAllRoute= (LinearLayout) findViewById(R.id.route_layout_allroute);
-        llBottomRoute= (LinearLayout) findViewById(R.id.ll_bottom_route);
+        llBottomRoute= (RelativeLayout) findViewById(R.id.ll_bottom_route);
         llNoRoute= (LinearLayout) findViewById(R.id.route_layout_norecent);
         rlMain= (RelativeLayout) findViewById(R.id.route_main);
         lvFav= (android.support.v7.widget.RecyclerView) findViewById(R.id.routes_lv_fav);
@@ -402,23 +397,19 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                 llFavourite.setVisibility(View.GONE);
                 llRecent.setVisibility(View.GONE);
                 llNoRoute.setVisibility(View.GONE);
-                llBottomRoute.setVisibility(View.INVISIBLE);
+                llBottomRoute.setVisibility(View.GONE);
                 btnDone.setVisibility(View.INVISIBLE);
 
                 if (Constant._lastColored != null) {
                     Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
                     Constant._lastColored.invalidate();
                 }
-
-
-
-
                 break;
             case R.id.toolbar_Tab2:
                 tvTabRoute.setBackgroundColor(getResources().getColor(R.color.LightGreen));
                 tvTabFav.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
 
-                llBottomRoute.setVisibility(View.INVISIBLE);
+                llBottomRoute.setVisibility(View.GONE);
                 btnDone.setVisibility(View.INVISIBLE);
 
                 if(selectedGroupPosition!=-1) {
@@ -430,8 +421,6 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                     elvSearch.collapseGroup(selectedSearchGroup);
                     objRoutesAdapterSearch.notifyDataSetChanged();
                 }
-
-
 
                 if(logInType==null)
                 {
@@ -495,7 +484,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                     if (mGroupStates[groupPosition]) {
                         } else {
                             // group is being collapsed
-                            llBottomRoute.setVisibility(View.INVISIBLE);
+                            llBottomRoute.setVisibility(View.GONE);
                             btnDone.setVisibility(View.INVISIBLE);
                         }
                     break;
@@ -531,7 +520,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
                     } else {
                         // group is being collapsed
-                        llBottomRoute.setVisibility(View.INVISIBLE);
+                        llBottomRoute.setVisibility(View.GONE);
                         btnDone.setVisibility(View.INVISIBLE);
                     }
                     break;
@@ -577,7 +566,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
         } else {
             // group is being collapsed
-             llBottomRoute.setVisibility(View.INVISIBLE);
+             llBottomRoute.setVisibility(View.GONE);
              btnDone.setVisibility(View.INVISIBLE);
         }
 
@@ -602,7 +591,6 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
         @Override
         protected String doInBackground(String... params) {
-
             String result=objRoutesBL.getAllRoutes();
             return result;
         }
@@ -627,7 +615,6 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
             }
         }
     }
-
 
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
@@ -825,11 +812,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
                 mGroupStates = new boolean[objRoutesAdapter.getGroupCount()];
 
-
-
                 tvTabFav.setText(Constant.Tab2Name);
-
-
 
             }
             catch (NullPointerException e){

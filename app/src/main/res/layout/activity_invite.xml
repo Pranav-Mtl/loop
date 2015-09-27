@@ -61,10 +61,11 @@
                     android:layout_width="fill_parent"
                     android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:text="Invite your friends to ride on loop."
+                    android:text="Invite your friends to ride on Loop."
                     android:textColor="#34495e"
                     android:textSize="15dp"
                     />
+
                 <TextView
                     android:id="@+id/inviteText"
                     android:layout_marginLeft="18dp"

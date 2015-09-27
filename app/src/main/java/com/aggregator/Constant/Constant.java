@@ -208,9 +208,9 @@ public class Constant {
 
     /* MENU ITEMS AFTER USER SIGN IN*/
 
-    public static String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Rate Us","Notifications","Tutorial","Help",};
+    public static String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Notifications","Suggest A Route","Rate Us","Tutorial","Help",};
 
-    public static int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_rate,R.drawable.ic_side_notification, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
+    public static int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
 
 
     public static View _lastColored;

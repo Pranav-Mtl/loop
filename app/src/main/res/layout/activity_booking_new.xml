@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:elevation="7dp">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -107,8 +108,23 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="5.4"
+                android:orientation="vertical"
                 android:gravity="center_horizontal"
                 >
+
+                <ScrollView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <RelativeLayout
+                    android:id="@+id/booking_relative_diagram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
+                    >
+                </RelativeLayout>
+
+                </ScrollView>
+
                 <TextView
                     android:id="@+id/booking_noride"
                     android:layout_width="wrap_content"
@@ -210,7 +226,7 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:background="@color/LightGreen"
+        android:background="@color/MenuItems"
         android:scrollbars="vertical">
 
     </com.twotoasters.android.support.v7.widget.RecyclerView>

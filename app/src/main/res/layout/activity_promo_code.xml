@@ -31,7 +31,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_centerInParent="true"
-                android:text="PromoCode"
+                android:text="Promo Code"
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
 
@@ -59,7 +59,7 @@
                 android:imeOptions="actionDone"
                 android:textColor="@color/TextColor"
                 android:singleLine="true"
-                android:hint="Enter PromoCode"/>
+                android:hint="Enter Code"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -72,14 +72,13 @@
             android:gravity="center_horizontal"
             >
 
-
             <Button
                 android:id="@+id/promocode_done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/booking_btn_customized"
                 android:textSize="18dp"
-                android:text="Verify"
+                android:text="Apply"
                 android:textColor="#fff"
                 android:textAllCaps="false"
                 android:layout_marginTop="20dp"
