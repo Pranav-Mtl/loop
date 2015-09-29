@@ -156,11 +156,15 @@
         -->
         <activity
             android:name=".TicketTrackBus"
-            android:label="@string/title_activity_ticket_track_bus" >
+            android:label="" >
         </activity>
         <activity
             android:name=".SuggestRoute"
-            android:label="@string/title_activity_suggest_route" >
+            android:label="" >
+        </activity>
+        <activity
+            android:name=".Tutorial"
+            android:label="@string/title_activity_tutorial" >
         </activity>
     </application>
 

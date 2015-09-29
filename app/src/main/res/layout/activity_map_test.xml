@@ -33,4 +33,12 @@
         android:layout_marginTop="50dp"
         class="com.google.android.gms.maps.SupportMapFragment"
         />
+
+    <Button
+        android:id="@+id/vehicle_tracking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Track Vehicle"
+        android:layout_alignParentBottom="true"
+        />
 </RelativeLayout>

@@ -42,4 +42,14 @@
 
     <integer name="id">100</integer>
     <string name="title_activity_suggest_route">SuggestRoute</string>
+    <string name="title_activity_tutorial">Tutorial</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_section1"></string>
+    <string name="title_section2"></string>
+    <string name="title_section3"></string>
+    <string name="title_section4"></string>
+    <string name="title_section5"></string>
 </resources>

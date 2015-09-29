@@ -48,7 +48,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +65,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
     ImageButton btnCross;
 
-    Button btnGetDirection;
+    Button btnGetDirection,btnTrack;
 
     TextView tvPick,tvDrop,tvTime,tvVehicle;
 
@@ -81,6 +84,12 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     Float distance;
     private LatLngBounds latlngBounds;
     private Polyline newPolyline;
+
+    SimpleDateFormat dateFormatCurrent = new SimpleDateFormat("K:mm a");
+
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    Calendar cal;
 
     String PickText;
     String CurrentText;
@@ -112,6 +121,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         btnCross= (ImageButton) findViewById(R.id.ticket_cross);
         btnTicket= (ImageButton) findViewById(R.id.ticket_img);
         llBlink= (LinearLayout) findViewById(R.id.ll_blink);
+        btnTrack= (Button) findViewById(R.id.ticket_btn_eta);
 
         tvPick= (TextView) findViewById(R.id.ticket_pick);
         tvDrop= (TextView) findViewById(R.id.ticket_drop);
@@ -136,6 +146,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         btnShare.setOnClickListener(this);
         btnRateTrip.setOnClickListener(this);
         btnGetDirection.setOnClickListener(this);
+        btnTrack.setOnClickListener(this);
 
         btnCross.setOnClickListener(this);
 
@@ -230,7 +241,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
         LatLng latLng = new LatLng(lat, lon);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setZoomControlsEnabled(false);
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
 
         //LatLng latlng=new LatLng(Double.valueOf(CreateGameRecord.latitude[0]),Double.valueOf(CreateGameRecord.longitude[0]));
@@ -282,6 +293,9 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
                 startActivity(intent);
+                break;
+            case R.id.ticket_btn_eta:
+                startActivity(new Intent(TicketScreen.this,TicketTrackBus.class));
                 break;
             default:
                 break;
@@ -340,10 +354,39 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 spanString4.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
 
 
+
+
                 tvPick.setText(spanString);
                 tvDrop.setText(spanString2);
                 tvVehicle.setText(spanString3);
                 tvTime.setText(spanString4);
+
+                cal = Calendar.getInstance();
+                String time=dateFormatCurrent.format(cal.getTime());
+
+                Log.d("Current Time",time);
+                Date d1 =dateFormat.parse(time);
+                Date d2 = dateFormat.parse(objTicketScreenBE.getDepartureTime());
+                long diffMs = d1.getTime() - d2.getTime();
+                long diffSec = diffMs / 1000;
+                long min = diffSec / 60;
+                long sec = diffSec % 60;
+
+                Log.d("Date Current Time",d1+"");
+                Log.d("Date Departure Time",d2+"");
+
+                Log.d("Current Time",time);
+                Log.d("Departure Time",objTicketScreenBE.getDepartureTime());
+                Log.d("Time difference",min+"");
+
+                System.out.println("The difference is "+min+" minutes and "+sec+" seconds.");
+
+                if(min<10){
+                    btnTrack.setVisibility(View.VISIBLE);
+                }
+                else {
+                    btnTrack.setVisibility(View.INVISIBLE);
+                }
 
                 objTicketScreenBE.setStartPointLat(19.0236);
                 objTicketScreenBE.setStartPointLong(72.8709);
@@ -476,7 +519,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Latitude + "\n" + Longitude);
         try{
 
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_booking_pic_drop));
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.pick));
             // adding marker
 
 
@@ -497,7 +540,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Latitude + "\n" + Longitude);
         try{
 
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_booking_pic_drop));
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.drop));
             // adding marker
 
 

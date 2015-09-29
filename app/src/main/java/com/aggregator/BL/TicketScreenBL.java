@@ -46,6 +46,7 @@ public class TicketScreenBL {
             Object obj =jsonP.parse(result);
             JSONArray jsonArrayObject = (JSONArray) obj;
             JSONObject jsonObject=(JSONObject)jsonP.parse(jsonArrayObject.get(0).toString());
+
             objTicketScreenBE.setPickPointName(jsonObject.get("start_point").toString());
             objTicketScreenBE.setPickPointLat(Double.valueOf(jsonObject.get("start_point_lat").toString()));
             objTicketScreenBE.setPickPointLong(Double.valueOf(jsonObject.get("start_point_long").toString()));
@@ -59,6 +60,9 @@ public class TicketScreenBL {
             objTicketScreenBE.setVehicleRegistration(jsonObject.get("vehicle_registration").toString());
 
             objTicketScreenBE.setDepartureTime(jsonObject.get("trip_date").toString());
+            objTicketScreenBE.setRunID(jsonObject.get("run_id").toString());
+
+
 
 
         } catch (Exception e) {

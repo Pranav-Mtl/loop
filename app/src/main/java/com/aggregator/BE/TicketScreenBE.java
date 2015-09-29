@@ -27,6 +27,35 @@ public class TicketScreenBE implements Serializable {
     private Double startPointLong;
     private Double endPointLat;
 
+    private String runID;
+    private String wayPoints;
+
+    private String endPointTime;
+
+    public String getEndPointTime() {
+        return endPointTime;
+    }
+
+    public void setEndPointTime(String endPointTime) {
+        this.endPointTime = endPointTime;
+    }
+
+    public String getRunID() {
+        return runID;
+    }
+
+    public void setRunID(String runID) {
+        this.runID = runID;
+    }
+
+    public String getWayPoints() {
+        return wayPoints;
+    }
+
+    public void setWayPoints(String wayPoints) {
+        this.wayPoints = wayPoints;
+    }
+
     public Double getStartPointLong() {
         return startPointLong;
     }
