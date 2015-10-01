@@ -32,6 +32,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +55,10 @@ public class TicketMapFullScreen extends AppCompatActivity implements RoutingLis
     String PickText;
     private static LatLng Source,Destinatiom;
     Button btnTrack;
+
+    String wayPoints="";
+
+    double sourceLat,sourceLong,destinationLat,destinationLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,49 +80,31 @@ public class TicketMapFullScreen extends AppCompatActivity implements RoutingLis
         btnTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),TicketTrackBus.class));
+                startActivity(new Intent(getApplicationContext(),TicketTrackBus.class).putExtra("TicketScreenBE",objTicketScreenBE));
             }
         });
 
 
-/*
 
-        start = new LatLng(28.7077,77.1259);
-         end= new LatLng(28.7150,77.1154);
-         waypoint = new LatLng(28.7010993, 77.1168303);
-         waypoint1 = new LatLng(28.720719,77.107133);
-         waypoint2 = new LatLng(28.7288259,77.1068059);
-         gurgaoh = new LatLng(28.4700,77.0300);
 
-        initializeMap();
-
-        Routing routing = new Routing.Builder()
-                .travelMode(Routing.TravelMode.WALKING)
-                .withListener(MapTestActivity.this)
-                .waypoints(start, waypoint,waypoint1,waypoint2, end)
-                .build();
-        routing.execute();*/
-
-        //createDashedLine(googleMap,start,gurgaoh,R.color.DarkGreen);
+        setRoute(objTicketScreenBE.getWayPoints());
 
         PickText = objTicketScreenBE.getPickPointName();
 
         initializeMap(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
 
-        findDirections(objTicketScreenBE.getStartPointLat(), objTicketScreenBE.getStartPointLong(), objTicketScreenBE.getEndPointLat(), objTicketScreenBE.getEndPointLong(), GMapV2Direction.MODE_WALKING);
+        findDirections(sourceLat, sourceLong, destinationLat, destinationLong,wayPoints, GMapV2Direction.MODE_WALKING);
 
         showMarkerPick(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
 
         showMarkerDrop(objTicketScreenBE.getDropPointLat(), objTicketScreenBE.getDropPointLong());
 
     }
-    private void initializeMap(Double lat,Double lon) {
-        // TODO Auto-generated method stub
-
+    private void initializeMap(Double lat,Double lon) {       // TODO Auto-generated method stub
 
         LatLng latLng = new LatLng(lat, lon);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setZoomControlsEnabled(false);
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
         //LatLng latlng=new LatLng(Double.valueOf(CreateGameRecord.latitude[0]),Double.valueOf(CreateGameRecord.longitude[0]));
@@ -179,13 +169,14 @@ public class TicketMapFullScreen extends AppCompatActivity implements RoutingLis
     }
 
 
-    public void findDirections(double fromPositionDoubleLat, double fromPositionDoubleLong, double toPositionDoubleLat, double toPositionDoubleLong, String mode)
+    public void findDirections(double fromPositionDoubleLat, double fromPositionDoubleLong, double toPositionDoubleLat, double toPositionDoubleLong,String wayPoint, String mode)
     {
         Map<String, String> map = new HashMap<String, String>();
         map.put(GetDirectionsAsyncTask.USER_CURRENT_LAT, String.valueOf(fromPositionDoubleLat));
         map.put(GetDirectionsAsyncTask.USER_CURRENT_LONG, String.valueOf(fromPositionDoubleLong));
         map.put(GetDirectionsAsyncTask.DESTINATION_LAT, String.valueOf(toPositionDoubleLat));
         map.put(GetDirectionsAsyncTask.DESTINATION_LONG, String.valueOf(toPositionDoubleLong));
+        map.put(GetDirectionsAsyncTask.WAY_POINTS, wayPoint);
         map.put(GetDirectionsAsyncTask.DIRECTIONS_MODE, mode);
 
         GetDirections asyncTask = new GetDirections(TicketMapFullScreen.this);
@@ -354,5 +345,40 @@ public class TicketMapFullScreen extends AppCompatActivity implements RoutingLis
         }
 
 
+    }
+
+
+    private void setRoute(String result)
+    {
+        String status="";
+        JSONParser jsonP=new JSONParser();
+        try {
+
+            Object obj = jsonP.parse(result);
+            JSONArray jsonArrayObject = (JSONArray) obj;
+            for(int i=0;i<jsonArrayObject.size();i++){
+
+
+                JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
+
+                if(i==0)
+                {
+                    sourceLat=Double.valueOf(jsonObject.get("lat").toString());
+                    sourceLong=Double.valueOf(jsonObject.get("long").toString());
+                }
+                else if(i==jsonArrayObject.size()-1){
+                    destinationLat=Double.valueOf(jsonObject.get("lat").toString());
+                    destinationLong=Double.valueOf(jsonObject.get("long").toString());
+                }
+                else {
+                    wayPoints +=jsonObject.get("lat").toString() + "," + jsonObject.get("long").toString() + "|";
+                }
+            }
+
+            Log.d("Way points",wayPoints);
+
+        }catch (Exception e){
+
+        }
     }
 }

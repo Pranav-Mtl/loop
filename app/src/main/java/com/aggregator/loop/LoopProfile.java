@@ -63,6 +63,8 @@ public class LoopProfile extends AppCompatActivity {
 
     View _itemColoured;
 
+    ImageButton btnAddCredit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +94,7 @@ public class LoopProfile extends AppCompatActivity {
         userEmail=(EditText)findViewById(R.id.userEmail);
         btnClick=(LinearLayout)findViewById(R.id.arrow_btn1);
         btnSignOUT= (Button) findViewById(R.id.profile_signout);
+        btnAddCredit= (ImageButton) findViewById(R.id.profile_addCredit);
 
 
         userName.setEnabled(false);
@@ -219,6 +222,12 @@ public class LoopProfile extends AppCompatActivity {
         });
 
 
+        btnAddCredit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),AddLoopCredit.class));
+            }
+        });
 
 
 

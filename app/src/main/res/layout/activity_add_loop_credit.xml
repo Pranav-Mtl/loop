@@ -47,9 +47,10 @@
                 android:src="@drawable/ic_money"
                 />
             <TextView
+                android:id="@+id/credit_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Current Loop credit: 500"
+                android:text="Current Loop credit: 1500"
                 android:textColor="@color/TextColor"
                 android:layout_marginTop="20dp"
                 android:textSize="16sp"
@@ -85,7 +86,8 @@
                 android:gravity="center_horizontal"
                 >
 
-                <EditText
+                <Button
+                    android:id="@+id/credit_fifty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_money_bg_small"
@@ -95,7 +97,8 @@
                     android:textColor="@color/TextColor"
                     android:editable="false"
                     />
-                <EditText
+                <Button
+                    android:id="@+id/credit_hundred"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -106,7 +109,8 @@
                     android:textColor="@color/TextColor"
                     android:editable="false"
                     />
-                <EditText
+                <Button
+                    android:id="@+id/credit_two_hundred"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -120,6 +124,7 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/credit_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_money_bg_big"
@@ -130,6 +135,7 @@
                 />
 
             <Button
+                android:id="@+id/btn_buy_credit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/booking_btn_customized"

@@ -2,6 +2,7 @@ package com.aggregator.gps;
 
 import android.util.Log;
 
+import com.aggregator.Constant.Constant;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.http.HttpResponse;
@@ -15,6 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,20 +26,25 @@ public class GMapV2Direction {
     public final static String MODE_DRIVING = "driving";
     public final static String MODE_WALKING = "walking";
 
-    public Document getDocument(LatLng start, LatLng end, String mode) {
-        String url = "http://maps.googleapis.com/maps/api/directions/xml?" 
-                + "origin=" + start.latitude + "," + start.longitude  
-                + "&destination=" + end.latitude + "," + end.longitude 
+    public Document getDocument(LatLng start, LatLng end,String waypoint, String mode) {
+        String url = "origin=" + start.latitude + "," + start.longitude
+                + "&destination=" + end.latitude + "," + end.longitude
+                +"&waypoints=" + waypoint
                 + "&sensor=false&units=metric&mode=driving";
 
+
         try {
+            URI uri = new URI(Constant.WS_HTTP, Constant.WS_DOMAIN_NAME_GOOGLE,Constant.WS_PATH_GOOGLE+Constant.WS_GOOGLE,url, null);
+            String ll=uri.toASCIIString();
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
-            HttpPost httpPost = new HttpPost(url);
+            Log.i("Google URL",ll);
+            HttpPost httpPost = new HttpPost(ll);
             HttpResponse response = httpClient.execute(httpPost, localContext);
             InputStream in = response.getEntity().getContent();
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = builder.parse(in);
+
             return doc;
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,11 +54,17 @@ public class GMapV2Direction {
 
     public String getDurationText (Document doc) {
         NodeList nl1 = doc.getElementsByTagName("duration");
-        Node node1 = nl1.item(0);
-        NodeList nl2 = node1.getChildNodes();
-        Node node2 = nl2.item(getNodeIndex(nl2, "text"));
-        Log.i("DurationText", node2.getTextContent());
-        return node2.getTextContent();
+        String txt="";
+
+        for (int i=0;i<nl1.getLength();i++) {
+            Node node1 = nl1.item(i);
+            NodeList nl2 = node1.getChildNodes();
+            Node node2 = nl2.item(getNodeIndex(nl2, "text"));
+            txt=node2.getTextContent();
+
+        }
+        Log.i("DurationText",txt);
+        return txt;
     }
 
     public int getDurationValue (Document doc) {
@@ -65,11 +78,16 @@ public class GMapV2Direction {
 
     public String getDistanceText (Document doc) {
         NodeList nl1 = doc.getElementsByTagName("distance");
-        Node node1 = nl1.item(0);
-        NodeList nl2 = node1.getChildNodes();
-        Node node2 = nl2.item(getNodeIndex(nl2, "text"));
-        Log.i("DistanceText", node2.getTextContent());
-        return node2.getTextContent();
+        String txt="";
+        for(int i=0;i<nl1.getLength();i++) {
+            Node node1 = nl1.item(i);
+            NodeList nl2 = node1.getChildNodes();
+            Node node2 = nl2.item(getNodeIndex(nl2, "text"));
+            txt=node2.getTextContent();
+
+        }
+        Log.i("DistanceText",txt);
+        return txt;
     }
 
     public int getDistanceValue (Document doc) {

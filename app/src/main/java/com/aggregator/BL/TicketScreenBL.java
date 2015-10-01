@@ -61,6 +61,8 @@ public class TicketScreenBL {
 
             objTicketScreenBE.setDepartureTime(jsonObject.get("trip_date").toString());
             objTicketScreenBE.setRunID(jsonObject.get("run_id").toString());
+            objTicketScreenBE.setEndPointTime(jsonObject.get("end_depature_time").toString());
+            objTicketScreenBE.setWayPoints(jsonObject.get("route_detail").toString());
 
 
 

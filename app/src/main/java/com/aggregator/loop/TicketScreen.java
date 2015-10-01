@@ -48,12 +48,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TicketScreen extends AppCompatActivity implements View.OnClickListener, Animation.AnimationListener {
 
@@ -85,7 +91,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     private LatLngBounds latlngBounds;
     private Polyline newPolyline;
 
-    SimpleDateFormat dateFormatCurrent = new SimpleDateFormat("K:mm a");
+    SimpleDateFormat dateFormatCurrent = new SimpleDateFormat("K:mm:ss");
 
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -103,6 +109,10 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
     ImageButton btnTicket;
     LinearLayout llBlink;
+
+    String wayPoints="";
+
+    double sourceLat,sourceLong,destinationLat,destinationLong;
 
 
     @Override
@@ -165,7 +175,31 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         try
         {
            if(Util.isInternetConnection(TicketScreen.this)) {
-               new GetTicketData().execute(userRunID);
+
+               final Handler handler = new Handler();
+               Timer timer = new Timer();
+               TimerTask doAsynchronousTask = new TimerTask() {
+                   @Override
+                   public void run() {
+                       handler.post(new Runnable() {
+                           public void run() {
+                               try {
+                                   //yout method here
+
+                                   new GetTicketData().execute(userRunID);
+                                   //  tvLatLong.setText(lat);
+                                   //Toast.makeText(getApplicationContext(),currentlatitude+"/"+currentlongtitude+"",Toast.LENGTH_SHORT).show();
+
+                               } catch (Exception e) {
+
+                                   e.printStackTrace();
+                               }
+                           }
+                       });
+                   }
+               };
+               timer.schedule(doAsynchronousTask, 0, 30000); //execute in every 10 ms
+
            }
             else{
                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(TicketScreen.this);
@@ -295,7 +329,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.ticket_btn_eta:
-                startActivity(new Intent(TicketScreen.this,TicketTrackBus.class));
+                startActivity(new Intent(TicketScreen.this,TicketTrackBus.class).putExtra("TicketScreenBE",objTicketScreenBE));
                 break;
             default:
                 break;
@@ -367,44 +401,56 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Log.d("Current Time",time);
                 Date d1 =dateFormat.parse(time);
                 Date d2 = dateFormat.parse(objTicketScreenBE.getDepartureTime());
-                long diffMs = d1.getTime() - d2.getTime();
+                long diffMs = d2.getTime()- d1.getTime() ;
                 long diffSec = diffMs / 1000;
                 long min = diffSec / 60;
                 long sec = diffSec % 60;
 
-                Log.d("Date Current Time",d1+"");
-                Log.d("Date Departure Time",d2+"");
+                Log.d("Date Current Time", d1 + "");
+                Log.d("Date Departure Time", d2 + "");
 
-                Log.d("Current Time",time);
-                Log.d("Departure Time",objTicketScreenBE.getDepartureTime());
-                Log.d("Time difference",min+"");
+                Log.d("Current Time", time);
+                Log.d("Departure Time", objTicketScreenBE.getDepartureTime());
+                Log.d("Time difference", min + "");
 
-                System.out.println("The difference is "+min+" minutes and "+sec+" seconds.");
+                System.out.println("The difference is " + min + " minutes and " + sec + " seconds.");
 
-                if(min<10){
+                if(min<10 && min>-10){
                     btnTrack.setVisibility(View.VISIBLE);
                 }
                 else {
                     btnTrack.setVisibility(View.INVISIBLE);
                 }
 
-                objTicketScreenBE.setStartPointLat(19.0236);
-                objTicketScreenBE.setStartPointLong(72.8709);
-
-                objTicketScreenBE.setEndPointLat(19.0557);
-                objTicketScreenBE.setEndPointLong(72.8539);
+                setRoute(objTicketScreenBE.getWayPoints());
 
                 PickText = objTicketScreenBE.getPickPointName();
 
                 initializeMap(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
 
-                findDirections(objTicketScreenBE.getStartPointLat(), objTicketScreenBE.getStartPointLong(), objTicketScreenBE.getEndPointLat(), objTicketScreenBE.getEndPointLong(), GMapV2Direction.MODE_WALKING);
+                findDirections(sourceLat, sourceLong, destinationLat, destinationLong, wayPoints, GMapV2Direction.MODE_WALKING);
 
                 showMarkerPick(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
 
                 showMarkerDrop(objTicketScreenBE.getDropPointLat(), objTicketScreenBE.getDropPointLong());
 
-                llBlink.startAnimation(animBlink);
+                Date departure=dateFormatCurrent.parse(objTicketScreenBE.getDepartureTime());
+
+                Log.d("Departure Time",departure+"");
+
+                long diffMss = departure.getTime()- d1.getTime() ;
+                long diffSecc = diffMss / 1000;
+                long minn = diffSecc / 60;
+                long secc = diffSecc % 60;
+
+                if(minn<0 && minn<-10){
+                    llBlink.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    llBlink.startAnimation(animBlink);
+                }
+
+
 
              /*   Picasso.with(getApplicationContext())
                         .load(Constant.categoryImageURL[position])
@@ -584,13 +630,14 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void findDirections(double fromPositionDoubleLat, double fromPositionDoubleLong, double toPositionDoubleLat, double toPositionDoubleLong, String mode)
+    public void findDirections(double fromPositionDoubleLat, double fromPositionDoubleLong, double toPositionDoubleLat, double toPositionDoubleLong,String waypoint, String mode)
     {
         Map<String, String> map = new HashMap<String, String>();
         map.put(GetDirectionsAsyncTask.USER_CURRENT_LAT, String.valueOf(fromPositionDoubleLat));
         map.put(GetDirectionsAsyncTask.USER_CURRENT_LONG, String.valueOf(fromPositionDoubleLong));
         map.put(GetDirectionsAsyncTask.DESTINATION_LAT, String.valueOf(toPositionDoubleLat));
         map.put(GetDirectionsAsyncTask.DESTINATION_LONG, String.valueOf(toPositionDoubleLong));
+        map.put(GetDirectionsAsyncTask.WAY_POINTS,waypoint);
         map.put(GetDirectionsAsyncTask.DIRECTIONS_MODE, mode);
 
 	   GetDirectionsAsyncTask asyncTask = new GetDirectionsAsyncTask(TicketScreen.this);
@@ -685,4 +732,38 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
         return url;
     }*/
+
+    private void setRoute(String result)
+    {
+        String status="";
+        JSONParser jsonP=new JSONParser();
+        try {
+
+            Object obj = jsonP.parse(result);
+            JSONArray jsonArrayObject = (JSONArray) obj;
+            for(int i=0;i<jsonArrayObject.size();i++){
+
+
+                JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
+
+                if(i==0)
+                {
+                    sourceLat=Double.valueOf(jsonObject.get("lat").toString());
+                    sourceLong=Double.valueOf(jsonObject.get("long").toString());
+                }
+                else if(i==jsonArrayObject.size()-1){
+                    destinationLat=Double.valueOf(jsonObject.get("lat").toString());
+                    destinationLong=Double.valueOf(jsonObject.get("long").toString());
+                }
+                else {
+                    wayPoints +=jsonObject.get("lat").toString() + "," + jsonObject.get("long").toString() + "|";
+                }
+            }
+
+            Log.d("Way points",wayPoints);
+
+        }catch (Exception e){
+
+        }
+    }
 }

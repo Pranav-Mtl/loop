@@ -20,6 +20,11 @@ public class Constant {
     public static String WS_DOMAIN_NAME="ec2-52-74-60-197.ap-southeast-1.compute.amazonaws.com";
     public static String WS_PATH="/webservices/";
 
+
+    public static String WS_DOMAIN_NAME_GOOGLE="maps.googleapis.com";
+    public static String WS_PATH_GOOGLE="/maps/api/directions/";
+    public static String WS_GOOGLE="xml";
+
     ////////////////       WEB SERVICES      ////////////////
 
     public static String WEBSERVICE_SIGNUP="signup.php";
@@ -40,12 +45,18 @@ public class Constant {
     public static String WEBSERVICE_FAV="fav.php";
     public static String WEBSERVICE_ADDFAV="fav1.php";
 
+    public static String WEBSERVICE_GET_URL="buy_credit.php";
+
     public static String WEBSERVICE_HELP="help.php";
     public static String WEBSERVICE_SHARE_EARN="user_referrals.php";
     public static String WEBSERVICE_PROMO_CODE="promo_code.php";
     public static String WEBSERVICE_EDIT_PROFILE="edit_profile.php";
+    public static String WEBSERVICE_TRACK_BUS="tracking.php";
 
     public static String ERR_DROP_PICK_LOCATION="drop location must be after pick location";
+
+    public static String ETA="eta";
+    public static String Duration="duration";
 
 
     //////////////      WEB SERVICE RESULT      /////////////////

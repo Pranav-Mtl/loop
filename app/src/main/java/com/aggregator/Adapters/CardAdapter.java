@@ -66,7 +66,7 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
     public void onBindViewHolder(ContactViewHolder contactViewHolder, int i) {
 
         Log.d("POSITION",i+"");
-        if("ACTIVE".equals(Constant.tripStatus[i])){
+        if("ACTIVE".equalsIgnoreCase(Constant.tripStatus[i])){
             contactViewHolder.ivLeftTop.setBackgroundResource(R.drawable.ic_ticket);
             contactViewHolder.tvLeftTop.setText("Ticket");
         }
@@ -76,7 +76,7 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
             contactViewHolder.tvLeftTop.setText("Rate Trip");
         }
 
-        if("No".equals(Constant.tripFav[i])){
+        if("No".equalsIgnoreCase(Constant.tripFav[i])){
             contactViewHolder.ivLeftBottom.setBackgroundResource(R.drawable.ic_white_heart);
             contactViewHolder.tvLeftBottom.setText("Add to favourites.");
         }
@@ -130,7 +130,7 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
 
                 case R.id.trip_ll_left_top:
 
-                    if(Constant.tripStatus[position].equals("ACTIVE")){
+                    if(Constant.tripStatus[position].equalsIgnoreCase("ACTIVE")){
                         Intent intent=new Intent(mContext, TicketScreen.class);
                         intent.putExtra("BookingID", Constant.tripRunId[position]);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -194,7 +194,6 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         public ContactViewHolder(View gridView,Context mContext) {
             super(gridView);
             context=mContext;
-
             ivLeftTop= (ImageView) gridView.findViewById(R.id.trip_left_top_img);
             ivLeftBottom= (ImageView) gridView.findViewById(R.id.trip_left_bottom_img);
             tvStartPoint= (TextView) gridView.findViewById(R.id.trip_start_point);

@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class BookingNew extends AppCompatActivity implements View.OnClickListener{
 
@@ -76,8 +77,10 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     double startPointDist,endPointDist;
 
     int HH,MM,SS;
-    SimpleDateFormat sdf = new SimpleDateFormat("KK:mm");
-    DateFormat dateFormat = new SimpleDateFormat("kk:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("KK:mm a",Locale.ENGLISH);
+    DateFormat dateFormat = new SimpleDateFormat("kk:mm:ss",Locale.ENGLISH);
+
+    SimpleDateFormat dateFormat24 = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
     String currentTime;
 
     Date dtCurrent,dtArray;
@@ -406,13 +409,18 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                 if(timeSelected){
                     String price="₹ "+totalPrice+" (Loop credit ₹ "+loopCredit+", Paytm ₹ "+paytmCash+")";
+                    try {
+
+                    Log.d("Time selected", spnTimePicker.getSelectedItem().toString());
+                    Date time=sdf.parse(spnTimePicker.getSelectedItem().toString().replace("\"", ""));
+                        String strTime=dateFormat24.format(time);
                     if(loginID==null)
                     {
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id,startPointID);
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id,endPointID);
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID,routeId);
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_Run_ID,runID);
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,spnTimePicker.getSelectedItem().toString());
+                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,strTime);
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,paytmCash);
                         Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT,loopCredit);
                         startActivity(new Intent(BookingNew.this, SignUpScreen.class));
@@ -426,8 +434,14 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         objBookingBE.setRunID(runID);
                         objBookingBE.setPrice(paytmCash);
                         objBookingBE.setLoopCredit(loopCredit);
-                        objBookingBE.setTime(spnTimePicker.getSelectedItem().toString());
-                        new InsertBooking().execute();
+
+                            objBookingBE.setTime(strTime);
+                            new InsertBooking().execute();
+
+                    }
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
                     }
                 }
                 else{

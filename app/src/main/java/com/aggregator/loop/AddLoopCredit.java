@@ -1,24 +1,57 @@
 package com.aggregator.loop;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
-public class AddLoopCredit extends AppCompatActivity {
+import com.aggregator.Constant.Constant;
+
+public class AddLoopCredit extends AppCompatActivity implements View.OnClickListener {
+
+    Button etCredit50,etCredit100,etCredit200;
+    EditText etAmount;
+    Button btnAddCredit;
+    TextView tvCurrentCredit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_loop_credit);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar=getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        etCredit50= (Button) findViewById(R.id.credit_fifty);
+        etCredit100= (Button) findViewById(R.id.credit_hundred);
+        etCredit200= (Button) findViewById(R.id.credit_two_hundred);
+        etAmount= (EditText) findViewById(R.id.credit_amount);
+        tvCurrentCredit= (TextView) findViewById(R.id.credit_current);
+
+        tvCurrentCredit.setText("Current Credit:"+ Constant.amount);
+
+        btnAddCredit= (Button) findViewById(R.id.btn_buy_credit);
+
+        etCredit50.setOnClickListener(this);
+        etCredit100.setOnClickListener(this);
+        etCredit200.setOnClickListener(this);
+        btnAddCredit.setOnClickListener(this);
+
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_loop_credit, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -28,10 +61,40 @@ public class AddLoopCredit extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+
+            //Toast.makeText(getApplicationContext(),"BAck Clicked",Toast.LENGTH_SHORT).show();
+            onBackPressed();
             return true;
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_buy_credit:
+                if(etAmount.getText().length()==0){
+
+                }
+                else {
+                    Log.d("AMOUNT",etAmount.getText().toString());
+
+                    startActivity(new Intent(getApplicationContext(),WebViewLoop.class).putExtra("Amount",etAmount.getText().toString()));
+                }
+
+                break;
+            case R.id.credit_fifty:
+                etAmount.setText("50");
+                break;
+            case R.id.credit_hundred:
+                etAmount.setText("100");
+                break;
+            case R.id.credit_two_hundred:
+                etAmount.setText("200");
+                break;
+        }
     }
 }

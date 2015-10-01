@@ -147,13 +147,10 @@
         </activity>
         -->
 
-
-        <!--
         <activity
             android:name=".AddLoopCredit"
-            android:label="@string/title_activity_add_loop_credit" >
+            android:label="" >
         </activity>
-        -->
         <activity
             android:name=".TicketTrackBus"
             android:label="" >
@@ -165,6 +162,10 @@
         <activity
             android:name=".Tutorial"
             android:label="@string/title_activity_tutorial" >
+        </activity>
+        <activity
+            android:name=".WebViewLoop"
+            android:label="" >
         </activity>
     </application>
 

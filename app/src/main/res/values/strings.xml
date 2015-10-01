@@ -52,4 +52,5 @@
     <string name="title_section3"></string>
     <string name="title_section4"></string>
     <string name="title_section5"></string>
+    <string name="title_activity_web_view">WebView</string>
 </resources>
