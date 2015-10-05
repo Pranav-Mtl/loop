@@ -52,8 +52,6 @@ public class WebViewLoop extends AppCompatActivity {
     }
 
 
-
-
     private void startWebView(String url) {
 
         //Create new webview Client to show progress dialog
@@ -100,22 +98,10 @@ public class WebViewLoop extends AppCompatActivity {
 
         });
 
+
         // Javascript inabled on webview
         webView.getSettings().setJavaScriptEnabled(true);
 
-        // Other webview options
-        /*
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        webView.setScrollbarFadingEnabled(false);
-        webView.getSettings().setBuiltInZoomControls(true);
-        */
-
-        /*
-         String summary = "<html><body>You scored <b>192</b> points.</body></html>";
-         webview.loadData(summary, "text/html", null);
-         */
 
         //Load url in webview
         webView.loadUrl(url);
@@ -134,7 +120,7 @@ public class WebViewLoop extends AppCompatActivity {
         if (id == android.R.id.home) {
 
             //Toast.makeText(getApplicationContext(),"BAck Clicked",Toast.LENGTH_SHORT).show();
-            Log.d("URL RETURN",webView.getUrl());
+            Log.d("URL RETURN", webView.getUrl());
             onBackPressed();
             return true;
         }
@@ -154,17 +140,18 @@ public class WebViewLoop extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String URL=objGetUrlBL.getURL(params[0]);
-
             return URL;
         }
 
         @Override
         protected void onPostExecute(String s) {
 
-            s=s+addToURL;
+           /*
+*//*
+           *//* Log.d("URL",s);*/
 
-            Log.d("URL",s);
             try {
+                s=s+addToURL;
                 startWebView(s);
             }
             catch (Exception e){

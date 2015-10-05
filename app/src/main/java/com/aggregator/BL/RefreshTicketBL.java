@@ -20,7 +20,6 @@ public class RefreshTicketBL {
         objRefreshTicketBE=refreshTicketBE;
         String result=callWsUrl(runID);
         String status=validate(result);
-
         return status;
     }
 
@@ -28,7 +27,6 @@ public class RefreshTicketBL {
 
         String URL="run_id="+runID;
         String txtJson= RestFullWS.callWS(URL, Constant.WEBSERVICE_TRACK_BUS);
-
         return txtJson;
     }
 
@@ -43,7 +41,6 @@ public class RefreshTicketBL {
             JSONObject jsonObject=(JSONObject)jsonP.parse(jsonArrayObject.get(0).toString());
             objRefreshTicketBE.setBusLat(Double.valueOf(jsonObject.get("latitude").toString()));
             objRefreshTicketBE.setBusLong(Double.valueOf(jsonObject.get("longitude").toString()));
-
 
         } catch (Exception e) {
             e.getLocalizedMessage();

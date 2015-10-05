@@ -74,7 +74,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
     RoutesAdapter objRoutesAdapter;
     RoutesAdapterSearch objRoutesAdapterSearch;
 
-   public int routeID=-1;
+    public int routeID=-1;
 
 
 
@@ -663,7 +663,6 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
             //set adapter here
             try {
-
                 validate(result);
                 prepareListSearchData();
                 expListView.setVisibility(View.GONE);
@@ -801,6 +800,17 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                     LinearLayoutManager llm = new LinearLayoutManager(RouteNew.this);
                     llm.setOrientation(LinearLayoutManager.VERTICAL);
                     lvRecent.setLayoutManager(llm);
+                }
+
+                if(!Constant.favJson && !Constant.recentJson){
+                    tvTabRoute.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
+                    tvTabFav.setBackgroundColor(getResources().getColor(R.color.LightGreen));
+                    llAllRoute.setVisibility(View.VISIBLE);
+                    llFavourite.setVisibility(View.GONE);
+                    llRecent.setVisibility(View.GONE);
+                    llNoRoute.setVisibility(View.GONE);
+                    llBottomRoute.setVisibility(View.GONE);
+                    btnDone.setVisibility(View.INVISIBLE);
                 }
 
                 drawerAdapter.notifyDataSetChanged();

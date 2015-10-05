@@ -44,9 +44,7 @@ public class Constant {
     public static String WEBSERVICE_TRIP="trip_history.php";
     public static String WEBSERVICE_FAV="fav.php";
     public static String WEBSERVICE_ADDFAV="fav1.php";
-
     public static String WEBSERVICE_GET_URL="buy_credit.php";
-
     public static String WEBSERVICE_HELP="help.php";
     public static String WEBSERVICE_SHARE_EARN="user_referrals.php";
     public static String WEBSERVICE_PROMO_CODE="promo_code.php";

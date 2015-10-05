@@ -88,12 +88,15 @@ public class AddLoopCredit extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.credit_fifty:
                 etAmount.setText("50");
+                etAmount.setSelection(etAmount.getText().length());
                 break;
             case R.id.credit_hundred:
                 etAmount.setText("100");
+                etAmount.setSelection(etAmount.getText().length());
                 break;
             case R.id.credit_two_hundred:
                 etAmount.setText("200");
+                etAmount.setSelection(etAmount.getText().length());
                 break;
         }
     }

@@ -122,15 +122,10 @@ public class BookingBL {
 
             for(int i=0;i<jsonArrayObject.size();i++){
                 JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
-
-
                 Constant.pointDownRun[i]=jsonObject.get("run").toString().replace("[", "").replace("]", "").replaceAll("\"", "");
 
 
             }
-
-
-
         } catch (Exception e) {
             e.getLocalizedMessage();
         }

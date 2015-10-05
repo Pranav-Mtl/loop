@@ -413,6 +413,7 @@ public class LoopProfile extends AppCompatActivity {
     }
 
 /* FETCHING USER DETAILS*/
+
     private class GettingProfileRecord extends AsyncTask<String, String, String> {
 
         @Override

@@ -44,7 +44,6 @@ import java.util.Locale;
 
 public class BookingNew extends AppCompatActivity implements View.OnClickListener{
 
-
     Spinner spnTimePicker,spnPick,spnDrop;
     Button btnDone;
     TextView tvPrice;
@@ -249,7 +248,6 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 endPointID=Constant.pointID[dropPos];
                 dropselected=true;
                 endPointDist=Constant.pointDistance[dropPos];
-
                 double price=calculatePrice();
 
                 Log.d("Drop  Position", position+"");
@@ -294,9 +292,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         spnTimePicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0){
+
                     //runID=Constant.pointRunArray[position-1];
-                    runID=listRun.get(position-1).toString();
+                    runID=listRun.get(position).toString();
                     timeSelected=true;
                     if(pickselected)
                     {
@@ -306,7 +304,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         }
                     }
                     Log.d("Selected Run ID",runID);
-                }
+
             }
 
             @Override
@@ -335,6 +333,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                             startActivity(new Intent(Settings.ACTION_SETTINGS));
                         }
                     });
+
 
             alertDialog2.setNegativeButton("NO",
                     new DialogInterface.OnClickListener() {
@@ -504,10 +503,12 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                     if(Constant.pointDownRun[0].trim().length()==0){
                         tvError.setText("No trips for this route today.");
                         tvError.setVisibility(View.VISIBLE);
-                        btnSwipe.setVisibility(View.GONE);
+                        btnSwipe.setEnabled(false);
+                        btnSwipe.setBackgroundResource(R.drawable.btn_gray_swipe);
                     }
                     else {
                         btnSwipe.setEnabled(false);
+                        btnSwipe.setBackgroundResource(R.drawable.btn_gray_swipe);
                         swapButtonClicked();
 
                         /*tvError.setText("No vehicles going in this direction today. Tip - Use Swap button to see runs in reverse direction.");
@@ -642,7 +643,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     private void updateTimeDropDown(int pos){
         List listPickTime=new ArrayList<>();
 
-        listPickTime.add("Select Time");
+        //listPickTime.add("Select Time");
 
         //tvError.setVisibility(View.GONE);
 
@@ -685,19 +686,18 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             }
 
         }
-        if(tvError.getVisibility()==View.VISIBLE){
 
-        }
-        else
-        {
             if(cc==-1){
-            tvError.setVisibility(View.VISIBLE);
+            //tvError.setVisibility(View.VISIBLE);
             //tvError.setText("No vehicles going in this direction today.");
+                btnDone.setEnabled(false);
+                btnDone.setBackgroundColor(getResources().getColor(R.color.GrayBG));
         }
         else{
-            tvError.setVisibility(View.INVISIBLE);
+            //tvError.setVisibility(View.INVISIBLE);
+                btnDone.setEnabled(true);
         }
-        }
+
 
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(BookingNew.this,R.layout.spinner_item,listPickTime);
         spnTimePicker.setAdapter(adapter);
@@ -761,6 +761,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             setDropPoint(Constant.pointName);  // Initialize Drop Point DropDown
             String ss[]=Constant.pointRun[0].split(",");
             Constant.pointRunArray=new String[ss.length];
+
+
             for(int i=0;i<ss.length;i++)
             {
                 Constant.pointRunArray[i]=ss[i];
@@ -779,16 +781,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 tvError.setVisibility(View.VISIBLE);
                 tvError.setText("No vehicles going in this direction today. \n Tip - Use Swap button to see runs in reverse direction.");
             }
-
             Constant.swapRoute=true;
-
          }
-
         Toast.makeText(BookingNew.this,"Direction Swapped.",Toast.LENGTH_SHORT).show();
-
-
-
-
     }
 
 
@@ -912,13 +907,12 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 title.setText(Constant.pointName[i]);
                 title.setPadding(10, 0, 0, 0);
                 title.setTextColor(getResources().getColor(R.color.TextColor));
-
-
                 llFirst.addView(ladder);
                 llSecond.addView(title);
 
                 if(i!=Constant.pointID.length-1) {
                     ImageView ivLine = new ImageView(this);
+
                     ivLine.setImageResource(R.drawable.ic_booking_lines);
 
                     ImageView ivLineInvisible = new ImageView(this);
@@ -930,13 +924,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                     llSecond.addView(ivLineInvisible);
                 }
 
-
                 LL.addView(llFirst);
                 LL.addView(llSecond);
-
-
                 llMain.addView(LL);
-
 
             }
 

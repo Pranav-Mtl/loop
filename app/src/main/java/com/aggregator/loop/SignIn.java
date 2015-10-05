@@ -28,8 +28,6 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
     Button btnDone,tvSignUp,tvForgot;
 
-
-
     String txtEmail,txtPassword;
     ProgressDialog mProgressDialog;
     SignInBL objSignInBL;

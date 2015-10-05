@@ -191,7 +191,7 @@ public class TripHistory extends AppCompatActivity {
 
        @Override
        protected void onPreExecute() {
-            mProgressDialog.show();
+           mProgressDialog.show();
            mProgressDialog.setMessage("Loading...");
            mProgressDialog.setCancelable(false);
        }
