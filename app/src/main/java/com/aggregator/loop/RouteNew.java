@@ -18,6 +18,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
@@ -122,6 +123,31 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         initialize();
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
+
+        final View activityRootView = findViewById(R.id.DrawerLayout);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            public void onGlobalLayout() {
+                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
+
+                System.out.println("Height :" + heightDiff);
+
+                if (heightDiff > 200) {
+                    // keyboard is
+                    Log.d("SoftKeyboard", "Soft keyboard shown");
+                    routesCross.setVisibility(View.VISIBLE);
+
+
+                } else {
+                    // keyboard is down
+                    Log.d("SoftKeyboard", "Soft keyboard hidden");
+                    tvSearchRoute.setText("");
+                    routesCross.setVisibility(View.INVISIBLE);
+
+                }
+            }
+        });
+
+
 
         btnDone.setOnClickListener(this);
         routesCross.setOnClickListener(this);
@@ -323,12 +349,12 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                                 startActivity(new Intent(getApplicationContext(), PromoCode.class));
                             } else if (position == 4) {
                                 startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                            } else if (position == 8) {
+                            } else if (position == 9) {
                                 startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                             } else if (position == 7) {
 
                             } else if (position == 6) {
-                                //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                                startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                             }
                         }
                     }
@@ -445,7 +471,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                 elvSearch.setVisibility(View.GONE);
                 expListView.setVisibility(View.VISIBLE);
                 tvSearchRoute.setText("");
-
+                Util.hideSoftKeyboard(RouteNew.this);
                 break;
         }
     }

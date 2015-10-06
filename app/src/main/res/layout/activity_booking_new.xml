@@ -111,12 +111,15 @@
                 android:orientation="vertical"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_gravity="center"
                 >
 
                 <ScrollView
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    >
                 <RelativeLayout
                     android:id="@+id/booking_relative_diagram"
                     android:layout_width="wrap_content"
@@ -170,14 +173,14 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_rupee"
+
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/booking_textview_customized"
                     android:hint="Price"
                     android:padding="5dp"
                     android:gravity="center_vertical"
                     android:textColor="#34495e"
-                    android:drawablePadding="5dp"
+
                     />
                 </LinearLayout>
             <RelativeLayout

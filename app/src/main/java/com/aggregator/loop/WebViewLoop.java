@@ -1,6 +1,7 @@
 package com.aggregator.loop;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,8 +12,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
+import com.aggregator.BE.AddCreditBE;
 import com.aggregator.BL.GetUrlBL;
+import com.aggregator.Configuration.Util;
+import com.aggregator.Constant.Constant;
+
+import java.net.URLDecoder;
 
 public class WebViewLoop extends AppCompatActivity {
 
@@ -22,9 +29,13 @@ public class WebViewLoop extends AppCompatActivity {
 
     ProgressDialog mProgressDialog;
 
-    String addToURL="?embed=foam";
+    String addToURL="?embed=form";
+
+    String userID;
 
     String amount;
+
+    AddCreditBE objAddLoopCredit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +56,13 @@ public class WebViewLoop extends AppCompatActivity {
 
         amount=getIntent().getExtras().get("Amount").toString();
 
+        objAddLoopCredit=new AddCreditBE();
+
+        userID= Util.getSharedPrefrenceValue(getApplicationContext(),Constant.SHARED_PREFERENCE_User_id);
+
        // startWebView("http://imojo.in/55kww");
 
-        new GetURLToLoad().execute(amount);
+        new GetURLToLoad().execute(amount,userID);
 
     }
 
@@ -119,9 +134,82 @@ public class WebViewLoop extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
 
-            //Toast.makeText(getApplicationContext(),"BAck Clicked",Toast.LENGTH_SHORT).show();
-            Log.d("URL RETURN", webView.getUrl());
-            onBackPressed();
+            try {
+
+                //Toast.makeText(getApplicationContext(),"BAck Clicked",Toast.LENGTH_SHORT).show();
+                Log.d("URL RETURN", webView.getUrl());
+
+                String url = webView.getUrl();
+
+                String ss[] = url.split("&");
+
+                String keyValue[] = ss[0].split("=");
+                String param_key = URLDecoder.decode(keyValue[0]);
+// the	tracking	id	value	(i.e.	12345)	is
+                // stored	in	param_value
+
+
+                String param_value =
+                        URLDecoder.decode(keyValue[1]);
+
+                Log.d("Key", param_key);
+                Log.d("Paymenti id", param_value);
+
+                String status[] = ss[1].split("=");
+
+                String statusKey = URLDecoder.decode(status[0]);
+                String statusValue = URLDecoder.decode(status[1]);
+
+                Log.d("STATUS Key", statusKey);
+                Log.d("STATUS VALUE", statusValue);
+
+                if (statusValue.equals("success")) {
+                    Toast.makeText(getApplicationContext(), amount + " loop credited to your account.", Toast.LENGTH_SHORT).show();
+                    double amt = Double.valueOf(Constant.amount) + Double.valueOf(amount);
+                    Constant.amount = amt + "";
+                    Constant.LoopCredit = Constant.LoopCreditText + Constant.amount;
+                    startActivity(new Intent(getApplicationContext(), RouteNew.class));
+                    // finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Loop payment failed. Please try again.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }catch (ArrayIndexOutOfBoundsException e){
+                e.printStackTrace();
+                finish();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                finish();
+            }
+
+
+
+            /*for	(String	referrerValue	:	ss) {
+                String keyValue[] =
+                        referrerValue.split("=");
+// the	key,	tracking_id	in	this	case,	is
+                //	stored	in	param_key
+                String param_key = URLDecoder.decode(keyValue[0]);
+// the	tracking	id	value	(i.e.	12345)	is
+                // stored	in	param_value
+
+
+                String param_value =
+                        URLDecoder.decode(keyValue[1]);
+                //	do	something	with
+                //	the	param	value
+                System.out.println("KEY" + param_key);
+                System.out.println("VALUE" + param_value);
+
+                Log.d("Key", param_key);
+                Log.d("Value", param_value);
+            }
+
+*/
+
+
+                onBackPressed();
             return true;
         }
 
@@ -139,19 +227,16 @@ public class WebViewLoop extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String URL=objGetUrlBL.getURL(params[0]);
+            String URL=objGetUrlBL.getURL(params[0],params[1],objAddLoopCredit);
             return URL;
         }
 
         @Override
         protected void onPostExecute(String s) {
 
-           /*
-*//*
-           *//* Log.d("URL",s);*/
-
             try {
-                s=s+addToURL;
+                s=s+addToURL+"&data_name="+objAddLoopCredit.getUserName()+"&data_email="+objAddLoopCredit.getEmailID()+"&data_phone="+objAddLoopCredit.getMobileNo()+"&data_readonly=data_\n" +
+                        "name&data_readonly=data_phone";
                 startWebView(s);
             }
             catch (Exception e){

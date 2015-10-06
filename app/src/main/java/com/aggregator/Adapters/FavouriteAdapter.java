@@ -68,9 +68,9 @@ public class FavouriteAdapter extends  RecyclerView.Adapter<FavouriteAdapter.Fav
     public void onBindViewHolder(FavList holder, int position) {
 
         if("No".equals(Constant.favRouteFavStatus[position]))
-            holder.ivHeart.setBackgroundResource(R.drawable.ic_white_heart);
+            holder.ivHeart.setBackgroundResource(R.drawable.ic_white_heart_big);
         else
-            holder.ivHeart.setBackgroundResource(R.drawable.ic_red_heart);
+            holder.ivHeart.setBackgroundResource(R.drawable.ic_red_heart_big);
 
        /* if(Constant.favSelectedItem==position)
         {

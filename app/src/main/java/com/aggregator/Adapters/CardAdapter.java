@@ -69,36 +69,38 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         if("ACTIVE".equalsIgnoreCase(Constant.tripStatus[i])){
             contactViewHolder.ivLeftTop.setBackgroundResource(R.drawable.ic_ticket);
             contactViewHolder.tvLeftTop.setText("Ticket");
+            contactViewHolder.tvTime.setText(Constant.tripTime[i]);
         }
         else
         {
             contactViewHolder.ivLeftTop.setBackgroundResource(R.drawable.ic_red_star);
             contactViewHolder.tvLeftTop.setText("Rate Trip");
+            String dd[]=Constant.tripDate[i].split(" ");
+            try {
+                String onlydate=sdf.parse(dd[0])+"";
+                onlydate=onlydate.substring(0,10);
+                contactViewHolder.tvTime.setText(onlydate + " at " + Constant.tripTime[i]);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         if("No".equalsIgnoreCase(Constant.tripFav[i])){
             contactViewHolder.ivLeftBottom.setBackgroundResource(R.drawable.ic_white_heart);
-            contactViewHolder.tvLeftBottom.setText("Add to favourites.");
+            contactViewHolder.tvLeftBottom.setText("Add to favourites");
         }
         else
         {
             contactViewHolder.ivLeftBottom.setBackgroundResource(R.drawable.ic_red_heart);
-            contactViewHolder.tvLeftBottom.setText("Favourite route.");
+            contactViewHolder.tvLeftBottom.setText("Favourited");
         }
 
         contactViewHolder.tvStartPoint.setText(Constant.tripStartName[i]);
         contactViewHolder.tvEndPoint.setText(Constant.tripEndName[i]);
 
-        contactViewHolder.tvCost.setText("Cost : ₹ "+Constant.tripTotalAmount[i]+" (Loop Credit: ₹ "+Constant.tripLoopCredit[i]+", Paytm: ₹ "+Constant.tripPrice[i]+" )");
-        String dd[]=Constant.tripDate[i].split(" ");
-        try {
-            String onlydate=sdf.parse(dd[0])+"";
-            onlydate=onlydate.substring(0,10);
-            contactViewHolder.tvTime.setText(onlydate + " at " + Constant.tripTime[i]);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+       /* contactViewHolder.tvCost.setText("Cost : ₹ "+Constant.tripTotalAmount[i]+" (Loop Credit: ₹ "+Constant.tripLoopCredit[i]+", Paytm: ₹ "+Constant.tripPrice[i]+" )");*/
+        contactViewHolder.tvCost.setText("Using "+ Constant.tripLoopCredit[i] +" loop credits");
 
         contactViewHolder.llLeftBottom.setOnClickListener(clickListener);
         contactViewHolder.llLeftTop.setOnClickListener(clickListener);

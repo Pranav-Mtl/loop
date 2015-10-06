@@ -134,12 +134,12 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
                             Drawer.closeDrawers();
                         } else if (position == 4) {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                        } else if (position == 8) {
+                        } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         } else if (position == 7) {
 
                         } else if (position == 6) {
-                            //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                            startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                         }
 
                     }
@@ -230,7 +230,7 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
             String result=objPromoCodeBL.sendCode(params[0],params[1]);
             return result;
         }
-
+        
         @Override
         protected void onPostExecute(String s) {
             try {

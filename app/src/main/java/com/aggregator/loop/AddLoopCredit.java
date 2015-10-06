@@ -39,7 +39,7 @@ public class AddLoopCredit extends AppCompatActivity implements View.OnClickList
         etAmount= (EditText) findViewById(R.id.credit_amount);
         tvCurrentCredit= (TextView) findViewById(R.id.credit_current);
 
-        tvCurrentCredit.setText("Current Credit:"+ Constant.amount);
+        tvCurrentCredit.setText("Current balance: "+Constant.currentLoopCredit);
 
         btnAddCredit= (Button) findViewById(R.id.btn_buy_credit);
 
@@ -77,7 +77,10 @@ public class AddLoopCredit extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.btn_buy_credit:
                 if(etAmount.getText().length()==0){
-
+                    etAmount.setError("required.");
+                }
+                else if(Integer.valueOf(etAmount.getText().toString())>2000){
+                    etAmount.setError("amount must be b/w 0-2000");
                 }
                 else {
                     Log.d("AMOUNT",etAmount.getText().toString());

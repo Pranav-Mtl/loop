@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aggregator.Adapters.DrawerAdapter;
@@ -63,7 +64,8 @@ public class LoopProfile extends AppCompatActivity {
 
     View _itemColoured;
 
-    ImageButton btnAddCredit;
+    Button btnAddCredit;
+    TextView tvCurrentCredit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,8 @@ public class LoopProfile extends AppCompatActivity {
         userEmail=(EditText)findViewById(R.id.userEmail);
         btnClick=(LinearLayout)findViewById(R.id.arrow_btn1);
         btnSignOUT= (Button) findViewById(R.id.profile_signout);
-        btnAddCredit= (ImageButton) findViewById(R.id.profile_addCredit);
+        btnAddCredit= (Button) findViewById(R.id.profile_addCredit);
+        tvCurrentCredit= (TextView) findViewById(R.id.profile_loopCredit);
 
 
         userName.setEnabled(false);
@@ -335,12 +338,12 @@ public class LoopProfile extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 4) {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                        } else if (position == 8) {
+                        } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         } else if (position == 7) {
 
                         } else if (position == 6) {
-                            //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                            startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                         }
 
                     }
@@ -395,6 +398,8 @@ public class LoopProfile extends AppCompatActivity {
                     oldPass.setText("");
                     newPass.setText("");
                     confirmPass.setText("");
+                    Constant.NAME=userName.getText().toString();
+                    drawerAdapter.notifyDataSetChanged();
                     Toast.makeText(getApplicationContext(), "Profile Updated successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please try again.", Toast.LENGTH_SHORT).show();
@@ -435,6 +440,7 @@ public class LoopProfile extends AppCompatActivity {
                 userName.setText(Constant.usrname);
                 userMobileNum.setText(Constant.phoneNumber);
                 userEmail.setText(Constant.emaiId);
+                tvCurrentCredit.setText("Current Balance: "+Constant.currentLoopCredit+"");
             }
             catch (NullPointerException e){
                NoResponseServer();

@@ -69,6 +69,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     int pickPos;
     int dropPos;
 
+    int price;
+
 
     String routeId="1";
     String startPointID,endPointID,runID;
@@ -248,7 +250,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 endPointID=Constant.pointID[dropPos];
                 dropselected=true;
                 endPointDist=Constant.pointDistance[dropPos];
-                double price=calculatePrice();
+
+                 price=calculatePrice();
 
                 Log.d("Drop  Position", position+"");
                 Log.d("Drop Down Position",dropPos+"");
@@ -257,11 +260,13 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                 Log.d("Amount i Have", Constant.amount + "");
 
-                double pp=Double.valueOf(Constant.amount)-price;
+                int pp=Constant.currentLoopCredit-price;
                 Log.d("PRICE CATCULATED", pp + "");
                 totalPrice=pp+"";
 
-                if(pp>0)
+                tvPrice.setText("Loop credit: "+price);
+
+               /* if(pp>0)
                 {
                     loopCredit=price+"";
                     paytmCash="0";
@@ -277,8 +282,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         tvCredit.setText("");
                      }
                     else
-                        tvCredit.setText("After using ₹"+Math.round(Double.valueOf(Constant.amount))+" Loop credit.");
+                        tvCredit.setText("After using "+Math.round(Double.valueOf(Constant.amount))+" Loop credit.");
                 }
+*/
 
 
             }
@@ -383,12 +389,12 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                                 startActivity(new Intent(getApplicationContext(), PromoCode.class));
                             } else if (position == 4) {
                                 startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                            } else if (position == 8) {
+                            } else if (position == 9) {
                                 startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                             } else if (position == 7) {
 
                             } else if (position == 6) {
-                                //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                                startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                             }
                         }
 
@@ -403,49 +409,69 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.booking_screen_btn:
 
-                if(timeSelected){
-                    String price="₹ "+totalPrice+" (Loop credit ₹ "+loopCredit+", Paytm ₹ "+paytmCash+")";
-                    try {
+                int remainingPrice = Constant.currentLoopCredit - price;
 
-                    Log.d("Time selected", spnTimePicker.getSelectedItem().toString());
-                    Date time=sdf.parse(spnTimePicker.getSelectedItem().toString().replace("\"", ""));
-                        String strTime=dateFormat24.format(time);
-                    if(loginID==null)
-                    {
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id,startPointID);
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id,endPointID);
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID,routeId);
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_Run_ID,runID);
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,strTime);
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,paytmCash);
-                        Util.setSharedPrefrenceValue(getApplicationContext(),Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT,loopCredit);
-                        startActivity(new Intent(BookingNew.this, SignUpScreen.class));
-                    }
-                    else {
+                if (remainingPrice > 0) {  // check whether loop credit is greater than available or not.
 
-                        objBookingBE.setUserID(loginID);
-                        objBookingBE.setRouteID(routeId);
-                        objBookingBE.setStartPoint(startPointID);
-                        objBookingBE.setEndPoint(endPointID);
-                        objBookingBE.setRunID(runID);
-                        objBookingBE.setPrice(paytmCash);
-                        objBookingBE.setLoopCredit(loopCredit);
+                        if (timeSelected) {
+                            String price = "₹ " + totalPrice + " (Loop credit ₹ " + loopCredit + ", Paytm ₹ " + paytmCash + ")";
+                            try {
+                                                            /* compare time selected with current time....*/
 
-                            objBookingBE.setTime(strTime);
-                            new InsertBooking().execute();
+                                Log.d("Time selected", spnTimePicker.getSelectedItem().toString());
+                                Date time = sdf.parse(spnTimePicker.getSelectedItem().toString().replace("\"", ""));
+                                Date date = new Date();
+                                String formattedDateTime = dateFormat.format(date);
+                                Date dtCurrent=sdf.parse(formattedDateTime);
 
-                    }
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-                else{
-                Toast.makeText(getApplicationContext(),"Please select time of departure.",Toast.LENGTH_SHORT).show();
-            }
+                                long diffMs = time.getTime()- dtCurrent.getTime() ;
+                                long diffSec = diffMs / 1000;
+                                long min = diffSec / 60;
+                                long sec = diffSec % 60;
+
+                                System.out.println("The difference is " + min + " minutes and " + sec + " seconds.");
+
+
+                                Log.d("Current Time--",dtCurrent+"");
+                                String strTime = dateFormat24.format(time);
+
+
+                                if (loginID == null) {
+                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id, startPointID);
+                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id, endPointID);
+                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID, routeId);
+                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_Run_ID, runID);
+                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_TIME, strTime);
+                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_PRICE, paytmCash);
+                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT, loopCredit);
+                                    startActivity(new Intent(BookingNew.this, SignUpScreen.class));
+                                } else {
+
+                                    objBookingBE.setUserID(loginID);
+                                    objBookingBE.setRouteID(routeId);
+                                    objBookingBE.setStartPoint(startPointID);
+                                    objBookingBE.setEndPoint(endPointID);
+                                    objBookingBE.setRunID(runID);
+                                    objBookingBE.setPrice(paytmCash);
+                                    objBookingBE.setLoopCredit(loopCredit);
+
+                                    objBookingBE.setTime(strTime);
+                                    new InsertBooking().execute();
+
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please select time of departure.", Toast.LENGTH_SHORT).show();
+                        }
+        }
+        else{
+            notEnoughCredit();
+        }
                 break;
             case R.id.booking_swap_button:
                 swapButtonClicked();
@@ -560,7 +586,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
     */
 
-    private double calculatePrice(){
+    private int calculatePrice(){
         Double price=0.0;
         Double distance=endPointDist-startPointDist;
 
@@ -571,7 +597,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         price=(Constant.routeFixedPrice)+(Constant.routePerKmPrice * distance);
 
         Log.d("Calculated Price", price + "");
-        return price;
+        return ((int)Math.round(price));
     }
 
 
@@ -783,7 +809,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             }
             Constant.swapRoute=true;
          }
-        Toast.makeText(BookingNew.this,"Direction Swapped.",Toast.LENGTH_SHORT).show();
+        Toast.makeText(BookingNew.this,"Direction reversed.",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -814,12 +840,14 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 }
                 else if(objBookingBL.status.equals("full"))
                 {
-                    Toast.makeText(getApplicationContext(), "Ticket not available for selected run.", Toast.LENGTH_SHORT).show();
-                    finish();
+                    Toast.makeText(getApplicationContext(), "Sorry your booking did not go through. Try again please?", Toast.LENGTH_SHORT).show();
+                    new GetSelectedRoute().execute(routeId);
+                    //finish();
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "Something went wrong. Please try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Sorry your booking did not go through. Try again please?", Toast.LENGTH_SHORT).show();
+                    new GetSelectedRoute().execute(routeId);
                 }
             }
             catch (Exception e)
@@ -864,7 +892,28 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         alert.show();
     }
 
-        void createCustomNew(int pick,int drop){
+    private void notEnoughCredit()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(Constant.ERR_NO_LOOP_CREDIT_MESSAGE)
+                .setCancelable(false)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Buy loop credits", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(getApplicationContext(),AddLoopCredit.class));
+                    }
+                });
+
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+    void createCustomNew(int pick,int drop){
 
             int pos=100;
             LinearLayout llMain=new LinearLayout(this);

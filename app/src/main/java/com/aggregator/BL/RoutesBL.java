@@ -238,8 +238,9 @@ public class RoutesBL {
             JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(0).toString());
             Constant.NAME=jsonObject.get("user_fullname").toString();
 
+                    Constant.currentLoopCredit=(int)Math.round(Double.valueOf(jsonObject.get("user_credits").toString()));
                     Constant.amount=jsonObject.get("user_credits").toString();
-                    Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
+                    Constant.LoopCredit=Constant.LoopCreditText+Constant.currentLoopCredit;
                     String pautmString=jsonObject.get("user_paytm_id").toString();
                     Constant.PayTMWalet=Constant.PayTMWaletText+pautmString;
 

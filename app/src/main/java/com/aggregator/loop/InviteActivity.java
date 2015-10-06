@@ -275,12 +275,12 @@ public class InviteActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 4) {
                             Drawer.closeDrawers();
-                        } else if (position == 8) {
+                        } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         } else if (position == 7) {
 
                         } else if (position == 6) {
-                            //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                            startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                         }
 
                     }
@@ -337,7 +337,7 @@ public class InviteActivity extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(),"Succefully shared",Toast.LENGTH_LONG).show();
                     shareBtn.setText(objInviteActivityBE.getReferralCode());
                     promocode="Your Referral Code  for loop is :"+objInviteActivityBE.getReferralCode();
-                    tvText.setText(" They get free rides worth ₹"+objInviteActivityBE.getReferralValue()+". And so do you !");
+                    tvText.setText("They get free rides worth "+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+". And so do you !");
 
                 }
                 else

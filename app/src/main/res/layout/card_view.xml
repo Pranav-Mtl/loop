@@ -79,8 +79,6 @@
                     android:id="@+id/trip_left_bottom_text"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textColor="@color/TextColor"
@@ -127,8 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_trip_down"
-                android:layout_marginLeft="40dp"
-
+                android:layout_marginLeft="6dp"
                 android:layout_gravity="center_vertical"
                 />
             <TextView

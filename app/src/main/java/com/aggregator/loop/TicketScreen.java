@@ -422,6 +422,10 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                     btnTrack.setVisibility(View.INVISIBLE);
                 }
 
+                if(min<0){
+                    btnRateTrip.setEnabled(false);
+                }
+
                 setRoute(objTicketScreenBE.getWayPoints());
 
                 PickText = objTicketScreenBE.getPickPointName();

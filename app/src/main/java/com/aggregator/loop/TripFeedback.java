@@ -205,7 +205,7 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                     String check2 = two.getText().toString();
                             if(finalString!=null&&check2!=null)
                               {
-                                  System.out.println("above bothe are null");
+                                  //System.out.println("above bothe are null");
                                finalString = finalString + "," + check2;
                                }
                     else
@@ -373,8 +373,8 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                 pick.setText(Constant.pickPoint);
                 drop.setText(Constant.dropPoint);
                 date.setText(Constant.date);
-                rate.setText("Cost : ₹ "+Constant.totalAmount+" (Loop Credit: ₹ "+Constant.rateCredit+", Paytm: ₹ "+Constant.rate+")");
-
+                //rate.setText("Cost : ₹ "+Constant.totalAmount+" (Loop Credit: ₹ "+Constant.rateCredit+", Paytm: ₹ "+Constant.rate+")");
+                rate.setText("Using "+Math.round(Double.valueOf(Constant.rateCredit))+" loop credits");
                 if(s.equalsIgnoreCase("y")){
                     ratingBar.setRating(Constant.feedback_rating);
                     ratingBar.setIsIndicator(true);

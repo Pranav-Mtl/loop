@@ -141,6 +141,7 @@ public class Constant {
     public static String favRouteEndName[];
     public static String favRouteFavStatus[];
 
+
     ///////////      Recent Route Variable     ////////////////
 
     public static String recentRouteID[];
@@ -172,9 +173,10 @@ public class Constant {
     public static String NAME="";
     public static String LoopCredit="";
     public static String amount="00.00";
-    public static String LoopCreditText="Loop Credit : ₹ ";
+    public static int currentLoopCredit=0;
+    public static String LoopCreditText="Loop Credits: ";
     public static String PayTMWalet="";
-    public static String PayTMWaletText="Paytm Credit : ₹ ";
+    public static String PayTMWaletText="";
     public static String LoopCreditUsed="";
 
     public static String usrname;
@@ -231,6 +233,8 @@ public class Constant {
     public static String ERR_INTERNET_CONNECTION_NOT_FOUND="No Internet Connection";
     public static String ERR_SLOW_INTERNET_CONNECTION="Something went wrong.";
     public static String ERR_NO_SERVER_RESPONSE="Something went wrong.";
+    public static String ERR_NO_LOOP_CREDIT="Insufficient credits.";
+    public static String ERR_NO_LOOP_CREDIT_MESSAGE="You don't have enough Loop credits to book this ride.";
 
 
 

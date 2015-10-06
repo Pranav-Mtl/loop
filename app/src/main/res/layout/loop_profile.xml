@@ -380,7 +380,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Payment Methods"
+            android:text="Loop Credits"
             android:layout_gravity="center"
             android:textSize="15dp"
             android:layout_marginLeft="10dp"
@@ -390,73 +390,40 @@
 
     </LinearLayout>
     <RelativeLayout
-        android:layout_marginLeft="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="30dp">
         <TextView
+            android:id="@+id/profile_loopCredit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Loop Credit:Rs 200/-"
             android:paddingLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
 
             />
 
-        <ImageButton
+        <Button
             android:id="@+id/profile_addCredit"
-            android:layout_marginTop="10dp"
+
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/add_wallet"
+            android:text="Buy Loop credits"
+            android:textSize="12sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/WhiteColor"
+            android:textAllCaps="false"
+            android:background="@drawable/booking_btn_customized"
 
             />
     </RelativeLayout>
-    <LinearLayout
-        android:layout_marginTop="5dp"
-        android:layout_width="fill_parent"
-        android:background="#d4d8d9"
-        android:layout_height="1dp">
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="30dp">
-       <!-- <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Paytm Wallet :Rs 200/-"
-            android:paddingLeft="10dp"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            />
-
-
-
-        <ImageView
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/delete_btn"
-            />-->
-
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_marginTop="5dp"
-        android:layout_width="fill_parent"
-        android:background="#d4d8d9"
-        android:layout_height="1dp">
-
-    </LinearLayout>
 
 
 </LinearLayout>
@@ -479,6 +446,7 @@
 
     </RelativeLayout>
 </RelativeLayout>
+
     <com.twotoasters.android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView"
         android:layout_width="300dp"

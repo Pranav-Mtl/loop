@@ -2,6 +2,7 @@ package com.aggregator.BL;
 
 import android.util.Log;
 
+import com.aggregator.BE.AddCreditBE;
 import com.aggregator.Constant.Constant;
 import com.aggregator.WS.RestFullWS;
 
@@ -16,19 +17,21 @@ import org.json.simple.parser.JSONParser;
  */
 public class GetUrlBL {
 
-    public String getURL(String amount){
+    AddCreditBE objAddLoopCredit;
 
-        String result=callWsUrl(amount);  // call webservice
+    public String getURL(String amount,String userID,AddCreditBE addCreditBE){
+
+        objAddLoopCredit=addCreditBE;
+        String result=callWsUrl(amount,userID);  // call webservice
         String status=validate(result);           // parse json
         return status;
     }
 
 
-    private String callWsUrl(String amount){
+    private String callWsUrl(String amount,String userID){
 
-        String URL="base_price="+amount;
+        String URL="base_price="+amount+"&user_id="+userID;
         String txtJson= RestFullWS.callWS(URL, Constant.WEBSERVICE_GET_URL);
-
         return txtJson;
     }
 
@@ -52,8 +55,13 @@ public class GetUrlBL {
                 /*String link=jsonObject.get("link").toString();
                 Log.d("link URL-->",link);*/
 
+                objAddLoopCredit.setUserName(jsonObject.get("user_fullname").toString());
+                objAddLoopCredit.setMobileNo(jsonObject.get("user_mobile").toString());
+                objAddLoopCredit.setEmailID(jsonObject.get("user_email").toString());
+
                 jsonObject=(JSONObject)jsonP.parse(jsonObject.get("link").toString());
                 url=jsonObject.get("url").toString();
+
                 Log.d("WEB URL-->",url);
 
             }

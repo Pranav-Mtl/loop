@@ -161,9 +161,11 @@ public class BookingBL {
             status=jsonObject.get("result").toString();
 
             if(status.equals(Constant.WS_RESULT_SUCCESS)){
+
                 statusResult=jsonObject.get("user_run_id").toString();
-                Constant.amount=jsonObject.get("credit").toString();
-                Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
+                Constant.currentLoopCredit=(int)Math.round(Double.valueOf(jsonObject.get("credit").toString()));
+                //Constant.amount=jsonObject.get("credit").toString();
+                Constant.LoopCredit=Constant.LoopCreditText+Constant.currentLoopCredit;
             }
 
         } catch (Exception e) {

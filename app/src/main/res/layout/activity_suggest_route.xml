@@ -41,6 +41,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="50dp"
+                android:background="@color/GrayBG"
                 >
                 <LinearLayout
                     android:layout_marginTop="20dp"
@@ -70,7 +71,7 @@
 
 
                     <EditText
-                        android:id="@+id/message"
+                        android:id="@+id/suggestion_message"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="50dp"

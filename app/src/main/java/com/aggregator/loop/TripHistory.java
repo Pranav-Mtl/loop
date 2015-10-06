@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -41,6 +42,9 @@ public class TripHistory extends AppCompatActivity {
     View _itemColoured;
 
     ProgressDialog mProgressDialog;
+
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +96,7 @@ public class TripHistory extends AppCompatActivity {
         recList = (RecyclerView) findViewById(R.id.cardList);
         recList.setHasFixedSize(true);
 
-        LinearLayoutManager llm = new LinearLayoutManager(this);
+       final LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
 
@@ -156,12 +160,12 @@ public class TripHistory extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 4) {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                        } else if (position == 8) {
+                        } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         } else if (position == 7) {
 
-                        } else if (position == 6) {
-                            //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                        }else if (position == 6) {
+                            startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                         }
 
                     }
@@ -179,6 +183,21 @@ public class TripHistory extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
+                visibleItemCount = llm.getChildCount();
+                totalItemCount = llm.getItemCount();
+                pastVisiblesItems = llm.findFirstVisibleItemPosition();
+
+                Log.d("visible item count",visibleItemCount+"");
+                Log.d("total item count",totalItemCount+"");
+                Log.d("past visible item",pastVisiblesItems+"");
+
+                if (loading) {
+                    if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        loading = false;
+                        Log.v("...", "Last Item Wow !");
+                    }
+                }
 
 
             }

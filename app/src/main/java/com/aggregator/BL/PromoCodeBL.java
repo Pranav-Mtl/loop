@@ -40,14 +40,16 @@ public class PromoCodeBL {
             status = jsonObject.get("result").toString();
 
             if(status.equals(Constant.WS_RESULT_SUCCESS)){
-                Constant.amount=jsonObject.get("user_credit").toString();
-                Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
+                Constant.currentLoopCredit=(int)Math.round(Double.valueOf(jsonObject.get("user_credit").toString()));
+                //Constant.amount=jsonObject.get("user_credit").toString();
+                Constant.LoopCredit=Constant.LoopCreditText+Constant.currentLoopCredit;
                 Constant.LoopCreditUsed=jsonObject.get("promo_value").toString();
             }
             else if(status.equals("valid")){
-                Constant.amount=jsonObject.get("user_credit").toString();
-                Constant.LoopCredit=Constant.LoopCreditText+Constant.amount;
-                Constant.LoopCreditUsed=Constant.amount;
+                Constant.currentLoopCredit=(int)Math.round(Double.valueOf(jsonObject.get("user_credit").toString()));
+                //Constant.amount=jsonObject.get("user_credit").toString();
+                Constant.LoopCredit=Constant.LoopCreditText+Constant.currentLoopCredit;
+                Constant.LoopCreditUsed=Constant.currentLoopCredit+"";
             }
 
         }catch (Exception e){
