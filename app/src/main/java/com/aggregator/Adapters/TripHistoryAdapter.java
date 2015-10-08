@@ -48,7 +48,7 @@ public class TripHistoryAdapter extends BaseAdapter implements View.OnClickListe
 
             mContext=context;
             userID=id;
-            status=objTripHistoryBL.getAllTrip(id);
+           // status=objTripHistoryBL.getAllTrip(id);
             objAddFav=new AddFav();
 
 

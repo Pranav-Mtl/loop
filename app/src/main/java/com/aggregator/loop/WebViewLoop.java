@@ -83,17 +83,18 @@ public class WebViewLoop extends AppCompatActivity {
 
             //Show loader on url load
             public void onLoadResource (WebView view, String url) {
-                if (progressDialog == null) {
-                    // in standard case YourActivity.this
-                    progressDialog = new ProgressDialog(WebViewLoop.this);
-                    progressDialog.setMessage("Loading...");
-                    progressDialog.show();
-                }
+
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 try{
+                    if (progressDialog == null) {
+                        // in standard case YourActivity.this
+                        progressDialog = new ProgressDialog(WebViewLoop.this);
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.show();
+                    }
 
                 }catch(Exception exception){
                     exception.printStackTrace();

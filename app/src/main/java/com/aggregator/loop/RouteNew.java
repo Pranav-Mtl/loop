@@ -131,17 +131,25 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
                 System.out.println("Height :" + heightDiff);
 
-                if (heightDiff > 200) {
+                if (heightDiff >100) {
                     // keyboard is
                     Log.d("SoftKeyboard", "Soft keyboard shown");
                     routesCross.setVisibility(View.VISIBLE);
-
-
                 } else {
                     // keyboard is down
                     Log.d("SoftKeyboard", "Soft keyboard hidden");
-                    tvSearchRoute.setText("");
-                    routesCross.setVisibility(View.INVISIBLE);
+
+                    if(tvSearchRoute.getText().toString().trim().length()==0){
+                        elvSearch.setVisibility(View.GONE);
+                        expListView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        tvSearchRoute.setText("");
+                        routesCross.setVisibility(View.INVISIBLE);
+                    }
+
+
+
 
                 }
             }
@@ -698,8 +706,6 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                 elvSearch.setAdapter(objRoutesAdapterSearch);
 
                 mGroupSearch = new boolean[objRoutesAdapterSearch.getGroupCount()];
-
-
 
                 elvSearch.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
                     int previousGroup = -1;

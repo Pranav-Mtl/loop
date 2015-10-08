@@ -69,7 +69,6 @@ public class OTPBL {
 
         String URL="phone="+mobile+"&otp="+otp;
         String txtJson= RestFullWS.callWS(URL, Constant.WEBSERVICE_RESEND_OTP);
-
         return txtJson;
     }
 
@@ -83,6 +82,7 @@ public class OTPBL {
             JSONArray jsonArrayObject = (JSONArray) obj;
             JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(0).toString());
             status = jsonObject.get("result").toString();
+
         }catch (Exception e){
 
         }

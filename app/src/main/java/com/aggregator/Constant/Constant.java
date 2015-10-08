@@ -216,6 +216,8 @@ public class Constant {
     public static Double tripLoopCredit[];
     public static Double tripTotalAmount[];
 
+    public static int tripSize=0;
+
 
     /* MENU ITEMS AFTER USER SIGN IN*/
 

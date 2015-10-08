@@ -226,7 +226,6 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
 
         @Override
         protected String doInBackground(String... params) {
-
             String result=objPromoCodeBL.sendCode(params[0],params[1]);
             return result;
         }
@@ -236,12 +235,12 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
             try {
                 if(s.equals(Constant.WS_RESULT_SUCCESS)){
                     Log.d("Loop Credit",Constant.LoopCreditUsed);
-                    Toast.makeText(getApplicationContext(),"₹"+Constant.LoopCreditUsed+" Loop Credited to your account. ",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Constant.LoopCreditUsed+" Loop Credited to your account. ",Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else if(s.equals("used"))
                 {
-                    Toast.makeText(getApplicationContext(),"Referral code can be applied only once and before first booking.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"You have already used this promo code.",Toast.LENGTH_LONG).show();
                     //etPromocode.setError("The promo/referral code is invalid.");
                 }
                 else

@@ -29,7 +29,6 @@ public class TicketScreenBE implements Serializable {
 
     private String runID;
     private String wayPoints;
-
     private String endPointTime;
 
     public String getEndPointTime() {

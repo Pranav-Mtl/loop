@@ -120,7 +120,8 @@
         </activity>
         <activity
             android:name=".RouteNew"
-            android:label="@string/title_activity_route_new" >
+            android:label="@string/title_activity_route_new"
+            android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
 
         <receiver
@@ -166,6 +167,10 @@
         <activity
             android:name=".WebViewLoop"
             android:label="" >
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
         </activity>
     </application>
 

@@ -425,43 +425,52 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                                 Date time = sdf.parse(spnTimePicker.getSelectedItem().toString().replace("\"", ""));
                                 Date date = new Date();
                                 String formattedDateTime = dateFormat.format(date);
-                                Date dtCurrent=sdf.parse(formattedDateTime);
+                                String selectedTime=dateFormat.format(time);
 
-                                long diffMs = time.getTime()- dtCurrent.getTime() ;
+                                Date dtSlected=dateFormat.parse(selectedTime);
+                                Date dtCurrent=dateFormat.parse(formattedDateTime);
+
+                                long diffMs = dtSlected.getTime()- dtCurrent.getTime() ;
                                 long diffSec = diffMs / 1000;
                                 long min = diffSec / 60;
                                 long sec = diffSec % 60;
 
                                 System.out.println("The difference is " + min + " minutes and " + sec + " seconds.");
 
+                                if(min>0) {
 
-                                Log.d("Current Time--",dtCurrent+"");
-                                String strTime = dateFormat24.format(time);
+                                    Log.d("Current Time--", dtCurrent + "");
+                                    String strTime = dateFormat24.format(time);
 
 
-                                if (loginID == null) {
-                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id, startPointID);
-                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id, endPointID);
-                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID, routeId);
-                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_Run_ID, runID);
-                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_TIME, strTime);
-                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_PRICE, paytmCash);
-                                    Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT, loopCredit);
-                                    startActivity(new Intent(BookingNew.this, SignUpScreen.class));
-                                } else {
+                                    if (loginID == null) {
+                                        Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id, startPointID);
+                                        Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id, endPointID);
+                                        Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID, routeId);
+                                        Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_Run_ID, runID);
+                                        Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_TIME, strTime);
+                                        Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_PRICE, "0");
+                                        Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT, price);
+                                        startActivity(new Intent(BookingNew.this, SignUpScreen.class));
+                                    } else {
 
-                                    objBookingBE.setUserID(loginID);
-                                    objBookingBE.setRouteID(routeId);
-                                    objBookingBE.setStartPoint(startPointID);
-                                    objBookingBE.setEndPoint(endPointID);
-                                    objBookingBE.setRunID(runID);
-                                    objBookingBE.setPrice(paytmCash);
-                                    objBookingBE.setLoopCredit(loopCredit);
+                                        objBookingBE.setUserID(loginID);
+                                        objBookingBE.setRouteID(routeId);
+                                        objBookingBE.setStartPoint(startPointID);
+                                        objBookingBE.setEndPoint(endPointID);
+                                        objBookingBE.setRunID(runID);
+                                        objBookingBE.setPrice("0");
+                                        objBookingBE.setLoopCredit(price);
 
-                                    objBookingBE.setTime(strTime);
-                                    new InsertBooking().execute();
-
+                                        objBookingBE.setTime(strTime);
+                                        new InsertBooking().execute();
+                                    }
                                 }
+                                else{
+                                        Toast.makeText(getApplicationContext(),"Selected time should be greater than current time.",Toast.LENGTH_LONG).show();
+                                    }
+
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -716,12 +725,11 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             if(cc==-1){
             //tvError.setVisibility(View.VISIBLE);
             //tvError.setText("No vehicles going in this direction today.");
-                btnDone.setEnabled(false);
-                btnDone.setBackgroundColor(getResources().getColor(R.color.GrayBG));
+               timeSelected=false;
         }
         else{
             //tvError.setVisibility(View.INVISIBLE);
-                btnDone.setEnabled(true);
+                timeSelected=true;
         }
 
 

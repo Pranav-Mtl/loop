@@ -38,11 +38,11 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
     String userID;
     AddFav objAddFav;
 
-    public CardAdapter(Context context,String id) {
+    public CardAdapter(Context context,String id,String page) {
         mContext=context;
         userID=id;
         try {
-            status = objTripHistoryBL.getAllTrip(id);
+            status = objTripHistoryBL.getAllTrip(id,page);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -75,8 +75,10 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         {
             contactViewHolder.ivLeftTop.setBackgroundResource(R.drawable.ic_red_star);
             contactViewHolder.tvLeftTop.setText("Rate Trip");
-            String dd[]=Constant.tripDate[i].split(" ");
             try {
+
+            String dd[]=Constant.tripDate[i].split(" ");
+
                 String onlydate=sdf.parse(dd[0])+"";
                 onlydate=onlydate.substring(0,10);
                 contactViewHolder.tvTime.setText(onlydate + " at " + Constant.tripTime[i]);
@@ -100,7 +102,7 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         contactViewHolder.tvEndPoint.setText(Constant.tripEndName[i]);
 
        /* contactViewHolder.tvCost.setText("Cost : ₹ "+Constant.tripTotalAmount[i]+" (Loop Credit: ₹ "+Constant.tripLoopCredit[i]+", Paytm: ₹ "+Constant.tripPrice[i]+" )");*/
-        contactViewHolder.tvCost.setText("Using "+ Constant.tripLoopCredit[i] +" loop credits");
+        contactViewHolder.tvCost.setText("Using "+Math.round(Double.valueOf(Constant.tripLoopCredit[i])) +" loop credits");
 
         contactViewHolder.llLeftBottom.setOnClickListener(clickListener);
         contactViewHolder.llLeftTop.setOnClickListener(clickListener);
@@ -108,17 +110,6 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         contactViewHolder.llLeftBottom.setTag(contactViewHolder);
         contactViewHolder.llLeftTop.setTag(contactViewHolder);
 
-
-       /* contactViewHolder.vName.setText("Pranav");
-        contactViewHolder.vSurname.setText("Mittal");
-        contactViewHolder.vEmail.setText("pranav mittal");
-        contactViewHolder.vTitle.setText("SE");
-
-        contactViewHolder.vName.setOnClickListener(clickListener);
-        contactViewHolder.vEmail.setOnClickListener(clickListener);
-
-        contactViewHolder.vName.setTag(contactViewHolder);
-        contactViewHolder.vName.setTag(contactViewHolder);*/
     }
 
 

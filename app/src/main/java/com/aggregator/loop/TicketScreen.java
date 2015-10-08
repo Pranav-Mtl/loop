@@ -44,6 +44,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -91,6 +92,8 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     private LatLngBounds latlngBounds;
     private Polyline newPolyline;
 
+    Marker markers;
+
     SimpleDateFormat dateFormatCurrent = new SimpleDateFormat("K:mm:ss");
 
 
@@ -113,6 +116,8 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     String wayPoints="";
 
     double sourceLat,sourceLong,destinationLat,destinationLong;
+
+    boolean flag=true;
 
 
     @Override
@@ -198,7 +203,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                        });
                    }
                };
-               timer.schedule(doAsynchronousTask, 0, 30000); //execute in every 10 ms
+               timer.schedule(doAsynchronousTask, 0, 180000); //execute in every 10 ms
 
            }
             else{
@@ -396,7 +401,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 tvTime.setText(spanString4);
 
                 cal = Calendar.getInstance();
-                String time=dateFormatCurrent.format(cal.getTime());
+                String time=dateFormat.format(cal.getTime());
 
                 Log.d("Current Time",time);
                 Date d1 =dateFormat.parse(time);
@@ -438,7 +443,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
                 showMarkerDrop(objTicketScreenBE.getDropPointLat(), objTicketScreenBE.getDropPointLong());
 
-                Date departure=dateFormatCurrent.parse(objTicketScreenBE.getDepartureTime());
+                Date departure=dateFormat.parse(objTicketScreenBE.getEndPointTime());
 
                 Log.d("Departure Time",departure+"");
 
@@ -506,7 +511,15 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                     getCurrentLocation();
                     Log.d("Current Lat", currentlatitude + "");
                     Log.d("Current Lon", currentlongtitude + "");
-                    showMarker(currentlatitude, currentlongtitude);
+
+                    if(flag) {
+                        showMarker(currentlatitude, currentlongtitude);
+                        flag=false;
+                    }
+                    else {
+                        markers.remove();
+                        showMarker(currentlatitude, currentlongtitude);
+                    }
                     distance = getDistance(currentlatitude, currentlatitude, objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
                     PickText = PickText + " \n Distance :" + distance + " km";
                     Log.d("Distance-->", distance + "");
@@ -549,7 +562,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
             marker.title("Here You Are !!!");
 
-            googleMap.addMarker(marker);
+            markers=googleMap.addMarker(marker);
 
 
 
@@ -592,9 +605,8 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
             marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.drop));
             // adding marker
-
-
             googleMap.addMarker(marker);
+
         }catch(Exception e){}
     }
 
@@ -644,7 +656,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         map.put(GetDirectionsAsyncTask.WAY_POINTS,waypoint);
         map.put(GetDirectionsAsyncTask.DIRECTIONS_MODE, mode);
 
-	   GetDirectionsAsyncTask asyncTask = new GetDirectionsAsyncTask(TicketScreen.this);
+        GetDirectionsAsyncTask asyncTask = new GetDirectionsAsyncTask(TicketScreen.this);
 		asyncTask.execute(map);
     }
 

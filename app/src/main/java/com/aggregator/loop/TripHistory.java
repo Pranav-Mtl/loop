@@ -17,9 +17,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.aggregator.Adapters.CardAdapter;
 import com.aggregator.Adapters.DrawerAdapter;
+import com.aggregator.BL.TripHistoryBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.appsee.Appsee;
@@ -45,6 +47,13 @@ public class TripHistory extends AppCompatActivity {
 
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
+
+    TripHistoryBL objTripHistoryBL;
+
+    int currentPage=0;
+
+
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +99,8 @@ public class TripHistory extends AppCompatActivity {
         Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();
 
-
-
+mProgressBar= (ProgressBar) findViewById(R.id.trip_progressBar);
+        objTripHistoryBL =new TripHistoryBL();
 
         recList = (RecyclerView) findViewById(R.id.cardList);
         recList.setHasFixedSize(true);
@@ -100,12 +109,15 @@ public class TripHistory extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
 
+        /*View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.progress_footer, null, false);
+
+        ListView.addFooterView(footerView);*/
 
 
         userId= Util.getSharedPrefrenceValue(getApplicationContext(), Constant.SHARED_PREFERENCE_User_id);
 
         if(Util.isInternetConnection(TripHistory.this)) {
-            new GetHistory().execute(userId);
+            new GetHistory().execute(userId,currentPage+"");
         }
         else{
             AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(TripHistory.this);
@@ -192,12 +204,23 @@ public class TripHistory extends AppCompatActivity {
                 Log.d("total item count",totalItemCount+"");
                 Log.d("past visible item",pastVisiblesItems+"");
 
-                if (loading) {
-                    if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                        loading = false;
-                        Log.v("...", "Last Item Wow !");
+                    if(loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+
+                            //mProgressBar.setVisibility(View.VISIBLE);
+                            loading=false;
+                            currentPage += 10;
+                            Log.v("...", "Last Item Wow !");
+                            try {
+                                new GetSearchLoaddata().execute(userId, currentPage + "");
+
+                                // mProgressBar.setVisibility(View.GONE);
+                            } catch (Exception e) {
+
+                            }
+
+                        }
                     }
-                }
 
 
             }
@@ -217,7 +240,7 @@ public class TripHistory extends AppCompatActivity {
 
        @Override
        protected String doInBackground(String... params) {
-           cd=new CardAdapter(TripHistory.this,params[0]);
+           cd=new CardAdapter(TripHistory.this,params[0],params[1]);
            return "";
        }
 
@@ -275,4 +298,35 @@ public class TripHistory extends AppCompatActivity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
+    public class GetSearchLoaddata extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String result=objTripHistoryBL.getMoreAllTrip(params[0], params[1]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            if(s.equals(Constant.WS_RESULT_SUCCESS)) {
+                cd.notifyDataSetChanged();
+                loading = true;
+                mProgressBar.setVisibility(View.GONE);
+            }
+            else
+            {
+                loading=false;
+                mProgressBar.setVisibility(View.GONE);
+            }
+
+        }
+    }
+
 }

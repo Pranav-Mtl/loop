@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_centerInParent="true"
-            android:text="Add Loop Credit "
+            android:text="Buy Loop Credits"
             android:textColor="#ffffff"
             android:textSize="20sp" />
     </android.support.v7.widget.Toolbar>

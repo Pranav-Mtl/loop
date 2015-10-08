@@ -22,7 +22,6 @@ public class RoutesBL {
         String status=validate(result);
         return status;
     }
-
     private String callWS()
     {
         String URL="";
@@ -199,6 +198,8 @@ public class RoutesBL {
             e.getLocalizedMessage();
         }
     }
+
+
     private void parseFavourites(String result){
         System.out.println("Fav Routes JSON ----->"+result);
         JSONParser jsonP=new JSONParser();

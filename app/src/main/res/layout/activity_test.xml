@@ -40,6 +40,15 @@
          android:layout_height="match_parent"
          android:layout_below="@id/toolbar"
          />
+
+     <ProgressBar
+         android:id="@+id/trip_progressBar"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_centerInParent="true"
+         android:visibility="gone"
+         />
  </RelativeLayout>
 
     <com.twotoasters.android.support.v7.widget.RecyclerView
@@ -51,4 +60,5 @@
         android:scrollbars="vertical">
 
     </com.twotoasters.android.support.v7.widget.RecyclerView>
+
 </android.support.v4.widget.DrawerLayout>

@@ -10,7 +10,10 @@ import org.json.simple.parser.JSONParser;
 /**
  * Created by appslure on 9/10/2015.
  */
+
 public class SendCommentBL {
+
+
     String msg,userId,pass,email;
     String finalValue;
     public String status;
@@ -28,8 +31,6 @@ public class SendCommentBL {
         try {
             String result = fetRecord(userId,rating,msg,runID);
             finalValue  = validate(result);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,13 +60,12 @@ public class SendCommentBL {
             Object obj =jsonP.parse(strValue);
             JSONArray jsonArrayObject = (JSONArray)obj;
             JSONObject jsonObject1=(JSONObject)jsonP.parse(jsonArrayObject.get(0).toString());
-            result=(jsonObject1.get("result").toString());
+            result=jsonObject1.get("result").toString();
 
 
 
 
         } catch (Exception e) {
-            System.out.println("in second catch block");
             e.printStackTrace();
         }
         return result;

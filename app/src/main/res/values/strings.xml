@@ -15,6 +15,7 @@
     <color name="MenuItems">#75d9b3</color>
     <color name="MenuHeader">#51a898</color>
     <color name="LightBG">#f8f9fb</color>
+    <color name="StatusBar">#1fc796</color>    <!-- STATUS BAR DARK COLOR -->
     <color name="DarkGreen">#049da2</color>
     <color name="TextColor">#1d1d26</color>
     <color name="WhiteColor">#fff</color>
@@ -24,6 +25,7 @@
     <color name="TabSelectedColor">#1fc796</color>
     <color name="RouteSelectedColor">#66daae</color>
     <color name="GrayBG">#f2f2f2</color>
+    <color name="BookingGray">#f2f2f2</color>
 
     <string name="title_activity_sign_in">SignIn</string>
     <string name="title_activity_booking_screen">BookingScreen</string>
@@ -53,4 +55,5 @@
     <string name="title_section4"></string>
     <string name="title_section5"></string>
     <string name="title_activity_web_view">WebView</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
