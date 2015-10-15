@@ -10,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.aggregator.BE.AddCreditBE;
@@ -21,7 +23,7 @@ import com.aggregator.Constant.Constant;
 
 import java.net.URLDecoder;
 
-public class WebViewLoop extends AppCompatActivity {
+public class WebViewLoop extends AppCompatActivity implements View.OnClickListener{
 
     private WebView webView;
 
@@ -34,6 +36,8 @@ public class WebViewLoop extends AppCompatActivity {
     String userID;
 
     String amount;
+
+    Button btnDone;
 
     AddCreditBE objAddLoopCredit;
 
@@ -53,6 +57,9 @@ public class WebViewLoop extends AppCompatActivity {
         objGetUrlBL=new GetUrlBL();
 
         webView = (WebView) findViewById(R.id.loop_webView);
+        btnDone= (Button) findViewById(R.id.webview_done);
+
+        btnDone.setOnClickListener(this);
 
         amount=getIntent().getExtras().get("Amount").toString();
 
@@ -215,6 +222,67 @@ public class WebViewLoop extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.webview_done:
+
+                try {
+
+                    //Toast.makeText(getApplicationContext(),"BAck Clicked",Toast.LENGTH_SHORT).show();
+                    Log.d("URL RETURN", webView.getUrl());
+
+                    String url = webView.getUrl();
+
+                    String ss[] = url.split("&");
+
+                    String keyValue[] = ss[0].split("=");
+                    String param_key = URLDecoder.decode(keyValue[0]);
+// the	tracking	id	value	(i.e.	12345)	is
+                    // stored	in	param_value
+
+
+                    String param_value =
+                            URLDecoder.decode(keyValue[1]);
+
+                    Log.d("Key", param_key);
+                    Log.d("Paymenti id", param_value);
+
+                    String status[] = ss[1].split("=");
+
+                    String statusKey = URLDecoder.decode(status[0]);
+                    String statusValue = URLDecoder.decode(status[1]);
+
+                    Log.d("STATUS Key", statusKey);
+                    Log.d("STATUS VALUE", statusValue);
+
+                    if (statusValue.equals("success")) {
+                        Toast.makeText(getApplicationContext(), amount + " loop credited to your account.", Toast.LENGTH_SHORT).show();
+                        double amt = Double.valueOf(Constant.amount) + Double.valueOf(amount);
+                        Constant.amount = amt + "";
+                        Constant.LoopCredit = Constant.LoopCreditText + Constant.amount;
+                        startActivity(new Intent(getApplicationContext(), RouteNew.class));
+                        // finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Loop payment failed. Please try again.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }catch (ArrayIndexOutOfBoundsException e){
+                    e.printStackTrace();
+                    finish();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    finish();
+                }
+
+
+
+                onBackPressed();
+                break;
+        }
     }
 
     private class GetURLToLoad extends AsyncTask<String,String,String>{

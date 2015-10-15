@@ -6,6 +6,10 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.aggregator.Configuration.Util;
+import com.aggregator.Constant.Constant;
+import com.google.android.gms.analytics.HitBuilders;
+
 public class SplashScreen extends AppCompatActivity {
 
     int SPLASH_TIME = 2000;
@@ -16,11 +20,37 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        final String appRun= Util.getSharedPrefrenceValue(SplashScreen.this, Constant.SHARED_PREFERENCE_CHECK_APP_RUN);
+
+         /* call google analytics*/
+
+        try {
+            Application.tracker().setScreenName("Splash Screen");
+            Application.tracker().send(new HitBuilders.EventBuilder()
+                    .setLabel("Splash Screen")
+                    .setCategory("Splash Screen")
+                    .setAction("App Launch")
+                    .build());
+
+            // AffleInAppTracker.inAppTrackerViewName(getApplicationContext(), "Landing Screen", "App First Screen", "APP Open", null);
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getApplicationContext(),RouteNew.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+
+                if(appRun==null) {
+                    startActivity(new Intent(getApplicationContext(), Tutorial.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                }
+                else {
+                    startActivity(new Intent(getApplicationContext(), RouteNew.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                }
             }
         }, SPLASH_TIME);
     }

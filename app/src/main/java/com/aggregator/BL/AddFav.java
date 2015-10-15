@@ -16,7 +16,6 @@ public class AddFav {
 
     String jsonFav,jsonRecent;
 
-
     public String addfav(String userID,String routeID,String startPoint,String endPoint){
         String result=callWS(userID, routeID, startPoint, endPoint);
         String status=validate(result);

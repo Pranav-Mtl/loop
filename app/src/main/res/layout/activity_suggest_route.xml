@@ -12,97 +12,108 @@
         android:layout_height="match_parent"
         android:id="@+id/header"
         tools:context="com.example.appslure.loop.HelpActivity">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#1ebd9d"
+            android:background="@color/LightGreen"
             app:theme="@style/Toolbar_Theme"
             android:layout_gravity="center"
-
             android:minHeight="?attr/actionBarSize">
 
-            >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Suggest A Route"
+                android:text="Suggest a Route"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_centerInParent="true"
-                android:textSize="20dp"
+                android:textSize="@dimen/toolbar_text_size"
                 android:textColor="#ffffff"
 
                 />
 
         </android.support.v7.widget.Toolbar>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="50dp"
-                android:background="@color/GrayBG"
+                android:orientation="vertical"
+                android:background="@color/WhiteColor"
                 >
-                <LinearLayout
-                    android:layout_marginTop="20dp"
+                <!--<TextView
                     android:layout_width="fill_parent"
-                    android:orientation="vertical"
-                    android:layout_height="fill_parent">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/vehicle_img"
-
-                        />
-                    <TextView
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tell us where do you want us to run the loop service."
-                        android:textColor="#34495e"
-                        android:textSize="17dp"
-                        />
-
-
-
-
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/BlueTextColor"
+                    android:textSize="15sp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="Tell us where do you want to run the loop service."
+                    />
+-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/nameLayout"
+                    android:layout_width="fill_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/suggestion_message"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="50dp"
+                        android:id="@+id/suggestion_pick"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Mention starting locality and ending locality."
+                        android:drawableLeft="@drawable/ic_ticket_pick"
+                        android:drawablePadding="5dp"
+                        android:imeOptions="actionNext"
                         android:singleLine="true"
-                        android:textSize="13sp"
-                        android:imeOptions="actionDone"
-                        android:background="@android:color/transparent"
-                        />
-                    <LinearLayout
+                        android:textColorHint="@color/BlueTextColor"
+                        android:textColor="@color/TextColor"
+                        android:hint="       Pickup location"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+
+                    android:layout_width="fill_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/suggestion_drop"
                         android:layout_width="fill_parent"
-                        android:background="#34495e"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_height="1dp">
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_ticket_drop"
+                        android:drawablePadding="5dp"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:textColorHint="@color/BlueTextColor"
+                        android:textColor="@color/TextColor"
+                        android:hint="       Drop location"/>
+                </android.support.design.widget.TextInputLayout>
 
-                    </LinearLayout>
-                </LinearLayout>
-            </RelativeLayout>
-
-
-        <Button
-            android:id="@+id/submitBtn"
-            android:layout_width="fill_parent"
-            android:background="#1ebd9d"
-            android:layout_alignParentBottom="true"
-            android:text="Submit"
-            android:textColor="#ffffff"
-            android:layout_height="50dp" />
+                <Button
+                    android:id="@+id/submitBtn"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/booking_btn_customized"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:layout_gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:text="Submit"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="40dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/all_button_text_size"
+                    android:layout_height="wrap_content" />
+               </LinearLayout>
 
 
     </RelativeLayout>

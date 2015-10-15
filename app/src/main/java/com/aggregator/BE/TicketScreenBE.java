@@ -22,14 +22,30 @@ public class TicketScreenBE implements Serializable {
     private String vehicleRegistration;
     private String departureTime;
 
-    private Double startPointLat;
-    private Double endPointLong;
-    private Double startPointLong;
-    private Double endPointLat;
+
 
     private String runID;
     private String wayPoints;
     private String endPointTime;
+
+    private Double busLat;
+    private Double busLong;
+
+    public Double getBusLat() {
+        return busLat;
+    }
+
+    public void setBusLat(Double busLat) {
+        this.busLat = busLat;
+    }
+
+    public Double getBusLong() {
+        return busLong;
+    }
+
+    public void setBusLong(Double busLong) {
+        this.busLong = busLong;
+    }
 
     public String getEndPointTime() {
         return endPointTime;
@@ -55,41 +71,13 @@ public class TicketScreenBE implements Serializable {
         this.wayPoints = wayPoints;
     }
 
-    public Double getStartPointLong() {
-        return startPointLong;
-    }
 
-    public void setStartPointLong(Double startPointLong) {
-        this.startPointLong = startPointLong;
-    }
-
-    public Double getEndPointLat() {
-        return endPointLat;
-    }
-
-    public void setEndPointLat(Double endPointLat) {
-        this.endPointLat = endPointLat;
-    }
 
     public String getPickPointName() {
         return pickPointName;
     }
 
-    public Double getStartPointLat() {
-        return startPointLat;
-    }
 
-    public void setStartPointLat(Double startPointLat) {
-        this.startPointLat = startPointLat;
-    }
-
-    public Double getEndPointLong() {
-        return endPointLong;
-    }
-
-    public void setEndPointLong(Double endPointLong) {
-        this.endPointLong = endPointLong;
-    }
 
     public void setPickPointName(String pickPointName) {
         this.pickPointName = pickPointName;

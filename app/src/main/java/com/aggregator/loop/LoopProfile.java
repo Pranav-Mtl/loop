@@ -201,6 +201,8 @@ public class LoopProfile extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), RouteNew.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+
+
             }
         });
 
@@ -340,10 +342,12 @@ public class LoopProfile extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                         } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                        } else if (position == 7) {
-
+                        } else if (position == 8) {
+                            startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         } else if (position == 6) {
                             startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
+                        }else if (position == 7) {
+                            Util.rateUs(getApplicationContext());
                         }
 
                     }
@@ -400,7 +404,7 @@ public class LoopProfile extends AppCompatActivity {
                     confirmPass.setText("");
                     Constant.NAME=userName.getText().toString();
                     drawerAdapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "Profile Updated successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Profile updated successfully.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please try again.", Toast.LENGTH_SHORT).show();
                 }

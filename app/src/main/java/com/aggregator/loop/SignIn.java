@@ -253,13 +253,17 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                     bookingRouteId=Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID);
                     if(bookingRouteId==null)
                     {
-                        startActivity(new Intent(SignIn.this,RouteNew.class));
+                       // mProgressDialog.dismiss();
+                        startActivity(new Intent(SignIn.this, RouteNew.class));
+                        finish();
                     }
                     else
                     {
-                        mProgressDialog.dismiss();
+                       // mProgressDialog.dismiss();
+                        startActivity(new Intent(SignIn.this, RouteNew.class));
+                        finish();
 
-                        objBookingBE.setRouteID(Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID));
+                       /* objBookingBE.setRouteID(Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID));
                         objBookingBE.setRunID(Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_BOOKING_Run_ID));
                         objBookingBE.setStartPoint(Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id));
                         objBookingBE.setEndPoint(Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id));
@@ -268,12 +272,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                         objBookingBE.setUserID(Util.getSharedPrefrenceValue(SignIn.this, Constant.SHARED_PREFERENCE_User_id));
                         objBookingBE.setLoopCredit(Util.getSharedPrefrenceValue(SignIn.this,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT));
 
-                        booking();
+                        booking();*/
                     }
 
                 }
                 else if(result.equals("verify")){
                     startActivity(new Intent(getApplicationContext(),OTP.class).putExtra("Mobile",etEmail.getText().toString()).putExtra("Previous","Login"));
+                    finish();
                 }
                 else
                 {

@@ -128,6 +128,7 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.otp_not:
                 startActivity(new Intent(getApplicationContext(),RouteNew.class));
+                finish();
                 break;
 
         }
@@ -183,10 +184,13 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
                     if(bookingRouteId==null)
                     {
                         startActivity(new Intent(OTP.this,RouteNew.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        finish();
                     }
                     else
                     {
-                        objBookingBE.setRouteID(Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID));
+                        startActivity(new Intent(OTP.this, RouteNew.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        finish();
+                       /* objBookingBE.setRouteID(Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_ROUTE_ID));
                         objBookingBE.setRunID(Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_Run_ID));
                         objBookingBE.setStartPoint(Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id));
                         objBookingBE.setEndPoint(Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id));
@@ -195,7 +199,7 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
                         objBookingBE.setUserID(Util.getSharedPrefrenceValue(OTP.this, Constant.SHARED_PREFERENCE_User_id));
                         objBookingBE.setLoopCredit(Util.getSharedPrefrenceValue(OTP.this,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT));
 
-                        booking();
+                        booking();*/
                     }
                 }
                 else {

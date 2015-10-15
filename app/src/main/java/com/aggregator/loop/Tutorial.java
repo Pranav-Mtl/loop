@@ -8,6 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.aggregator.Configuration.Util;
+import com.aggregator.Constant.Constant;
+
 import java.util.Locale;
 
 public class Tutorial extends AppCompatActivity {
@@ -23,6 +26,15 @@ public class Tutorial extends AppCompatActivity {
         mViewPager= (ViewPager) findViewById(R.id.pager);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        String appRun= Util.getSharedPrefrenceValue(Tutorial.this, Constant.SHARED_PREFERENCE_CHECK_APP_RUN);
+
+        if(appRun==null){
+            Util.setSharedPrefrenceValue(Tutorial.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_CHECK_APP_RUN,"not_first");
+        }
+
 
     }
 
@@ -57,18 +69,15 @@ public class Tutorial extends AppCompatActivity {
             try {
                 switch (position) {
                     case 0:
-                        // Top Rated fragment activity
-                        return new TutorialFragmentOne();
-                    case 1:
                         // Games fragment activity
                         return new TutorialFragmentTwo();
-                    case 2:
+                    case 1:
                         // Movies fragment activity
                         return new TutorialFragmentThree();
-                    case 3:
+                    case 2:
                         // Movies fragment activity
                         return new TutorialFragmentFour();
-                    case 4:
+                    case 3:
                         // Movies fragment activity
                         return new TutorialFragmentFive();
 
@@ -84,7 +93,7 @@ public class Tutorial extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 5;
+            return 4;
         }
 
         @Override

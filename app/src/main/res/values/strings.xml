@@ -24,7 +24,10 @@
     <color name="BlueTextColor">#34495e</color>
     <color name="TabSelectedColor">#1fc796</color>
     <color name="RouteSelectedColor">#66daae</color>
-    <color name="GrayBG">#f2f2f2</color>
+    <color name="GrayBG">#e4e4e4</color>
+    <color name="TicketGreenText">#009688</color>
+    <color name="TicketGrayText">#8b8b8b</color>
+    <color name="TicketGrayBG">#e6e5e5</color>
     <color name="BookingGray">#f2f2f2</color>
 
     <string name="title_activity_sign_in">SignIn</string>
@@ -48,7 +51,6 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="title_section1"></string>
     <string name="title_section2"></string>
     <string name="title_section3"></string>
@@ -56,4 +58,9 @@
     <string name="title_section5"></string>
     <string name="title_activity_web_view">WebView</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <!-- ...start app messages...  -->
+
+    <string name="ticket_no_feedback_message">Your trip haven\'t start. Please rate this trip later </string>
+
 </resources>

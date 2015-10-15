@@ -22,8 +22,8 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             android:text="Loop Credits"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
+            android:textColor="@color/WhiteColor"
+            android:textSize="@dimen/toolbar_text_size" />
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
@@ -144,7 +144,7 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/WhiteColor"
                 android:textAllCaps="false"
-                android:textSize="18sp"
+                android:textSize="@dimen/all_button_text_size"
                 />
         </LinearLayout>
     </LinearLayout>

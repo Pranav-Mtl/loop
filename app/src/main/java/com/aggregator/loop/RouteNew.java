@@ -36,6 +36,7 @@ import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.aggregator.WS.RestFullWS;
 import com.appsee.Appsee;
+import com.google.android.gms.analytics.HitBuilders;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
 import org.json.simple.JSONArray;
@@ -92,6 +93,8 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
     String PayTMWalet ="";
     String logInType;
 
+    boolean isOpened = false;
+
     View currentGroup;
 
     private Toolbar toolbar;
@@ -124,7 +127,43 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
-        final View activityRootView = findViewById(R.id.DrawerLayout);
+
+
+
+
+        final View activityRootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
+                if (heightDiff > 100) { // 99% of the time the height diff will be due to a keyboard.
+                    //Toast.makeText(getApplicationContext(), "Gotcha!!! softKeyboardup", Toast.LENGTH_SHORT).show();
+
+                    routesCross.setVisibility(View.VISIBLE);
+
+                    if (isOpened == false) {
+                        //Do two things, make the view top visible and the editText smaller
+                    }
+                    isOpened = true;
+                } else if (isOpened == true) {
+
+                    if(tvSearchRoute.getText().toString().trim().length()==0){
+                        elvSearch.setVisibility(View.GONE);
+                        expListView.setVisibility(View.VISIBLE);
+                        routesCross.setVisibility(View.INVISIBLE);
+                    }
+                    else {
+                        tvSearchRoute.setText("");
+                        routesCross.setVisibility(View.INVISIBLE);
+                    }
+                   // Toast.makeText(getApplicationContext(), "softkeyborad Down!!!", Toast.LENGTH_SHORT).show();
+                    isOpened = false;
+                }
+            }
+        });
+
+       /* final View activityRootView = findViewById(R.id.DrawerLayout);
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
                 int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
@@ -134,26 +173,19 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                 if (heightDiff >100) {
                     // keyboard is
                     Log.d("SoftKeyboard", "Soft keyboard shown");
-                    routesCross.setVisibility(View.VISIBLE);
+
                 } else {
                     // keyboard is down
                     Log.d("SoftKeyboard", "Soft keyboard hidden");
 
-                    if(tvSearchRoute.getText().toString().trim().length()==0){
-                        elvSearch.setVisibility(View.GONE);
-                        expListView.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        tvSearchRoute.setText("");
-                        routesCross.setVisibility(View.INVISIBLE);
-                    }
+
 
 
 
 
                 }
             }
-        });
+        });*/
 
 
 
@@ -346,6 +378,12 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                             } else if (position == 1) {
                                 Drawer.closeDrawers();
                             }
+                            else if (position == 2) {
+                                startActivity(new Intent(getApplicationContext(), Tutorial.class));
+                            }
+                            else if (position == 3) {
+                                Util.rateUs(getApplicationContext());
+                            }
                         } else {
                             if (position == 0) {
                                 startActivity(new Intent(getApplicationContext(), LoopProfile.class));
@@ -360,7 +398,10 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                             } else if (position == 9) {
                                 startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                             } else if (position == 7) {
-
+                                Util.rateUs(getApplicationContext());
+                            }
+                            else if (position == 8) {
+                                startActivity(new Intent(getApplicationContext(), Tutorial.class));
                             } else if (position == 6) {
                                 startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                             }
@@ -421,6 +462,30 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         switch (v.getId())
         {
             case R.id.route_done:
+                String strLogin="";
+                if(logInType==null){
+                    strLogin="Not-logged in";
+                }
+                else {
+                    strLogin="Logged-in";
+                }
+                 /* call google analytics*/
+                try {
+                    Application.tracker().setScreenName("Route Screen");
+                    Application.tracker().send(new HitBuilders.EventBuilder()
+                            .setLabel(strLogin)
+                            .setCategory("Routes Screen")
+                            .setAction("Next Button")
+                            .setValue(routeID)
+                            .build());
+
+                    // AffleInAppTracker.inAppTrackerViewName(getApplicationContext(), "Landing Screen", "App First Screen", "APP Open", null);
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
                 startActivity(new Intent(getApplicationContext(), BookingNew.class).putExtra("RouteId", routeID));
                 break;
             case R.id.toolbar_Tab1:

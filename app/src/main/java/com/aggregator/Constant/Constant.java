@@ -34,6 +34,7 @@ public class Constant {
     public static String WEBSERVICE_BOOKING_ROUTES="selected_route.php";
     public static String WEBSERVICE_BOOKING="booking.php";
     public static String WEBSERVICE_UPDATE_STATUS="updatestatus.php";
+    public static String WEBSERVICE_CHECK_REFERRAL="referral.php";
     public static String WEBSERVICE_RESEND_OTP="reset_otp.php";
     public static String WEBSERVICE_TICKET="ticket.php";
     public static String WEBSERVICE_Route_Search="search.php";
@@ -46,10 +47,12 @@ public class Constant {
     public static String WEBSERVICE_ADDFAV="fav1.php";
     public static String WEBSERVICE_GET_URL="buy_credit.php";
     public static String WEBSERVICE_HELP="help.php";
+    public static String WEBSERVICE_SUGGESTION="suggestion.php";
     public static String WEBSERVICE_SHARE_EARN="user_referrals.php";
     public static String WEBSERVICE_PROMO_CODE="promo_code.php";
     public static String WEBSERVICE_EDIT_PROFILE="edit_profile.php";
     public static String WEBSERVICE_TRACK_BUS="tracking.php";
+
 
     public static String ERR_DROP_PICK_LOCATION="drop location must be after pick location";
 
@@ -72,7 +75,7 @@ public class Constant {
     public static String SHARED_PREFERENCE_User_id="id";
     public static String SHARED_PREFERENCE_PHONE="phone";
     public static String SHARED_PREFERENCE_LOGIN_STATUS="status";
-
+    public static String SHARED_PREFERENCE_CHECK_APP_RUN="run";
     ///   SAVE BOOKING DATA    ///
 
     public static String SHARED_PREFERENCE_BOOKING_SOURCE_id="source";
@@ -82,6 +85,7 @@ public class Constant {
     public static String SHARED_PREFERENCE_BOOKING_TIME="time";
     public static String SHARED_PREFERENCE_BOOKING_PRICE="price";
     public static String SHARED_PREFERENCE_BOOKING_LOOP_CREDIT="credit";
+
 
     //////////////        ALL ROUTES VARIABLE      /////////////////////
 
@@ -198,6 +202,7 @@ public class Constant {
     public static double rateCredit;
     public static double totalAmount;
     public static String feedback_comment;
+    public static String feedback_issues;
     public static Float feedback_rating;
 
     /* TRIP HISTORY VARIABLES */

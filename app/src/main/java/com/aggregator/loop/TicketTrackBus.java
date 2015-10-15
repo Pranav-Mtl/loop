@@ -1,7 +1,6 @@
 package com.aggregator.loop;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -23,7 +22,6 @@ import com.aggregator.gps.GMapV2Direction;
 import com.aggregator.gps.GPSTracker;
 import com.aggregator.gps.GetDirectionTrack;
 import com.aggregator.gps.GetDirectionsAsyncTask;
-import com.aggregator.gps.GetETA;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -197,7 +195,7 @@ public class TicketTrackBus extends AppCompatActivity {
     }
 
     public void handleGetDirectionsResult(ArrayList<LatLng> directionPoints) {
-        PolylineOptions rectLine = new PolylineOptions().width(5).color(Color.BLUE);
+        PolylineOptions rectLine = new PolylineOptions().width(7).color(getResources().getColor(R.color.LightGreen));
 
         for(int i = 0 ; i < directionPoints.size() ; i++)
         {
@@ -440,7 +438,7 @@ public class TicketTrackBus extends AppCompatActivity {
         map.put(GetDirectionsAsyncTask.WAY_POINTS, wayPoint);
         map.put(GetDirectionsAsyncTask.DIRECTIONS_MODE, mode);
 
-        GetETA asyncTask = new GetETA(TicketTrackBus.this);
+      /*  GetETA asyncTask = new GetETA(TicketTrackBus.this);
         try {
             asyncTask.execute(map);
 
@@ -448,7 +446,7 @@ public class TicketTrackBus extends AppCompatActivity {
         }catch (Exception e){
 
         }
-
+*/
     }
 
     public void setETA(){

@@ -184,7 +184,7 @@ public class TicketMapFullScreen extends AppCompatActivity implements RoutingLis
     }
 
     public void handleGetDirectionsResult(ArrayList<LatLng> directionPoints) {
-        PolylineOptions rectLine = new PolylineOptions().width(5).color(Color.BLUE);
+        PolylineOptions rectLine = new PolylineOptions().width(7).color(getResources().getColor(R.color.LightGreen));
 
         for(int i = 0 ; i < directionPoints.size() ; i++)
         {

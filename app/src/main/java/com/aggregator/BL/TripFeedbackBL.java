@@ -22,9 +22,9 @@ public class TripFeedbackBL {
     {
        this.userId=userId;
         try {
+
             String result = fetRecord(userId,id);
             finalValue  = validate(result);
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,6 +58,7 @@ public class TripFeedbackBL {
             status=jsonObject1.get("feedback_check").toString();
             if(status.equalsIgnoreCase("y")){
                 Constant.feedback_comment=jsonObject1.get("feedback_comment").toString();
+                Constant.feedback_issues=jsonObject1.get("feedback_issue").toString();
                 Constant.feedback_rating=(Float.valueOf(jsonObject1.get("feedback_rating").toString()));
             }
 

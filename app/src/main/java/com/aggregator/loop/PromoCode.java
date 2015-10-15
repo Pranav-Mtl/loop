@@ -27,6 +27,7 @@ import com.aggregator.BL.PromoCodeBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.appsee.Appsee;
+import com.google.android.gms.analytics.HitBuilders;
 import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
@@ -49,6 +50,7 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
     View _itemColoured;
     RadioGroup rg;
     RadioButton rbPromo,rbReferrer;
+    String text;
 
 
     @Override
@@ -136,10 +138,12 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                         } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                        } else if (position == 7) {
-
+                        } else if (position == 8) {
+                            startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         } else if (position == 6) {
                             startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
+                        }else if (position == 7) {
+                            Util.rateUs(getApplicationContext());
                         }
 
                     }
@@ -174,7 +178,7 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.promocode_done:
-                String text=etPromocode.getText().toString();
+                 text=etPromocode.getText().toString();
 
                 if(text.length()==0){
                     etPromocode.setError("Enter PromoCode");
@@ -234,8 +238,26 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
         protected void onPostExecute(String s) {
             try {
                 if(s.equals(Constant.WS_RESULT_SUCCESS)){
-                    Log.d("Loop Credit",Constant.LoopCreditUsed);
-                    Toast.makeText(getApplicationContext(),Constant.LoopCreditUsed+" Loop Credited to your account. ",Toast.LENGTH_LONG).show();
+                    Log.d("Loop Credit", Constant.LoopCreditUsed);
+
+                    try {
+                        Application.tracker().setScreenName("Promo Screen");
+                        Application.tracker().send(new HitBuilders.EventBuilder()
+                                .setLabel("Logged-in")
+                                .setCategory("Promo Screen")
+                                .setAction("Apply Button")
+                                .setValue(Integer.valueOf(text))
+
+                                .build());
+                        // AffleInAppTracker.inAppTrackerViewName(getApplicationContext(), "Landing Screen", "App First Screen", "APP Open", null);
+
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    // Success! We have put xx Loop Credits in your account
+                    Toast.makeText(getApplicationContext(),"Success! We have put "+Constant.LoopCreditUsed+" Loop Credits in your account ",Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else if(s.equals("used"))

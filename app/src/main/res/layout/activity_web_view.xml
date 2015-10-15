@@ -23,7 +23,23 @@
             android:layout_centerInParent="true"
             android:text="Buy Loop Credits"
             android:textColor="#ffffff"
-            android:textSize="20sp" />
+            android:textSize="@dimen/toolbar_text_size" />
+
+        <Button
+            android:id="@+id/webview_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:textAllCaps="false"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:visibility="gone"
+            android:background="@drawable/booking_btn_customized"
+            android:layout_gravity="right"
+            />
     </android.support.v7.widget.Toolbar>
 
     <WebView

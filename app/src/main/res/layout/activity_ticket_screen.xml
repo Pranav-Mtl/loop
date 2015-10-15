@@ -58,7 +58,7 @@
                 android:layout_centerInParent="true"
                 android:text="Ticket"
                 android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="@dimen/toolbar_text_size" />
 
             <LinearLayout
 
@@ -81,45 +81,55 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="50dp"
-        >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:weightSum="10"
+        android:layout_marginTop="50dp"
         >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            >
 
         <TextView
             android:id="@+id/ticket_pick"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:padding="5dp"
+            android:paddingLeft="5dp"
             android:drawablePadding="5dp"
             android:text="Pick"
             android:gravity="center_vertical"
-
+            android:drawableLeft="@drawable/ic_ticket_pick"
             />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ticket_dot"
+            android:layout_marginLeft="5dp"
+            />
         <TextView
             android:id="@+id/ticket_drop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="5dp"
+            android:paddingLeft="5dp"
             android:text="Drop"
             android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_ticket_drop"
             android:gravity="center_vertical"
 
             />
+        </LinearLayout>
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/ticket_vehicle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,23 +137,13 @@
             android:padding="5dp"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-
+            android:visibility="gone"
             android:text="Tata Safari"
-            />
+            />-->
 
-        <TextView
-            android:id="@+id/ticket_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="5dp"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-
-            android:text="Pick up time"
-            />
-
-        <LinearLayout
+      <!--
+-->
+       <!-- <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -163,30 +163,20 @@
                 android:background="@drawable/ticket_map_btn"
                 />
 
-            <Button
-                android:id="@+id/ticket_btn_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:text="Pick up point"
-                android:singleLine="false"
-                android:textColor="#fff"
-                android:textSize="14dp"
-                android:paddingLeft="-20dp"
-                android:background="@drawable/ticket_map_btn"
-                />
-        </LinearLayout>
 
+        </LinearLayout>
+-->
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_marginTop="0dp"
             android:orientation="vertical"
-            android:layout_height="220dp">
+            android:layout_height="0dp"
+            android:layout_weight="6.5"
+            android:background="@drawable/ticket_map_border"
+            >
             <ImageView
                 android:id="@+id/ticket_image"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-
                 android:background="@drawable/ticket_pick"
                 android:visibility="gone"
                 />
@@ -207,8 +197,8 @@
                     android:layout_height="wrap_content"
                     android:text="Get Directions"
                     android:padding="5dp"
+                    android:visibility="gone"
                     android:layout_alignParentBottom="true"
-
                     />
                 <Button
                     android:id="@+id/ticket_btn_eta"
@@ -216,10 +206,154 @@
                     android:layout_height="wrap_content"
                     android:text="Track Bus"
                     android:padding="5dp"
+                    android:visibility="gone"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     />
             </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="5dp"
+            android:background="@color/TicketGrayBG"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pickup Details"
+                android:textColor="@color/TextColor"
+                android:paddingLeft="5dp"
+                android:textSize="16sp"
+
+                />
+            <Button
+                android:id="@+id/ticket_btn_image"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="Pickup point photo"
+                android:singleLine="false"
+                android:textColor="@color/TicketGreenText"
+                android:textSize="14dp"
+                android:paddingLeft="-20dp"
+                android:background="@android:color/transparent"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            android:layout_marginTop="5dp"
+            >
+           <LinearLayout
+               android:layout_width="0dp"
+               android:layout_height="fill_parent"
+               android:layout_weight="1"
+               android:orientation="vertical"
+               >
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Vehicle Name"
+                   android:textSize="12sp"
+                   />
+               <TextView
+                    android:id="@+id/ticket_vehicle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+
+                    android:gravity="center_vertical"
+                    android:text="Tata Safari"
+                    android:textColor="@color/TicketGreenText"
+            />
+           </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vehicle No."
+                    android:textSize="12sp"
+                    />
+                <TextView
+                    android:id="@+id/ticket_vehicle_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+
+                    android:gravity="center_vertical"
+                    android:text="Tata Safari"
+                    android:textColor="@color/TicketGreenText"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pickup Time"
+                    android:textSize="12sp"
+                    />
+                <TextView
+                    android:id="@+id/ticket_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+
+                    android:gravity="center_vertical"
+                    android:textColor="@color/TicketGreenText"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ETA"
+                    android:textSize="12sp"
+                    />
+                <TextView
+                    android:id="@+id/ticket_eta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/TicketGreenText"
+                    android:text="- - -"
+
+                    />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -229,34 +363,9 @@
             android:weightSum="3"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:visibility="gone"
             >
-            <LinearLayout
-                android:id="@+id/ticket_btn_share"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:text="Share"
-                android:textColor="#fff"
-                android:textSize="16dp"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@drawable/light_customized_button"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_share"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Share"
-                    android:textColor="#fff"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="5dp"
-                    />
-               </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/ticket_btn_rate"
@@ -287,38 +396,45 @@
                     />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ticket_rate_trip"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:text="Share"
-                android:textColor="#fff"
-                android:textSize="16dp"
-                android:layout_marginLeft="7dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@drawable/booking_btn_customized"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ticket_smiley"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rate Trip"
-                    android:textColor="#fff"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="5dp"
-                    />
-            </LinearLayout>
+
 
 
 
         </LinearLayout>
     </LinearLayout>
-    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
+        >
+        <ImageButton
+            android:id="@+id/ticket_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ticket_open"
+            />
+        <ImageButton
+            android:id="@+id/ticket_rate_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ticket_rate"
+            android:visibility="gone"
+            />
+        <ImageButton
+            android:id="@+id/ticket_btn_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ticket_share"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
 </RelativeLayout>
 

@@ -16,10 +16,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#1ebd9d"
+        android:background="@color/LightGreen"
         app:theme="@style/Toolbar_Theme"
         android:layout_gravity="center"
-
         android:minHeight="?attr/actionBarSize">
 
        >
@@ -30,7 +29,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_centerInParent="true"
-            android:textSize="20dp"
+            android:textSize="@dimen/toolbar_text_size"
             android:textColor="#ffffff"
 
             />
@@ -50,85 +49,42 @@
         android:orientation="vertical"
         android:layout_height="fill_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/vehicle_img"
-
-            />
         <TextView
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="For any issues reach out to us at:"
-            android:textColor="#34495e"
-            android:textSize="17dp"
-            />
-
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="fill_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/call1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/call_btn"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/number"
-                android:layout_gravity="center"
-
-                />
-            <TextView
-               android:layout_marginLeft="4dp"
-                android:layout_gravity="center"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="9716722592"
-                android:textSize="17dp"
-                android:textColor="#34495e"
-
-                />
-            </LinearLayout>
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="OR"
+            android:text="We'd love to hear from you!"
+            android:textColor="@color/BlueTextColor"
+            android:textSize="17sp"
             android:gravity="center"
-            android:textSize="22dp"
-            android:textColor="#34495e"
+
             />
 
+
         <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Send us a short email using comments section below"
-            android:textSize="17dp"
-            android:textColor="#34495e"
+            android:text="Send us an email by typing below. We'll get back to you ASAP."
+            android:textColor="@color/BlueTextColor"
+            android:textSize="17sp"
+            android:gravity="center"
             />
 
 
-        <TextView
+
+       <!-- <TextView
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comments :"
-            android:textSize="20dp"
-            android:textColor="#34495e"
-            />
+            android:text="Suggestions :"
+            android:textSize="17sp"
+            android:textColor="@color/BlueTextColor"
+            />-->
 
         <EditText
             android:id="@+id/message"
@@ -137,32 +93,31 @@
             android:layout_marginTop="20dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="write your comments here.."
+            android:hint="Type here.."
             android:singleLine="true"
-            android:textSize="13sp"
+            android:textSize="14sp"
+            android:textColor="@color/TextColor"
             android:imeOptions="actionDone"
-            android:background="@android:color/transparent"
             />
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:background="#34495e"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_height="1dp">
 
-            </LinearLayout>
-        </LinearLayout>
+        <Button
+            android:id="@+id/submitBtn"
+            android:layout_width="fill_parent"
+            android:background="@drawable/booking_btn_customized"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentBottom="true"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:layout_marginTop="40dp"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/all_button_text_size"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
 </RelativeLayout>
  </ScrollView>
 
-<Button
-    android:id="@+id/submitBtn"
-    android:layout_width="fill_parent"
-    android:background="#1ebd9d"
-    android:layout_alignParentBottom="true"
-    android:text="Submit"
-    android:textColor="#ffffff"
-    android:layout_height="50dp" />
 
 
 </RelativeLayout>

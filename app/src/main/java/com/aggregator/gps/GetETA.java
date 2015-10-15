@@ -27,12 +27,12 @@ public class GetETA extends AsyncTask<Map<String, String>, Object, String> {
     public static final String DESTINATION_LONG = "destination_long";
     public static final String DIRECTIONS_MODE = "directions_mode";
     public static final String WAY_POINTS = "way_points";
-    private TicketTrackBus activity;
+    private TicketScreen activity;
 
     private Exception exception;
     private ProgressDialog progressDialog;
 
-    public GetETA(TicketTrackBus activity) {
+    public GetETA(TicketScreen activity) {
         super();
         this.activity = activity;
     }

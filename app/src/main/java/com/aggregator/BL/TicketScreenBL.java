@@ -64,6 +64,9 @@ public class TicketScreenBL {
             objTicketScreenBE.setEndPointTime(jsonObject.get("end_depature_time").toString());
             objTicketScreenBE.setWayPoints(jsonObject.get("route_detail").toString());
 
+            objTicketScreenBE.setBusLat(Double.valueOf(jsonObject.get("bus_lat").toString()));
+            objTicketScreenBE.setBusLong(Double.valueOf(jsonObject.get("bus_long").toString()));
+
 
 
 

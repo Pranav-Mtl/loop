@@ -32,6 +32,7 @@ import com.aggregator.BL.BookingBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.appsee.Appsee;
+import com.google.android.gms.analytics.HitBuilders;
 import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
@@ -376,6 +377,11 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                             } else if (position == 1) {
                                 Drawer.closeDrawers();
                             }
+                            else if (position == 2) {
+                                startActivity(new Intent(getApplicationContext(), Tutorial.class));
+                            }else if (position == 3) {
+                                Util.rateUs(getApplicationContext());
+                            }
                         }
                         else {
 
@@ -391,8 +397,10 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                                 startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                             } else if (position == 9) {
                                 startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                            } else if (position == 7) {
-
+                            }else if (position == 7) {
+                                Util.rateUs(getApplicationContext());
+                            } else if (position == 8) {
+                                startActivity(new Intent(getApplicationContext(), Tutorial.class));
                             } else if (position == 6) {
                                 startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                             }
@@ -417,7 +425,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 if (remainingPrice > 0) {  // check whether loop credit is greater than available or not.
 
                         if (timeSelected) {
-                            String price = "₹ " + totalPrice + " (Loop credit ₹ " + loopCredit + ", Paytm ₹ " + paytmCash + ")";
+                           // String price = "₹ " + totalPrice + " (Loop credit ₹ " + loopCredit + ", Paytm ₹ " + paytmCash + ")";
                             try {
                                                             /* compare time selected with current time....*/
 
@@ -450,7 +458,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                                         Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_Run_ID, runID);
                                         Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_TIME, strTime);
                                         Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_PRICE, "0");
-                                        Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT, price);
+                                        Util.setSharedPrefrenceValue(getApplicationContext(), Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT, price+"");
                                         startActivity(new Intent(BookingNew.this, SignUpScreen.class));
                                     } else {
 
@@ -460,9 +468,29 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                                         objBookingBE.setEndPoint(endPointID);
                                         objBookingBE.setRunID(runID);
                                         objBookingBE.setPrice("0");
-                                        objBookingBE.setLoopCredit(price);
+                                        objBookingBE.setLoopCredit(price+"");
 
                                         objBookingBE.setTime(strTime);
+
+                                         /* call google analytics*/
+
+                                        try {
+                                            Application.tracker().setScreenName("Booking Screen");
+                                            Application.tracker().send(new HitBuilders.EventBuilder()
+                                                    .setLabel("Logged-in")
+                                                    .setCategory("Booking Screen")
+                                                    .setAction("Book Button")
+                                                    .setValue(Integer.valueOf(startPointID))
+                                                    .setValue(Integer.valueOf(endPointID))
+                                                    .setValue(Integer.valueOf(strTime))
+                                                    .build());
+                                            // AffleInAppTracker.inAppTrackerViewName(getApplicationContext(), "Landing Screen", "App First Screen", "APP Open", null);
+
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            e.printStackTrace();
+                                        }
                                         new InsertBooking().execute();
                                     }
                                 }
@@ -479,7 +507,13 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         }
         }
         else{
-            notEnoughCredit();
+                    if(loginID==null){
+                        startActivity(new Intent(BookingNew.this, SignUpScreen.class));
+                    }
+                    else {
+                        notEnoughCredit();
+                    }
+
         }
                 break;
             case R.id.booking_swap_button:
@@ -572,9 +606,6 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 for(int i=0;i<strTotal.length;i++){
                     Constant.pointAvailableSeat[i]=Integer.valueOf(strTotal[i])-Integer.valueOf(strBooked[i]);
                 }
-
-
-
 
             }catch (NullPointerException e){
                 NoResponseServer();

@@ -37,9 +37,14 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
 
     SuggestRouteBL objSuggestRouteBL;
 
-    String userID;
+
     EditText etMessage;
     Button btnDone;
+
+    EditText etPick,etDrop;
+    String strPick,strDrop;
+
+    String userID;
 
 
 
@@ -88,8 +93,9 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
         objSuggestRouteBL=new SuggestRouteBL();
         userID= Util.getSharedPrefrenceValue(SuggestRoute.this,Constant.SHARED_PREFERENCE_User_id);
 
-        etMessage= (EditText) findViewById(R.id.suggestion_message);
         btnDone= (Button) findViewById(R.id.submitBtn);
+        etDrop= (EditText) findViewById(R.id.suggestion_drop);
+        etPick= (EditText) findViewById(R.id.suggestion_pick);
 
         btnDone.setOnClickListener(this);
 
@@ -121,11 +127,13 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                         } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                        } else if (position == 7) {
-
+                        } else if (position == 8) {
+                            startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         } else if (position == 6) {
                             Drawer.closeDrawers();
 
+                        }else if (position == 7) {
+                            Util.rateUs(getApplicationContext());
                         }
 
                     }
@@ -157,11 +165,16 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
            case R.id.submitBtn:
 
-               if(etMessage.getText().toString().length()!=0){
-                   new SendMessage().execute(userID,etMessage.getText().toString());
+               strPick=etPick.getText().toString();
+               strDrop=etDrop.getText().toString();
+
+               if(strPick.length()==0 || strDrop.length()==0){
+                   Toast.makeText(getApplicationContext(),"Please enter both pick and drop locality.",Toast.LENGTH_LONG).show();
                }
-               else
-               etMessage.setError("Required...");
+               else {
+                   new SendMessage().execute(strPick,strDrop,userID);
+               }
+
                break;
         }
     }
@@ -179,7 +192,7 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected String doInBackground(String... params) {
-            String result=objSuggestRouteBL.sendMessage(params[0], params[1]);
+            String result=objSuggestRouteBL.sendMessage(params[0], params[1],params[2]);
             return result;
         }
 
@@ -188,13 +201,13 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
 
             try{
 
-                if(s.equals(Constant.WS_RESULT_SUCCESS))
+                if(s.equals("1"))
                 {
-                    Toast.makeText(getApplicationContext(), "Thanks. Your suggestion has been sent to loop team.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Thank you for the suggestion. We will work on it.", Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Please try again.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Sorry, something didn't work. Would you mind trying again please?", Toast.LENGTH_LONG).show();
                 }
 
             }

@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,14 @@ public class ResetPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reset_password);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar=getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
         sendEmail=new SendEmail();
         emailId=(EditText)findViewById(R.id.emailId);
@@ -37,7 +47,7 @@ public class ResetPassword extends AppCompatActivity {
         emailId.setText("+91", TextView.BufferType.EDITABLE);
         emailId.setSelection(emailId.getText().length());
 
-        back= (ImageButton) findViewById(R.id.reset_back);
+       // back= (ImageButton) findViewById(R.id.reset_back);
         mProgressDialog=new ProgressDialog(ResetPassword.this);
 
         submit=(Button)findViewById(R.id.submitBtn);
@@ -62,12 +72,12 @@ public class ResetPassword extends AppCompatActivity {
         });
 
 
-        back.setOnClickListener(new View.OnClickListener() {
+       /* back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
     }
 
 
@@ -81,9 +91,14 @@ public class ResetPassword extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+
+            //Toast.makeText(getApplicationContext(),"BAck Clicked",Toast.LENGTH_SHORT).show();
+            onBackPressed();
             return true;
         }
+
+
 
         return super.onOptionsItemSelected(item);
     }

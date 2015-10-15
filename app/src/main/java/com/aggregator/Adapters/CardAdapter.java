@@ -19,14 +19,18 @@ import com.aggregator.Constant.Constant;
 import com.aggregator.loop.R;
 import com.aggregator.loop.TicketScreen;
 import com.aggregator.loop.TripFeedback;
+import com.aggregator.loop.TripHistory;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Pranav Mittal on 9/18/2015.
  * Appslure WebSolution LLP
  * www.appslure.com
  */
+
+
 
 public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHolder> {
 
@@ -37,6 +41,7 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
     View _itemColoured;
     String userID;
     AddFav objAddFav;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     public CardAdapter(Context context,String id,String page) {
         mContext=context;
@@ -69,19 +74,29 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         if("ACTIVE".equalsIgnoreCase(Constant.tripStatus[i])){
             contactViewHolder.ivLeftTop.setBackgroundResource(R.drawable.ic_ticket);
             contactViewHolder.tvLeftTop.setText("Ticket");
-            contactViewHolder.tvTime.setText(Constant.tripTime[i]);
+            try {
+                Date dtArray = dateFormat.parse(Constant.tripTime[i]);
+                contactViewHolder.tvTime.setText(new SimpleDateFormat("K:mm a").format(dtArray));
+            }
+            catch (Exception e){
+
+            }
+
         }
         else
         {
             contactViewHolder.ivLeftTop.setBackgroundResource(R.drawable.ic_red_star);
-            contactViewHolder.tvLeftTop.setText("Rate Trip");
+            contactViewHolder.tvLeftTop.setText("Rate trip");
             try {
 
             String dd[]=Constant.tripDate[i].split(" ");
 
                 String onlydate=sdf.parse(dd[0])+"";
                 onlydate=onlydate.substring(0,10);
-                contactViewHolder.tvTime.setText(onlydate + " at " + Constant.tripTime[i]);
+
+                Date dtArray = dateFormat.parse(Constant.tripTime[i]);
+                contactViewHolder.tvTime.setText(onlydate + " at " + new SimpleDateFormat("K:mm a").format(dtArray));
+               // contactViewHolder.tvTime.setText(onlydate + " at " + Constant.tripTime[i]);
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -95,7 +110,7 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         else
         {
             contactViewHolder.ivLeftBottom.setBackgroundResource(R.drawable.ic_red_heart);
-            contactViewHolder.tvLeftBottom.setText("Favourited");
+            contactViewHolder.tvLeftBottom.setText("");
         }
 
         contactViewHolder.tvStartPoint.setText(Constant.tripStartName[i]);
@@ -142,13 +157,16 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
                         String result = new AddToFav().execute(userID, Constant.tripRouteID[position], Constant.tripStartID[position], Constant.tripEndID[position]).get();
                         if(result.equals(Constant.WS_RESULT_SUCCESS)){
                             Toast.makeText(mContext,"Route Added to Favourite list",Toast.LENGTH_LONG).show();
-                            updateAdapter(position, "Yes");
+                            mContext.startActivity(new Intent(mContext, TripHistory.class));
+
+                            //updateAdapter(position, "Yes");
                             //notifyDataSetChanged();
                         }
                         else{
                             Toast.makeText(mContext,"Route Removed from Favourite list",Toast.LENGTH_LONG).show();
+                            mContext.startActivity(new Intent(mContext, TripHistory.class));
 
-                            updateAdapter(position, "No");
+                            //updateAdapter(position, "No");
                             //notifyDataSetChanged();
                         }
 

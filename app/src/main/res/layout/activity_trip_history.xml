@@ -38,7 +38,7 @@
 
                 android:text="Trips"
                 android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="@dimen/toolbar_text_size" />
 
 
 

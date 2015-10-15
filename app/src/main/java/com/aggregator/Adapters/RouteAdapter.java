@@ -180,11 +180,11 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
             try
             {
                 if (result.equals(Constant.WS_RESULT_SUCCESS)) {
-                    Toast.makeText(mContext, "Route Added to Fav.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Added to favourites", Toast.LENGTH_SHORT).show();
                     //Constant.recentRouteFavStatus[position]="Yes";
                     mContext.startActivity(new Intent(objRouteNew,RouteNew.class).setFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                 } else {
-                    Toast.makeText(mContext, "Route Removed from Fav.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Removed from favourites", Toast.LENGTH_SHORT).show();
                     //Constant.recentRouteFavStatus[position]="No";
                     mContext.startActivity(new Intent(objRouteNew,RouteNew.class).setFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                 }

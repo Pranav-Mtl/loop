@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
@@ -37,6 +36,7 @@ import com.aggregator.Constant.Constant;
 import com.aggregator.gps.GMapV2Direction;
 import com.aggregator.gps.GPSTracker;
 import com.aggregator.gps.GetDirectionsAsyncTask;
+import com.aggregator.gps.GetETA;
 import com.appsee.Appsee;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -53,11 +53,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,17 +70,19 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     Button btnMap,btnImage;
     RelativeLayout llMap;
     ImageView imgTicket;
-    LinearLayout btnShare,btnRateTrip;
+    ImageButton btnShare,btnRateTrip,btnOpenOption;
 
     ImageButton btnCross;
 
     Button btnGetDirection,btnTrack;
 
-    TextView tvPick,tvDrop,tvTime,tvVehicle;
+    TextView tvPick,tvDrop,tvTime,tvVehicle,tvVehicleNumber,tvETA;
 
     String userRunID;
 
     private Toolbar toolbar;
+
+    boolean optionFlag=false;
 
     TicketScreenBL objTicketScreenBL;
     TicketScreenBE objTicketScreenBE;
@@ -118,6 +122,9 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     double sourceLat,sourceLong,destinationLat,destinationLong;
 
     boolean flag=true;
+    boolean flagImage=false;
+
+    DateFormat dateFormatChange = new SimpleDateFormat("kk:mm:ss", Locale.ENGLISH);
 
 
     @Override
@@ -127,10 +134,11 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
-        btnMap= (Button) findViewById(R.id.ticket_btn_map);
+        //btnMap= (Button) findViewById(R.id.ticket_btn_map);
         btnImage= (Button) findViewById(R.id.ticket_btn_image);
-        btnShare= (LinearLayout) findViewById(R.id.ticket_btn_share);
-        btnRateTrip= (LinearLayout) findViewById(R.id.ticket_rate_trip);
+        btnShare= (ImageButton) findViewById(R.id.ticket_btn_share);
+        btnRateTrip= (ImageButton) findViewById(R.id.ticket_rate_trip);
+        btnOpenOption= (ImageButton) findViewById(R.id.ticket_options);
         llMap= (RelativeLayout) findViewById(R.id.ticket_map_ll);
         imgTicket= (ImageView) findViewById(R.id.ticket_image);
         btnCross= (ImageButton) findViewById(R.id.ticket_cross);
@@ -142,26 +150,28 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         tvDrop= (TextView) findViewById(R.id.ticket_drop);
         tvVehicle= (TextView) findViewById(R.id.ticket_vehicle);
         tvTime= (TextView) findViewById(R.id.ticket_time);
+        tvVehicleNumber= (TextView) findViewById(R.id.ticket_vehicle_number);
+        tvETA= (TextView) findViewById(R.id.ticket_eta);
         btnGetDirection= (Button) findViewById(R.id.ticket_btn_direction);
 
         llHeader= (RelativeLayout) findViewById(R.id.ticket_header_ll);
 
-        btnMap.setBackgroundResource(R.drawable.ic_map_btn_pressed);
-        btnMap.setTextColor(getResources().getColor(R.color.WhiteColor));
-        btnImage.setBackgroundResource(R.drawable.ic_map_btn);
-        btnImage.setTextColor(getResources().getColor(R.color.OranceColor));
+        //btnMap.setBackgroundResource(R.drawable.ic_map_btn_pressed);
+        //btnMap.setTextColor(getResources().getColor(R.color.WhiteColor));
+
 
         mProgressDialog=new ProgressDialog(TicketScreen.this);
 
         objTicketScreenBL=new TicketScreenBL();
         objTicketScreenBE=new TicketScreenBE();
 
-        btnMap.setOnClickListener(this);
+      //  btnMap.setOnClickListener(this);
         btnImage.setOnClickListener(this);
         btnShare.setOnClickListener(this);
         btnRateTrip.setOnClickListener(this);
         btnGetDirection.setOnClickListener(this);
         btnTrack.setOnClickListener(this);
+        btnOpenOption.setOnClickListener(this);
 
         btnCross.setOnClickListener(this);
 
@@ -246,14 +256,14 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+       /* googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
             public void onMapClick(LatLng arg0) {
                 // TODO Auto-generated method stub
                startActivity(new Intent(TicketScreen.this,TicketMapFullScreen.class).putExtra("TicketScreenBE",objTicketScreenBE));
             }
-        });
+        });*/
 
     }
 
@@ -290,7 +300,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId())
-        {
+        {/*
             case R.id.ticket_btn_map:
                 Log.i("Clicked","MAP");
                 imgTicket.setVisibility(View.GONE);
@@ -300,26 +310,61 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 btnImage.setBackgroundResource(R.drawable.ic_map_btn);
                 btnImage.setTextColor(getResources().getColor(R.color.OranceColor));
 
-                break;
+                break;*/
             case R.id.ticket_btn_image:
-                Log.i("Clicked","Image");
-                llMap.setVisibility(View.GONE);
-                imgTicket.setVisibility(View.VISIBLE);
-                btnMap.setBackgroundResource(R.drawable.ic_map_btn);
-                btnMap.setTextColor(getResources().getColor(R.color.OranceColor));
-                btnImage.setBackgroundResource(R.drawable.ic_map_btn_pressed);
-                btnImage.setTextColor(getResources().getColor(R.color.WhiteColor));
+                if(!flagImage) {
+                    llMap.setVisibility(View.GONE);
+                    imgTicket.setVisibility(View.VISIBLE);
+                    flagImage=true;
+                    btnImage.setText("Map");
+                }
+                else {
+                    llMap.setVisibility(View.VISIBLE);
+                    imgTicket.setVisibility(View.GONE);
+                    flagImage=false;
+                    btnImage.setText("Pickup point photo");
+                }
                 break;
             case R.id.ticket_btn_share:
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                String shareBody = "Share your loop experience with your friends.";
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Share Your Experience");
+                sharingIntent.setType("image/png");
+                Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                //sharingIntent.putExtra(Intent.EXTRA_TEXT, msgStart);
+                String shareBody ="Hey! have you tried Loop? Smarter and cheaper option for daily commute. Click: http://tinyurl.com/pzxgpky to get the Loop app. Ask me for a referral code.";
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
                 break;
             case R.id.ticket_rate_trip:
-                startActivity(new Intent(TicketScreen.this,TripFeedback.class).putExtra("RunID",userRunID));
+
+                startActivity(new Intent(TicketScreen.this, TripFeedback.class).putExtra("RunID", userRunID));
+              /* try {
+                   Date date = new Date();
+                   String formattedDateTime = dateFormat.format(date);
+                   String selectedTime = dateFormat.format(objTicketScreenBE.getDepartureTime());
+
+                   Date dtSlected = dateFormat.parse(selectedTime);
+                   Date dtCurrent = dateFormat.parse(formattedDateTime);
+
+                   long diffMs = dtSlected.getTime() - dtCurrent.getTime();
+                   long diffSec = diffMs / 1000;
+                   long min = diffSec / 60;
+                   long sec = diffSec % 60;
+
+                   Log.d("Ticket start Trip --> ",min+"");
+
+                   if(min<0){
+                       Toast.makeText(getApplicationContext(),getResources().getString(R.string.ticket_no_feedback_message),Toast.LENGTH_LONG).show();
+                   }
+                   else {
+                       startActivity(new Intent(TicketScreen.this, TripFeedback.class).putExtra("RunID", userRunID));
+                   }
+
+
+               }
+               catch (Exception e){
+                   e.printStackTrace();
+               }*/
                 break;
             case R.id.ticket_cross:
                 startActivity(new Intent(TicketScreen.this,TripHistory.class));
@@ -335,6 +380,18 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ticket_btn_eta:
                 startActivity(new Intent(TicketScreen.this,TicketTrackBus.class).putExtra("TicketScreenBE",objTicketScreenBE));
+                break;
+            case R.id.ticket_options:
+                if(!optionFlag){
+                    btnRateTrip.setVisibility(View.VISIBLE);
+                    btnShare.setVisibility(View.VISIBLE);
+                    optionFlag=true;
+                }
+                else {
+                    btnRateTrip.setVisibility(View.GONE);
+                    btnShare.setVisibility(View.GONE);
+                    optionFlag=false;
+                }
                 break;
             default:
                 break;
@@ -392,13 +449,18 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
                 spanString4.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
 
+                Date dtArray = dateFormat.parse(objTicketScreenBE.getDepartureTime());
+                //String format=dateFormat.format(dd);
 
 
 
-                tvPick.setText(spanString);
-                tvDrop.setText(spanString2);
-                tvVehicle.setText(spanString3);
-                tvTime.setText(spanString4);
+
+
+                tvPick.setText(objTicketScreenBE.getPickPointName());
+                tvDrop.setText(objTicketScreenBE.getDropPointName());
+                tvVehicle.setText(objTicketScreenBE.getVehicleType());
+                tvTime.setText(new SimpleDateFormat("K:mm a").format(dtArray));
+                tvVehicleNumber.setText(objTicketScreenBE.getVehicleRegistration());
 
                 cal = Calendar.getInstance();
                 String time=dateFormat.format(cal.getTime());
@@ -420,14 +482,23 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
                 System.out.println("The difference is " + min + " minutes and " + sec + " seconds.");
 
-                if(min<10 && min>-10){
-                    btnTrack.setVisibility(View.VISIBLE);
+                if(min<10 && min>-5){
+                    btnTrack.setVisibility(View.INVISIBLE);
+
+                    if(!(objTicketScreenBE.getBusLat()==null || objTicketScreenBE.getBusLong()==null)) {
+                        showMarkerBus(objTicketScreenBE.getBusLat(), objTicketScreenBE.getBusLong());
+                        findETA(objTicketScreenBE.getBusLat(), objTicketScreenBE.getBusLong(), objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong(), "", "Driving");
+                    }
                 }
                 else {
                     btnTrack.setVisibility(View.INVISIBLE);
                 }
 
                 if(min<0){
+                    btnRateTrip.setEnabled(true);
+                }
+                else
+                {
                     btnRateTrip.setEnabled(false);
                 }
 
@@ -557,7 +628,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 new LatLng(latitude, longitude)).title(
                 Latitude + "\n" + Longitude);
         try{
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_man));
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_ticket_map_man));
             // adding marker
 
             marker.title("Here You Are !!!");
@@ -582,7 +653,28 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Latitude + "\n" + Longitude);
         try{
 
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.pick));
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_ticket_map_pick));
+            // adding marker
+
+
+
+            googleMap.addMarker(marker);
+        }catch(Exception e){}
+
+    }
+
+    public void showMarkerBus(Double Latitude, Double Longitude) {
+
+        double latitude = Latitude;
+        double longitude = Longitude;
+
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(
+                new LatLng(latitude, longitude)).title(
+                Latitude + "\n" + Longitude);
+        try{
+
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_ticket_bus));
             // adding marker
 
 
@@ -603,7 +695,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Latitude + "\n" + Longitude);
         try{
 
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.drop));
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_ticket_map_drop));
             // adding marker
             googleMap.addMarker(marker);
 
@@ -661,7 +753,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     }
 
     public void handleGetDirectionsResult(ArrayList<LatLng> directionPoints) {
-        PolylineOptions rectLine = new PolylineOptions().width(5).color(Color.BLUE);
+        PolylineOptions rectLine = new PolylineOptions().width(7).color(getResources().getColor(R.color.FavBG));
 
         for(int i = 0 ; i < directionPoints.size() ; i++)
         {
@@ -782,4 +874,32 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
+    public void findETA(double fromPositionDoubleLat, double fromPositionDoubleLong, double toPositionDoubleLat, double toPositionDoubleLong,String wayPoint, String mode)
+    {
+        Log.d("Under ETA","");
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(GetDirectionsAsyncTask.USER_CURRENT_LAT, String.valueOf(fromPositionDoubleLat));
+        map.put(GetDirectionsAsyncTask.USER_CURRENT_LONG, String.valueOf(fromPositionDoubleLong));
+        map.put(GetDirectionsAsyncTask.DESTINATION_LAT, String.valueOf(toPositionDoubleLat));
+        map.put(GetDirectionsAsyncTask.DESTINATION_LONG, String.valueOf(toPositionDoubleLong));
+        map.put(GetDirectionsAsyncTask.WAY_POINTS, wayPoint);
+        map.put(GetDirectionsAsyncTask.DIRECTIONS_MODE, mode);
+
+        GetETA asyncTask = new GetETA(TicketScreen.this);
+        try {
+            asyncTask.execute(map);
+
+
+        }catch (Exception e){
+
+        }
+
+    }
+
+    public void setETA(){
+       tvETA.setText(Constant.ETA);
+
+    }
+
 }

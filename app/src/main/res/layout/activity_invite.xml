@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:theme="@style/Toolbar_Theme"
-        android:background="#1ebd9d"
+        android:background="@color/LightGreen"
         android:minHeight="?attr/actionBarSize">
 
         <TextView
@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_centerInParent="true"
-            android:textSize="20dp"
+            android:textSize="@dimen/toolbar_text_size"
             android:textColor="#ffffff"
 
             />
@@ -48,13 +48,7 @@
                 android:orientation="vertical"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/second_vehicle"
 
-                    />
                 <TextView
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
@@ -62,8 +56,8 @@
                     android:gravity="center"
                     android:layout_height="wrap_content"
                     android:text="Invite your friends to ride on Loop."
-                    android:textColor="#34495e"
-                    android:textSize="15dp"
+                    android:textColor="@color/BlueTextColor"
+                    android:textSize="17dp"
                     />
 
                 <TextView
@@ -72,8 +66,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#34495e"
-                    android:textSize="14dp"
+                    android:textColor="@color/BlueTextColor"
+                    android:textSize="17dp"
+                    android:gravity="center"
 
                     />
 
@@ -83,9 +78,9 @@
                     android:gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Share your promo code"
-                    android:textColor="#34495e"
-                    android:textSize="20dp"
+                    android:text="Share your promo code:"
+                    android:textColor="@color/BlueTextColor"
+                    android:textSize="17sp"
 
                     />
                 <Button
@@ -99,71 +94,79 @@
                     android:layout_gravity="center"
                     />
                 <LinearLayout
-                    android:background="#fff"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:padding="10dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="40dp"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-                    <RelativeLayout
-                        android:layout_width="fill_parent"
-                        android:layout_marginTop="15dp"
-                        android:layout_height="wrap_content">
+                    android:layout_height="fill_parent"
+                    android:weightSum="4"
+                    >
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            >
                         <TextView
                             android:id="@+id/whatsapp"
                             android:layout_alignParentLeft="true"
-                            android:layout_marginLeft="10dp"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Whatsapp"
-                            android:drawableTop="@drawable/whatsapp_img"
-                            android:textColor="#34495e"
-                            android:textSize="15dp"
+                            android:background="@drawable/whatsapp_img"
+
                             />
+                            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
                         <TextView
                             android:id="@+id/facebook"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="10dp"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Facebook"
-                            android:drawableTop="@drawable/fb_btn"
-                            android:textColor="#34495e"
-                            android:textSize="15dp"
+                            android:background="@drawable/fb_btn"
+
                             />
+                        </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
 
                         <TextView
                             android:id="@+id/twitterthis"
                             android:layout_below="@id/whatsapp"
-                            android:layout_alignParentLeft="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="25dp"
+
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Twitter"
-                            android:padding="5dp"
-                            android:drawableTop="@drawable/twitter"
-                            android:textColor="#34495e"
-                            android:textSize="15dp"
+
+                            android:background="@drawable/twitter"
+
                             />
+                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
                         <TextView
                             android:id="@+id/sms"
-                            android:layout_marginTop="25dp"
+
                             android:layout_below="@id/facebook"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="10dp"
-                            android:padding="5dp"
-                            android:gravity="center_vertical"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=" sms"
-                            android:drawableTop="@drawable/sms"
-                            android:textColor="#34495e"
-                            android:textSize="15dp"
-                            />
-                    </RelativeLayout>
+                           android:background="@drawable/sms"
+                          />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

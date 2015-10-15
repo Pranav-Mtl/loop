@@ -15,10 +15,10 @@ import org.json.simple.parser.JSONParser;
  */
 public class SuggestRouteBL {
 
-    public String sendMessage(String userId,String msg)
+    public String sendMessage(String pick,String drop,String userID)
     {
 
-            String result = fetRecord(userId, msg);
+            String result = fetRecord(pick, drop,userID);
            String finalValue  = validate(result);
 
 
@@ -26,13 +26,13 @@ public class SuggestRouteBL {
         return finalValue;
     }
 
-    private String fetRecord(String userId,String msg)
+    private String fetRecord(String pick,String drop,String userID)
     {
 
-        String url="user_id="+userId+"&route="+msg;
+        String url="user_id="+userID+"&start_point="+pick+"&end_point="+drop;
 
 
-        String txtJson= RestFullWS.callWS(url, Constant.WEBSERVICE_HELP);
+        String txtJson= RestFullWS.callWS(url, Constant.WEBSERVICE_SUGGESTION);
 
         return txtJson;
     }

@@ -10,6 +10,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -57,6 +58,8 @@ public class InviteActivity extends AppCompatActivity {
     DrawerAdapter drawerAdapter;
 
     View _itemColoured;
+
+    String msgStart;
 
 
     @Override
@@ -167,16 +170,15 @@ public class InviteActivity extends AppCompatActivity {
         whatsapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
-                whatsappIntent.setType("text/plain");
-                whatsappIntent.setPackage("com.whatsapp");
-                whatsappIntent.putExtra(Intent.EXTRA_TEXT, promocode);
-                try {
-                    startActivity(whatsappIntent);
-                } catch (android.content.ActivityNotFoundException ex) {
-                    ex.printStackTrace();
-                    //ToastHelper.MakeShortText("Whatsapp have not been installed.");
-                }
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setPackage("com.whatsapp");
+                shareIntent.setType("image/png");
+                Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                shareIntent.putExtra(Intent.EXTRA_TEXT,msgStart);
+                startActivity(Intent.createChooser(shareIntent, "Send your image"));
+
             }
         });
 
@@ -186,8 +188,10 @@ public class InviteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, promocode);
+                shareIntent.setType("image/png");
+                Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                shareIntent.putExtra(Intent.EXTRA_TEXT,msgStart);
                 PackageManager pm = v.getContext().getPackageManager();
                 List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
                 for (final ResolveInfo app : activityList) {
@@ -215,9 +219,10 @@ public class InviteActivity extends AppCompatActivity {
                 if(checkTwitter()){
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_SEND);
-                    intent.putExtra(Intent.EXTRA_TEXT, promocode);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_STREAM, "");
+                    intent.setType("image/png");
+                    Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);
+                    intent.putExtra(Intent.EXTRA_TEXT,msgStart);
                     intent.setPackage("com.twitter.android");
                     startActivity(intent);
 
@@ -278,7 +283,9 @@ public class InviteActivity extends AppCompatActivity {
                         } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         } else if (position == 7) {
-
+                            Util.rateUs(getApplicationContext());
+                        }else if (position == 8) {
+                            startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         } else if (position == 6) {
                             startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                         }
@@ -335,9 +342,11 @@ public class InviteActivity extends AppCompatActivity {
                 if(s.equals(Constant.WS_RESULT_SUCCESS))
                 {
                     //Toast.makeText(getApplicationContext(),"Succefully shared",Toast.LENGTH_LONG).show();
+                    msgStart="Hey! have you tried Loop? Smarter and cheaper option for daily commute. Get FREE rides worth Rs"+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" by signing-up with referral code:"+objInviteActivityBE.getReferralCode() +". Click: http://tinyurl.com/pzxgpky to get the Loop app.";
+                   // msgStart="Try out Loop - awesome bus service! use my referral code "+objInviteActivityBE.getReferralCode() +"to get "+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" loop credit on registration";
                     shareBtn.setText(objInviteActivityBE.getReferralCode());
-                    promocode="Your Referral Code  for loop is :"+objInviteActivityBE.getReferralCode();
-                    tvText.setText("They get free rides worth "+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+". And so do you !");
+                    promocode="Your Referral Code for loop is :"+objInviteActivityBE.getReferralCode();
+                    tvText.setText("They get free rides worth \u20B9"+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+". \n"+"And, so do you!");
 
                 }
                 else

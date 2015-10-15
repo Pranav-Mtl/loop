@@ -109,6 +109,7 @@ public class HelpActivity extends AppCompatActivity {
                 String msg = message.getText().toString();
 
                 if(Util.isInternetConnection(HelpActivity.this)){
+                    if (msg.length()>0)
                     new SendMessage().execute(userId, msg);
                 }
                 else{
@@ -172,7 +173,9 @@ public class HelpActivity extends AppCompatActivity {
 
                                 Drawer.closeDrawers();
                             } else if (position == 7) {
-
+                                Util.rateUs(getApplicationContext());
+                            }else if (position == 8) {
+                                startActivity(new Intent(getApplicationContext(), Tutorial.class));
                             } else if (position == 6) {
                                 startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                             }

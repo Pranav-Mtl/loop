@@ -1,33 +1,42 @@
 package com.aggregator.loop;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aggregator.BE.SignUpBE;
+import com.aggregator.BL.ApplyReferralBL;
 import com.aggregator.BL.SignUpBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.appsee.Appsee;
+import com.google.android.gms.analytics.HitBuilders;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,10 +51,19 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     ProgressDialog mProgressDialog;
 
+    TextView tvApplied;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_screen);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar=getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
@@ -56,8 +74,9 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         tvCPassword= (TextView) findViewById(R.id.signup_cpassword);
         tvMobileNo= (TextView) findViewById(R.id.signup_mobile);
         tvSignIn= (Button) findViewById(R.id.signup_signin);
+        tvApplied= (TextView) findViewById(R.id.signup_applied);
 
-        btnBack= (ImageButton) findViewById(R.id.signup_back);
+        //btnBack= (ImageButton) findViewById(R.id.signup_back);
         btnDone= (Button) findViewById(R.id.signup_done);
         btnReferrer= (Button) findViewById(R.id.signup_promo);
 
@@ -67,7 +86,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         mProgressDialog=new ProgressDialog(SignUpScreen.this);
 
         btnDone.setOnClickListener(this);
-        btnBack.setOnClickListener(this);
+        //btnBack.setOnClickListener(this);
         btnReferrer.setOnClickListener(this);
 
         btnDone.setVisibility(View.VISIBLE);
@@ -249,7 +268,13 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+
+            //Toast.makeText(getApplicationContext(),"BAck Clicked",Toast.LENGTH_SHORT).show();
+            onBackPressed();
+            return true;
+        }
+
 
 
         return super.onOptionsItemSelected(item);
@@ -264,14 +289,12 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
             case R.id.signup_done:
                 onDoneButtonClick();
                 break;
-            case R.id.signup_back:
-                finish();
-                break;
             case R.id.signup_signin:
                 startActivity(new Intent(getApplicationContext(),SignIn.class));
                 break;
             case R.id.signup_promo:
-                initiatePopupWindow();
+                //initiatePopupWindow();
+                showDialog(this);
                 break;
             default:
                 break;
@@ -485,6 +508,109 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void showDialog(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+        final EditText edittext;
+        final TextView tvMsg;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.signup_referrer_code);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=500;
+        wmlp.height=500;
+
+
+
+        edittext= (EditText) dialog.findViewById(R.id.signup_referrer);
+        btnClosePopup = (Button) dialog.findViewById(R.id.referrer_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.referrer_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_msg);
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String subcategory = edittext.getText().toString();
+                if (subcategory.trim().length() > 0) {
+
+                    try {
+                        String result = new ApplyReferral().execute(subcategory).get();
+
+                        if(result.equals(Constant.WS_RESULT_SUCCESS)){
+                            promoCode = subcategory;
+                            tvApplied.setVisibility(View.VISIBLE);
+                            btnReferrer.setEnabled(false);
+                            Toast.makeText(context,"Referral code applied",Toast.LENGTH_SHORT).show();
+
+                            /* call google analytics*/
+                            try {
+                                Application.tracker().setScreenName("Register Screen");
+                                Application.tracker().send(new HitBuilders.EventBuilder()
+                                        .setLabel("Not logged-in")
+                                        .setCategory("Ref pop up")
+                                        .setAction("Apply Button")
+                                        .setValue(Integer.valueOf(promoCode))
+                                        .build());
+                                // AffleInAppTracker.inAppTrackerViewName(getApplicationContext(), "Landing Screen", "App First Screen", "APP Open", null);
+
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                            dialog.dismiss();
+                        }
+                        else {
+                            tvMsg.setText("Invalid referral code!");
+                        }
+
+                    }
+                    catch (Exception e){
+
+                    }
+
+                    }
+                 //   dialog.dismiss();
+
+                }
+            }
+
+            );
+
+
+            dialog.show();
+        }
+
+        private class ApplyReferral extends AsyncTask<String,String,String>{
+        ApplyReferralBL objApplyReferralBL=new ApplyReferralBL();
+        @Override
+        protected String doInBackground(String... params) {
+            String result=objApplyReferralBL.applyReferralCode(params[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
 

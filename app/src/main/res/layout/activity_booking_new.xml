@@ -29,7 +29,7 @@
                 android:layout_centerInParent="true"
                 android:text="Your Travel"
                 android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="@dimen/toolbar_text_size" />
 
 
 
@@ -223,7 +223,7 @@
             android:layout_marginBottom="10dp"
             android:layout_alignParentBottom="true"
             android:textColor="#fff"
-            android:textSize="18sp"
+            android:textSize="@dimen/all_button_text_size"
             android:background="@drawable/booking_btn_customized"
             />
         </RelativeLayout>

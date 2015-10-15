@@ -208,7 +208,6 @@ public class FavouriteAdapter extends  RecyclerView.Adapter<FavouriteAdapter.Fav
                notifyDataSetChanged();
             }
             catch (Exception e){
-
             }
             finally {
                 mProgressDialog.dismiss();

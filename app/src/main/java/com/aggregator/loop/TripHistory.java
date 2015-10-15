@@ -52,7 +52,6 @@ public class TripHistory extends AppCompatActivity {
 
     int currentPage=0;
 
-
     ProgressBar mProgressBar;
 
     @Override
@@ -99,13 +98,13 @@ public class TripHistory extends AppCompatActivity {
         Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();
 
-mProgressBar= (ProgressBar) findViewById(R.id.trip_progressBar);
+        mProgressBar= (ProgressBar) findViewById(R.id.trip_progressBar);
         objTripHistoryBL =new TripHistoryBL();
 
         recList = (RecyclerView) findViewById(R.id.cardList);
         recList.setHasFixedSize(true);
 
-       final LinearLayoutManager llm = new LinearLayoutManager(this);
+        final LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
 
@@ -174,10 +173,12 @@ mProgressBar= (ProgressBar) findViewById(R.id.trip_progressBar);
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                         } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                        } else if (position == 7) {
-
+                        } else if (position == 8) {
+                            startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         }else if (position == 6) {
                             startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
+                        }else if (position == 7) {
+                            Util.rateUs(getApplicationContext());
                         }
 
                     }
@@ -243,13 +244,15 @@ mProgressBar= (ProgressBar) findViewById(R.id.trip_progressBar);
            cd=new CardAdapter(TripHistory.this,params[0],params[1]);
            return "";
        }
-
        @Override
        protected void onPostExecute(String s) {
            try {
                recList.setAdapter(cd);
            } catch (NullPointerException e){
               NoResponseServer();
+           }
+           catch (Exception e){
+               NoResponseServer();
            }
            finally {
                mProgressDialog.dismiss();

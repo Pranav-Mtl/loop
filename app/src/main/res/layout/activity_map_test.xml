@@ -22,7 +22,7 @@
                 android:layout_centerInParent="true"
                 android:text="Ticket"
                 android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="@dimen/toolbar_text_size" />
 
     </android.support.v7.widget.Toolbar>
 

@@ -33,6 +33,9 @@ import com.appsee.Appsee;
 import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class TripFeedback extends AppCompatActivity implements View.OnClickListener {
     TextView date,pick,drop,rate;
@@ -46,6 +49,8 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
     EditText comment;
     String userRunID;
     SendCommentBL sendCommentBL;
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     String usedID;
 
@@ -129,17 +134,17 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
         mDrawerToggle.syncState();
 
 
-        usedID=Util.getSharedPrefrenceValue(TripFeedback.this,Constant.SHARED_PREFERENCE_User_id);
+        usedID=Util.getSharedPrefrenceValue(TripFeedback.this, Constant.SHARED_PREFERENCE_User_id);
 
         userRunID=getIntent().getExtras().get("RunID").toString();
 
-        btnFeedback.setBackgroundColor(Color.parseColor("#e4e4e4"));
+
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
 
-               btnFeedback.setBackground(d);
+              // btnFeedback.setBackground(d);
 
                 rateBar = (int) ratingBar.getRating();
 
@@ -195,7 +200,7 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
         btnFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String finalString=null;
+                String finalString="";
                 String text=null;
                 if(one.isChecked()) {
                     String check1 = one.getText().toString();
@@ -259,7 +264,7 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                      }
                 }
                 text=comment.getText().toString();
-                if(text!=null){
+             /*   if(text!=null){
                         if(finalString==null)
                             {
                               finalString = "No Issues" + "," + text;
@@ -268,11 +273,13 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                           finalString = finalString + "," + text;
                          }
 
-                }
+                }*/
                String rating=String.valueOf(rateBar);
                 String id= Util.getSharedPrefrenceValue(getApplicationContext(),Constant.SHARED_PREFERENCE_User_id);
-                System.out.println("checkboxex selected by the user------>"+finalString);
-                new SendComment().execute(id,rating,finalString,userRunID);
+                System.out.println("checkboxex selected by the user------>" + finalString);
+
+                if(rateBar>0)
+                new SendComment().execute(id,rating,finalString,text,userRunID);
 
 
 
@@ -304,13 +311,16 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                             startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 4) {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                        } else if (position == 8) {
+                        } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                        } else if (position == 7) {
-
-                        } else if (position == 6) {
-                            //startActivity(new Intent(getApplicationContext(),TripFeedback.class));
+                        } else if (position == 8) {
+                            startActivity(new Intent(getApplicationContext(), Tutorial.class));
+                        }else if (position == 6) {
+                            startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
+                        }else if (position == 7) {
+                            Util.rateUs(getApplicationContext());
                         }
+
 
                     }
 
@@ -349,15 +359,12 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
 
     private class FetchRecord extends AsyncTask<String ,String ,String>
     {
-
-
         @Override
         protected void onPreExecute() {
             pd.show();
             pd.setMessage("Loading...");
             pd.setCancelable(false);
         }
-
 
         @Override
         protected String doInBackground(String... params) {
@@ -367,24 +374,70 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String s) {
-
             try
             {
                 pick.setText(Constant.pickPoint);
                 drop.setText(Constant.dropPoint);
-                date.setText(Constant.date);
+
+              //  Date dtArray = dateFormat.parse(Constant.date);
+                Date dtArray = dateFormat.parse(Constant.date);
+              //  contactViewHolder.tvTime.setText(new SimpleDateFormat("yyyy-MM-dd K:mm a").format(dtArray));
+                date.setText(new SimpleDateFormat("yyyy-MM-dd K:mm a").format(dtArray));
                 //rate.setText("Cost : ₹ "+Constant.totalAmount+" (Loop Credit: ₹ "+Constant.rateCredit+", Paytm: ₹ "+Constant.rate+")");
-                rate.setText("Using "+Math.round(Double.valueOf(Constant.rateCredit))+" loop credits");
+                rate.setText(Math.round(Double.valueOf(Constant.rateCredit))+" Loop credits");
                 if(s.equalsIgnoreCase("y")){
                     ratingBar.setRating(Constant.feedback_rating);
+                    comment.setText(Constant.feedback_comment);
                     ratingBar.setIsIndicator(true);
-                    btnFeedback.setVisibility(View.INVISIBLE);
+                    btnFeedback.setEnabled(false);
+                    btnFeedback.setBackgroundColor(getResources().getColor(R.color.GrayBG));
                     llIssues.setVisibility(View.GONE);
                     comment.setEnabled(false);
+                    if(Constant.feedback_issues.equals("")){
+
+                    }
+                    else {
+                        llIssues.setVisibility(View.VISIBLE);
+                        one.setEnabled(false);
+                        two.setEnabled(false);
+                        three.setEnabled(false);
+                        four.setEnabled(false);
+                        five.setEnabled(false);
+                        six.setEnabled(false);
+
+                        String arrIssues[] = Constant.feedback_issues.split(",");
+
+                        for (int i = 0; i < arrIssues.length; i++) {
+
+                            if (arrIssues[i].equals("Missed bus")) {
+                                one.setChecked(true);
+
+                            } else if (arrIssues[i].equals("Late arrival")) {
+                                two.setChecked(true);
+
+
+                            } else if (arrIssues[i].equals("Issue with app")) {
+                                three.setChecked(true);
+
+                            } else if (arrIssues[i].equals("Rude/ Unhelpful staff")) {
+                                four.setChecked(true);
+
+                            } else if (arrIssues[i].equals("Vehicle not clean")) {
+                                five.setChecked(true);
+
+                            } else if (arrIssues[i].equals("Other")) {
+                                six.setChecked(true);
+
+                            }
+
+                        }
+                    }
+
                 }
             }
             catch (NullPointerException e)
             {
+                //throw new NullPointerException(s+" is nul");
                NoResponseServer();
             }
             catch (Exception e){
@@ -401,8 +454,6 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
 
     private class SendComment extends AsyncTask<String ,String ,String>
     {
-
-
         @Override
         protected void onPreExecute() {
             pd.show();
@@ -414,7 +465,7 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected String doInBackground(String... params) {
-            String result=sendCommentBL.sendComment(params[0], params[1], params[2],params[3]);
+            String result=sendCommentBL.sendComment(params[0], params[1], params[2],params[3],params[4]);
             return result;
         }
 
@@ -422,7 +473,7 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(String s) {
             try {
                 if (s.equals(Constant.WS_RESULT_SUCCESS)) {
-                    Toast.makeText(getApplicationContext(), "Feedback Sent Successfully", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Thank you for your feedback", Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else {

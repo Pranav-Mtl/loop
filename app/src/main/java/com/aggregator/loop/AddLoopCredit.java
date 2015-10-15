@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.aggregator.Constant.Constant;
+import com.google.android.gms.analytics.HitBuilders;
 
 public class AddLoopCredit extends AppCompatActivity implements View.OnClickListener {
 
@@ -79,12 +80,30 @@ public class AddLoopCredit extends AppCompatActivity implements View.OnClickList
                 if(etAmount.getText().length()==0){
                     etAmount.setError("required.");
                 }
-                else if(Integer.valueOf(etAmount.getText().toString())>2000){
-                    etAmount.setError("amount must be b/w 0-2000");
+                else if(Integer.valueOf(etAmount.getText().toString())>2000 || Integer.valueOf(etAmount.getText().toString())<50){
+                    etAmount.setError("amount must be b/w 50-2000");
                 }
                 else {
                     Log.d("AMOUNT",etAmount.getText().toString());
 
+                     /* call google analytics*/
+
+                    try {
+                        Application.tracker().setScreenName("Buy Loop Credit");
+                        Application.tracker().send(new HitBuilders.EventBuilder()
+                                .setLabel("Logged-in")
+                                .setCategory("Buy Loop Credit")
+                                .setAction("Buy Button")
+                                .setValue(Integer.valueOf(etAmount.getText().toString()))
+
+                                .build());
+                        // AffleInAppTracker.inAppTrackerViewName(getApplicationContext(), "Landing Screen", "App First Screen", "APP Open", null);
+
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(getApplicationContext(),WebViewLoop.class).putExtra("Amount",etAmount.getText().toString()));
                 }
 
