@@ -61,10 +61,12 @@
         android:layout_height="wrap_content"
         android:background="@drawable/booking_btn_customized"
         android:text="Log In"
-        android:textAllCaps="false"
+        android:textAllCaps="true"
         android:layout_marginTop="20dp"
         android:textSize="@dimen/all_button_text_size"
         android:textColor="@color/WhiteColor"
+        android:minHeight="@dimen/min_button_height"
+        android:padding="10dp"
         />
     <Button
         android:id="@+id/signin_signup"
@@ -73,9 +75,11 @@
         android:background="@drawable/login_signup_selector"
         android:text="New to Loop? Sign Up"
         android:layout_marginTop="20dp"
-        android:textAllCaps="false"
+        android:textAllCaps="true"
         android:textSize="@dimen/all_button_text_size"
         android:textColor="@color/WhiteColor"
+        android:minHeight="@dimen/min_button_height"
+        android:padding="10dp"
         />
 
     <Button
@@ -84,10 +88,12 @@
         android:layout_height="wrap_content"
         android:background="@drawable/forgot_btn_customized"
         android:text="Forgot Password?"
-        android:textAllCaps="false"
+        android:textAllCaps="true"
         android:layout_marginTop="20dp"
         android:textSize="@dimen/all_button_text_size"
         android:textColor="@color/WhiteColor"
+        android:minHeight="@dimen/min_button_height"
+        android:padding="10dp"
         />
 
 

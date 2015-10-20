@@ -1,21 +1,25 @@
 package com.aggregator.loop;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -64,6 +68,8 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
 
     View _itemColoured;
 
+    int xx,yy;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,24 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_trip_feedback);
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
+
+        Display display = getWindowManager().getDefaultDisplay();
+
+        int width = display.getWidth();
+        int height = display.getHeight();
+
+        // System.out.println("width" + width + "height" + height);
+
+        if(width>=700 && height>=1000)
+        {
+            xx=500;
+            yy=500;
+        }
+        else
+        {
+            xx=400;
+            yy=500;
+        }
 
         pd=new ProgressDialog(TripFeedback.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -163,31 +187,7 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                 new FetchRecord().execute(userRunID,usedID);
             }
             else{
-                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(TripFeedback.this);
-
-                alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
-
-                alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
-
-                alertDialog2.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                startActivity(new Intent(Settings.ACTION_SETTINGS));
-                            }
-                        });
-
-                alertDialog2.setNegativeButton("NO",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-
-                                dialog.cancel();
-                            }
-                        });
-
-
-                alertDialog2.show();
+              showDialogConnection(this);
             }
 
         }
@@ -382,7 +382,7 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
               //  Date dtArray = dateFormat.parse(Constant.date);
                 Date dtArray = dateFormat.parse(Constant.date);
               //  contactViewHolder.tvTime.setText(new SimpleDateFormat("yyyy-MM-dd K:mm a").format(dtArray));
-                date.setText(new SimpleDateFormat("yyyy-MM-dd K:mm a").format(dtArray));
+                date.setText(new SimpleDateFormat("dd-MM-yyyy K:mm a").format(dtArray));
                 //rate.setText("Cost : ₹ "+Constant.totalAmount+" (Loop Credit: ₹ "+Constant.rateCredit+", Paytm: ₹ "+Constant.rate+")");
                 rate.setText(Math.round(Double.valueOf(Constant.rateCredit))+" Loop credits");
                 if(s.equalsIgnoreCase("y")){
@@ -390,9 +390,10 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                     comment.setText(Constant.feedback_comment);
                     ratingBar.setIsIndicator(true);
                     btnFeedback.setEnabled(false);
-                    btnFeedback.setBackgroundColor(getResources().getColor(R.color.GrayBG));
+                    btnFeedback.setBackgroundResource(R.drawable.ic_feedback_deactivated);
                     llIssues.setVisibility(View.GONE);
                     comment.setEnabled(false);
+                    comment.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                     if(Constant.feedback_issues.equals("")){
 
                     }
@@ -438,10 +439,10 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
             catch (NullPointerException e)
             {
                 //throw new NullPointerException(s+" is nul");
-               NoResponseServer();
+               showDialogResponse(TripFeedback.this);
             }
             catch (Exception e){
-             NoResponseServer();
+             //NoResponseServer();
             }
             finally {
                 pd.dismiss();
@@ -504,7 +505,7 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void NoResponseServer()
+  /*  private void NoResponseServer()
     {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(Constant.ERR_NO_SERVER_RESPONSE)
@@ -523,5 +524,119 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
 
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+*/
+    private void showDialogResponse(Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("D'oh!");
+        tvMsg.setText("Sorry, something didn't quite work.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new FetchRecord().execute(userRunID,usedID);
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
+    private void showDialogConnection(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("No Internet");
+        tvMsg.setText("Looks like you have no or very slow data connectivity.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new FetchRecord().execute(userRunID,usedID);
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
     }
 }

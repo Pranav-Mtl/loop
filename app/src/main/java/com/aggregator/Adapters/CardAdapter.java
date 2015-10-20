@@ -78,7 +78,7 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
                 Date dtArray = dateFormat.parse(Constant.tripTime[i]);
                 contactViewHolder.tvTime.setText(new SimpleDateFormat("K:mm a").format(dtArray));
             }
-            catch (Exception e){
+            catch (Exception    e){
 
             }
 
@@ -117,7 +117,7 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         contactViewHolder.tvEndPoint.setText(Constant.tripEndName[i]);
 
        /* contactViewHolder.tvCost.setText("Cost : ₹ "+Constant.tripTotalAmount[i]+" (Loop Credit: ₹ "+Constant.tripLoopCredit[i]+", Paytm: ₹ "+Constant.tripPrice[i]+" )");*/
-        contactViewHolder.tvCost.setText("Using "+Math.round(Double.valueOf(Constant.tripLoopCredit[i])) +" loop credits");
+        contactViewHolder.tvCost.setText(Math.round(Double.valueOf(Constant.tripLoopCredit[i])) +" loop credits");
 
         contactViewHolder.llLeftBottom.setOnClickListener(clickListener);
         contactViewHolder.llLeftTop.setOnClickListener(clickListener);

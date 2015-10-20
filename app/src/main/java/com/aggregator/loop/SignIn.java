@@ -1,18 +1,23 @@
 package com.aggregator.loop;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aggregator.BE.BookingBE;
@@ -43,11 +48,33 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     BookingBE objBookingBE;
     BookingBL objBookingBL;
 
+    int xx,yy;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        Display display = getWindowManager().getDefaultDisplay();
+
+        // Point size = new Point();
+        // display.getSize(size);
+        int width = display.getWidth();
+        int height = display.getHeight();
+
+        // System.out.println("width" + width + "height" + height);
+
+        if(width>=700 && height>=1000)
+        {
+            xx=500;
+            yy=500;
+        }
+        else
+        {
+            xx=400;
+            yy=500;
+        }
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
@@ -189,37 +216,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                      new ValidateDetails().execute(txtEmail,txtPassword,loginType);
             else
             {
-                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(SignIn.this);
-
-// Setting Dialog Title
-                alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
-
-// Setting Dialog Message
-                alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
-
-// Setting Icon to Dialog
-
-
-// Setting Positive "Yes" Btn
-                alertDialog2.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                startActivity(new Intent(Settings.ACTION_SETTINGS));
-                            }
-                        });
-// Setting Negative "NO" Btn
-                alertDialog2.setNegativeButton("NO",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-
-                                dialog.cancel();
-                            }
-                        });
-
-// Showing Alert Dialog
-                alertDialog2.show();
+               showDialogConnection(SignIn.this);
 
             }
         }
@@ -293,11 +290,11 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
             }
             catch (NullPointerException e){
-                e.printStackTrace();
+               showDialogResponse(SignIn.this);
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+
             }
             finally {
                 mProgressDialog.dismiss();
@@ -356,7 +353,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                     Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_SOURCE_id,null);
                     Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_DESTINATION_id,null);
                     Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_PRICE,null);
-                    Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_TIME,null);
+                    Util.setSharedPrefrenceValue(SignIn.this, Constant.PREFS_NAME, Constant.SHARED_PREFERENCE_BOOKING_TIME, null);
                     Util.setSharedPrefrenceValue(SignIn.this,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_BOOKING_LOOP_CREDIT,null);
                     startActivity(new Intent(SignIn.this,TicketScreen.class).putExtra("BookingID",s).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }
@@ -378,5 +375,119 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
             }
 
         }
+    }
+
+    private void showDialogResponse(Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("D'oh!");
+        tvMsg.setText("Sorry, something didn't quite work.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new ValidateDetails().execute(txtEmail,txtPassword,loginType);
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
+    private void showDialogConnection(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("No Internet");
+        tvMsg.setText("Looks like you have no or very slow data connectivity.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new ValidateDetails().execute(txtEmail,txtPassword,loginType);
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
     }
 }

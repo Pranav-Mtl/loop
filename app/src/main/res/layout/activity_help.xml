@@ -56,9 +56,8 @@
             android:layout_height="wrap_content"
             android:text="We'd love to hear from you!"
             android:textColor="@color/BlueTextColor"
-            android:textSize="17sp"
+            android:textSize="@dimen/help_text_size"
             android:gravity="center"
-
             />
 
 
@@ -68,13 +67,11 @@
             android:layout_marginTop="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Send us an email by typing below. We'll get back to you ASAP."
+            android:text="Send us an email by typing below.\n We'll get back to you ASAP."
             android:textColor="@color/BlueTextColor"
-            android:textSize="17sp"
+            android:textSize="@dimen/help_text_size"
             android:gravity="center"
             />
-
-
 
        <!-- <TextView
             android:layout_marginLeft="10dp"
@@ -95,7 +92,7 @@
             android:layout_height="wrap_content"
             android:hint="Type here.."
             android:singleLine="true"
-            android:textSize="14sp"
+            android:textSize="@dimen/help_text_size"
             android:textColor="@color/TextColor"
             android:imeOptions="actionDone"
             />
@@ -108,11 +105,14 @@
             android:layout_marginRight="20dp"
             android:layout_alignParentBottom="true"
             android:text="Submit"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:layout_marginTop="40dp"
             android:textColor="#ffffff"
             android:textSize="@dimen/all_button_text_size"
-            android:layout_height="50dp" />
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_button_height"
+            />
 
     </LinearLayout>
 </RelativeLayout>

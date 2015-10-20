@@ -175,6 +175,7 @@
                         android:padding="10dp"
                         android:hint="Search routes"
                         android:singleLine="true"
+                        android:textSize="@dimen/hint_text_size_small"
                         android:imeOptions="actionSearch"
                         android:nextFocusUp="@id/route_search"
                         android:nextFocusLeft="@id/route_search"

@@ -108,11 +108,14 @@
                     android:layout_gravity="center"
                     android:layout_alignParentBottom="true"
                     android:text="Submit"
-                    android:textAllCaps="false"
+                    android:textAllCaps="true"
                     android:layout_marginTop="40dp"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/all_button_text_size"
-                    android:layout_height="wrap_content" />
+                    android:textSize="@dimen/small_button_text_size"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/min_button_height"
+                    android:padding="10dp"
+                    />
                </LinearLayout>
 
 

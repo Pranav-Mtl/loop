@@ -33,10 +33,10 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        FontsOverride.setDefaultFont(this, "DEFAULT","fonts/DroidSans.ttf");
-        FontsOverride.setDefaultFont(this, "MONOSPACE","fonts/DroidSans.ttf");
-        FontsOverride.setDefaultFont(this, "SERIF","fonts/DroidSans.ttf");
-        FontsOverride.setDefaultFont(this, "SANS_SERIF","fonts/DroidSans.ttf");
+        FontsOverride.setDefaultFont(this, "DEFAULT","fonts/Montserrat-Regular.ttf");
+        FontsOverride.setDefaultFont(this, "MONOSPACE","fonts/Montserrat-Regular.ttf");
+        FontsOverride.setDefaultFont(this, "SERIF","fonts/Montserrat-Regular.ttf");
+        FontsOverride.setDefaultFont(this, "SANS_SERIF","fonts/Montserrat-Regular.ttf");
 
         analytics = GoogleAnalytics.getInstance(this);
 

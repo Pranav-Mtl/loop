@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/popup_element"
+    android:gravity="center"
 
     >
 
@@ -13,9 +14,9 @@
         android:background="@drawable/referral_popup_bg"
         >
         <TextView
+            android:id="@+id/popup_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Add referral code"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
             android:background="#1ebd9d"
@@ -24,57 +25,50 @@
 
             />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/nameLayout"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/signup_referrer"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:imeOptions="actionNext"
-                android:singleLine="true"
-                android:textColor="@color/TextColor"
-                android:hint="Enter Referral Code"/>
-
-        </android.support.design.widget.TextInputLayout>
+       <TextView
+           android:id="@+id/popup_message"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:textColor="@color/BlueTextColor"
+           android:gravity="center"
+           android:padding="5dp"
+           android:layout_marginTop="10dp"
+           />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:paddingTop="10dp"
+            android:layout_marginTop="20dp"
             android:paddingBottom="10dp"
+
             >
             <Button
-                android:id="@+id/referrer_cancel"
+                android:id="@+id/popup_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/booking_btn_customized"
-                android:text="Cancel"
                 android:textColor="@color/WhiteColor"
                 android:textAllCaps="true"
                 android:textSize="@dimen/small_button_text_size"
+                android:padding="5dp"
                 android:minHeight="@dimen/min_button_height"
-                android:padding="10dp"
+
                 />
 
             <Button
-                android:id="@+id/referrer_add"
+                android:id="@+id/popup_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Apply"
                 android:background="@drawable/booking_btn_customized"
                 android:textColor="@color/WhiteColor"
                 android:textAllCaps="true"
                 android:textSize="@dimen/small_button_text_size"
                 android:minHeight="@dimen/min_button_height"
-                android:padding="10dp"
+                android:padding="5dp"
+
                 />
         </LinearLayout>
 

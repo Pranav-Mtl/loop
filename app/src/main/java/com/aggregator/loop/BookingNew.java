@@ -1,20 +1,24 @@
 package com.aggregator.loop;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -110,12 +114,34 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
     RelativeLayout rlDiagram;
 
+    int xx,yy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_new);
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
+
+        Display display = getWindowManager().getDefaultDisplay();
+
+        // Point size = new Point();
+        // display.getSize(size);
+        int width = display.getWidth();
+        int height = display.getHeight();
+
+        // System.out.println("width" + width + "height" + height);
+
+        if(width>=700 && height>=1000)
+        {
+            xx=500;
+            yy=500;
+        }
+        else
+        {
+            xx=400;
+            yy=500;
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -295,6 +321,21 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
             }
         });
+/*
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.aggregator.loop",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }*/
 
         spnTimePicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -327,7 +368,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
            new GetSelectedRoute().execute(routeId);
         }
         else{
-            AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(BookingNew.this);
+
+            showDialogConnection(BookingNew.this);
+            /*AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(BookingNew.this);
 
             alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
 
@@ -352,7 +395,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                     });
 
 
-            alertDialog2.show();
+            alertDialog2.show();*/
         }
 
         mRecyclerView.addOnItemTouchListener(
@@ -375,7 +418,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                             if (position == 0) {
                                 startActivity(new Intent(getApplicationContext(), SignIn.class));
                             } else if (position == 1) {
-                                Drawer.closeDrawers();
+                               startActivity(new Intent(getApplicationContext(), RouteNew.class));
                             }
                             else if (position == 2) {
                                 startActivity(new Intent(getApplicationContext(), Tutorial.class));
@@ -511,7 +554,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                         startActivity(new Intent(BookingNew.this, SignUpScreen.class));
                     }
                     else {
-                        notEnoughCredit();
+                        showDialogCredit(BookingNew.this);
                     }
 
         }
@@ -608,7 +651,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 }
 
             }catch (NullPointerException e){
-                NoResponseServer();
+                showDialogResponse(BookingNew.this);
             }catch (Exception e){
                 //NoResponseServer();
             }finally {
@@ -911,7 +954,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         drawerAdapter.notifyDataSetChanged();
     }
 
-    private void NoResponseServer()
+   /* private void NoResponseServer()
     {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(Constant.ERR_NO_SERVER_RESPONSE)
@@ -929,9 +972,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
         final AlertDialog alert = builder.create();
         alert.show();
-    }
+    }*/
 
-    private void notEnoughCredit()
+  /*  private void notEnoughCredit()
     {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(Constant.ERR_NO_LOOP_CREDIT_MESSAGE)
@@ -943,13 +986,13 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 })
                 .setPositiveButton("Buy loop credits", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        startActivity(new Intent(getApplicationContext(),AddLoopCredit.class));
+                        startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
                     }
                 });
 
         final AlertDialog alert = builder.create();
         alert.show();
-    }
+    }*/
 
 
     void createCustomNew(int pick,int drop){
@@ -994,7 +1037,8 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 TextView title=new TextView(this);
                 title.setText(Constant.pointName[i]);
                 title.setPadding(10, 0, 0, 0);
-                title.setTextColor(getResources().getColor(R.color.TextColor));
+                title.setTextColor(getResources().getColor(R.color.BlueTextColor));
+                //title.setTextSize(getResources().getDimension(R.dimen.booking_text_size));
                 llFirst.addView(ladder);
                 llSecond.addView(title);
 
@@ -1023,5 +1067,178 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
         }
 
+
+    private void showDialogResponse(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("D'oh!");
+        tvMsg.setText("Sorry, something didn't quite work.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new GetSelectedRoute().execute(routeId);
+
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
+    private void showDialogCredit(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("Not enough Loop Credits");
+        tvMsg.setText("You don't have enough Loop Credits left to book this ride");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Buy Loop Credits");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
+
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
+    private void showDialogConnection(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("No Internet");
+        tvMsg.setText("Looks like you have no or very slow data connectivity.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new GetSelectedRoute().execute(routeId);
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
 
 }

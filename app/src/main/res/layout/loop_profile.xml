@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="Profile"
             android:textColor="#ffffff"
-            android:textSize="20dp"
+            android:textSize="@dimen/toolbar_text_size"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_centerInParent="true"
@@ -41,6 +41,7 @@
             android:layout_alignParentRight="true"
             android:layout_gravity="end"
             android:text="Save"
+            android:textSize="@dimen/small_button_text_size"
             android:layout_centerVertical="true"
             android:textColor="#ffffff"
             />
@@ -64,9 +65,9 @@
             android:layout_height="wrap_content"
             android:text="Basic Information"
             android:layout_gravity="center"
-            android:textSize="15dp"
+            android:textSize="@dimen/profile_text_size"
             android:layout_marginLeft="10dp"
-            android:textColor="#000"
+            android:textColor="@color/BlueTextColor"
             />
     </LinearLayout>
     <LinearLayout
@@ -96,7 +97,8 @@
                 android:background="@android:color/transparent"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
-
+                android:textSize="@dimen/profile_text_size"
+                android:textColor="@color/BlueTextColor"
 
                 />
             <ImageButton
@@ -145,7 +147,8 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
-
+                android:textSize="@dimen/profile_text_size"
+                android:textColor="@color/BlueTextColor"
 
                 />
 
@@ -193,9 +196,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
+                android:textSize="@dimen/profile_text_size"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
+                android:textColor="@color/BlueTextColor"
                 android:editable="false"/>
 
 
@@ -214,9 +219,9 @@
             android:layout_height="wrap_content"
             android:text="Change Password"
             android:layout_gravity="center"
-            android:textSize="15dp"
+            android:textSize="@dimen/profile_text_size"
             android:layout_marginLeft="10dp"
-            android:textColor="#000"
+            android:textColor="@color/BlueTextColor"
 
             />
         <RelativeLayout
@@ -270,7 +275,8 @@
                 android:background="@android:color/transparent"
                 android:singleLine="true"
                 android:inputType="textPassword"
-
+                android:textSize="@dimen/profile_text_size"
+                android:textColor="@color/BlueTextColor"
 
                 />
 
@@ -309,12 +315,13 @@
                 android:layout_height="fill_parent"
                 android:hint="New Password"
                 android:paddingLeft="10dp"
+                android:textSize="@dimen/profile_text_size"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:singleLine="true"
                 android:inputType="textPassword"
-
+                android:textColor="@color/BlueTextColor"
 
                 />
 
@@ -352,13 +359,13 @@
                 android:layout_height="fill_parent"
                 android:hint="Confirm Password"
                 android:paddingLeft="10dp"
-
+                android:textSize="@dimen/profile_text_size"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:singleLine="true"
                 android:inputType="textPassword"
-
+                android:textColor="@color/BlueTextColor"
 
                 />
 
@@ -382,10 +389,10 @@
             android:layout_height="wrap_content"
             android:text="Loop Credits"
             android:layout_gravity="center"
-            android:textSize="15dp"
+            android:textSize="@dimen/profile_text_size"
             android:layout_marginLeft="10dp"
-            android:textColor="#000"
 
+            android:textColor="@color/BlueTextColor"
             />
 
     </LinearLayout>
@@ -402,7 +409,8 @@
             android:paddingLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-
+            android:textSize="@dimen/profile_text_size"
+            android:textColor="@color/BlueTextColor"
             />
 
         <Button
@@ -440,8 +448,10 @@
             android:layout_width="fill_parent"
             android:background="#1ebd9d"
             android:text="Sign Out"
-            android:textSize="15dp"
+            android:textSize="@dimen/small_button_text_size"
             android:textColor="#ffffff"
+            android:minHeight="@dimen/min_button_height"
+            android:padding="10dp"
             android:layout_height="wrap_content" />
 
     </RelativeLayout>

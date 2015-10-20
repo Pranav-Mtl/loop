@@ -107,6 +107,7 @@
             android:paddingLeft="5dp"
             android:drawablePadding="5dp"
             android:text="Pick"
+            android:textColor="@color/BlueTextColor"
             android:gravity="center_vertical"
             android:drawableLeft="@drawable/ic_ticket_pick"
             />
@@ -125,6 +126,7 @@
             android:drawablePadding="5dp"
             android:drawableLeft="@drawable/ic_ticket_drop"
             android:gravity="center_vertical"
+            android:textColor="@color/BlueTextColor"
 
             />
         </LinearLayout>
@@ -170,7 +172,7 @@
             android:layout_width="fill_parent"
             android:orientation="vertical"
             android:layout_height="0dp"
-            android:layout_weight="6.5"
+            android:layout_weight="6.3"
             android:background="@drawable/ticket_map_border"
             >
             <ImageView
@@ -250,15 +252,15 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.5"
+            android:layout_weight="1.7"
             android:orientation="horizontal"
-            android:weightSum="4"
+            android:weightSum="10"
             android:layout_marginTop="5dp"
             >
            <LinearLayout
                android:layout_width="0dp"
                android:layout_height="fill_parent"
-               android:layout_weight="1"
+               android:layout_weight="3.5"
                android:orientation="vertical"
                >
                <TextView
@@ -282,7 +284,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:orientation="vertical"
                 android:layout_marginLeft="5dp"
                 >
@@ -307,7 +309,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="vertical"
                 android:layout_marginLeft="10dp"
                 >
@@ -332,7 +334,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:orientation="vertical"
                 android:layout_marginLeft="5dp"
                 >

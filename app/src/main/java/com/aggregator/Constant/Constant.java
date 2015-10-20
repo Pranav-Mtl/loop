@@ -12,6 +12,7 @@ public class Constant {
 
     public static final String MSG_KEY = "m";
 
+    public static final String GOOGLE_PROJ_ID = "179182910848";
 
     ////////////////       WEB SERVICE URL      //////////////////////\
 
@@ -76,6 +77,7 @@ public class Constant {
     public static String SHARED_PREFERENCE_PHONE="phone";
     public static String SHARED_PREFERENCE_LOGIN_STATUS="status";
     public static String SHARED_PREFERENCE_CHECK_APP_RUN="run";
+    public static String SHARED_PREFERENCE_GCM_ID="gcm";
     ///   SAVE BOOKING DATA    ///
 
     public static String SHARED_PREFERENCE_BOOKING_SOURCE_id="source";
@@ -144,6 +146,7 @@ public class Constant {
     public static String favRouteStartName[];
     public static String favRouteEndName[];
     public static String favRouteFavStatus[];
+    public static String favRouteStatus[];
 
 
     ///////////      Recent Route Variable     ////////////////
@@ -154,6 +157,7 @@ public class Constant {
     public static String recentRouteStartName[];
     public static String recentRouteEndName[];
     public static String recentRouteFavStatus[];
+    public static String recentRouteStatus[];
     //////////     Login User Details       //////////////////
 
     public static String name;

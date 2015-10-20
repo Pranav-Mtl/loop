@@ -1,25 +1,27 @@
 package com.aggregator.loop;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,10 +32,15 @@ import com.aggregator.BL.InviteActivityBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.appsee.Appsee;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
 
-import java.util.List;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 
 public class InviteActivity extends AppCompatActivity {
@@ -60,6 +67,12 @@ public class InviteActivity extends AppCompatActivity {
     View _itemColoured;
 
     String msgStart;
+    String msgTwitter;
+
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
+
+    int xx,yy;
 
 
     @Override
@@ -69,10 +82,31 @@ public class InviteActivity extends AppCompatActivity {
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
+        Display display = getWindowManager().getDefaultDisplay();
+
+        int width = display.getWidth();
+        int height = display.getHeight();
+
+        // System.out.println("width" + width + "height" + height);
+
+        if(width>=700 && height>=1000)
+        {
+            xx=500;
+            yy=500;
+        }
+        else
+        {
+            xx=400;
+            yy=500;
+        }
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
 
 
         inviteActivityBL=new InviteActivityBL();
@@ -130,31 +164,7 @@ public class InviteActivity extends AppCompatActivity {
             }
             else
             {
-                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(InviteActivity.this);
-
-                alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
-
-                alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
-
-                alertDialog2.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                startActivity(new Intent(Settings.ACTION_SETTINGS));
-                            }
-                        });
-
-                alertDialog2.setNegativeButton("NO",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-
-                                dialog.cancel();
-                            }
-                        });
-
-
-                alertDialog2.show();
+                showDialogConnection(this);
             }
 
         }
@@ -187,7 +197,7 @@ public class InviteActivity extends AppCompatActivity {
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                /*Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                 shareIntent.setType("image/png");
                 Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -204,6 +214,20 @@ public class InviteActivity extends AppCompatActivity {
                         v.getContext().startActivity(shareIntent);
                         break;
                     }
+                }*/
+
+
+                Uri uri = Uri.parse("http://i61.tinypic.com/2rlyq0p.png");
+
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                            .setContentTitle("Loop")
+                            .setContentDescription(msgStart)
+                            .setContentUrl(Uri.parse("http://www.goinloop.com"))
+                            .setImageUrl(uri)
+                            .build();
+
+                    shareDialog.show(linkContent);
                 }
             }
         });
@@ -215,20 +239,26 @@ public class InviteActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //String msg = tweetText.getText().toString();
+                Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
 
                 if(checkTwitter()){
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_SEND);
                     intent.setType("image/png");
-                    Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
+
                     intent.putExtra(Intent.EXTRA_STREAM, uri);
-                    intent.putExtra(Intent.EXTRA_TEXT,msgStart);
+                    intent.putExtra(Intent.EXTRA_TEXT,msgTwitter);
                     intent.setPackage("com.twitter.android");
                     startActivity(intent);
 
                 }
                 else {
-                    Toast.makeText(getApplicationContext(),"You need to install twitter app first.",Toast.LENGTH_SHORT).show();
+                    String tweetUrl =
+                            String.format("https://twitter.com/intent/tweet?text=%s&image=%s",
+                                    urlEncode(msgStart),urlEncode(uri+""));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl));
+                    startActivity(intent);
+                    //Toast.makeText(getApplicationContext(),"You need to install twitter app first.",Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -245,7 +275,7 @@ public class InviteActivity extends AppCompatActivity {
 
                 //String msg = tweetText.getText().toString();
                 Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-                sendIntent.putExtra("sms_body",promocode);
+                sendIntent.putExtra("sms_body",msgStart);
                 sendIntent.setType("vnd.android-dir/mms-sms");
                 startActivity(sendIntent);
 
@@ -343,7 +373,10 @@ public class InviteActivity extends AppCompatActivity {
                 {
                     //Toast.makeText(getApplicationContext(),"Succefully shared",Toast.LENGTH_LONG).show();
                     msgStart="Hey! have you tried Loop? Smarter and cheaper option for daily commute. Get FREE rides worth Rs"+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" by signing-up with referral code:"+objInviteActivityBE.getReferralCode() +". Click: http://tinyurl.com/pzxgpky to get the Loop app.";
+                    msgTwitter="Try Loop - smarter & cheaper way to travel.FREE rides worth Rs"+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" on sign-up with referral code:"+objInviteActivityBE.getReferralCode() +". App: http://tinyurl.com/pzxgpky";
                    // msgStart="Try out Loop - awesome bus service! use my referral code "+objInviteActivityBE.getReferralCode() +"to get "+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" loop credit on registration";
+
+                  // msgTwitter="Try Loop - smarter & cheaper way to travel.FREE rides worth Rs.100 on sign-up with referral code: J8636.App: http://tinyurl.com/pzxgpky";
                     shareBtn.setText(objInviteActivityBE.getReferralCode());
                     promocode="Your Referral Code for loop is :"+objInviteActivityBE.getReferralCode();
                     tvText.setText("They get free rides worth \u20B9"+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+". \n"+"And, so do you!");
@@ -359,7 +392,7 @@ public class InviteActivity extends AppCompatActivity {
             }
 
             catch (NullPointerException e){
-
+                showDialogResponse(InviteActivity.this);
             }
             catch (Exception e){
 
@@ -396,4 +429,135 @@ public class InviteActivity extends AppCompatActivity {
         super.onResume();
         drawerAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static String urlEncode(String s) {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            Log.d("TAG", "UTF-8 should always be supported", e);
+            throw new RuntimeException("URLEncoder.encode() failed for " + s);
+        }
+    }
+
+    private void showDialogResponse(Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("D'oh!");
+        tvMsg.setText("Sorry, something didn't quite work.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new SharePromocode().execute(userId);
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
+    private void showDialogConnection(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("No Internet");
+        tvMsg.setText("Looks like you have no or very slow data connectivity.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new SharePromocode().execute(userId);
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
 }

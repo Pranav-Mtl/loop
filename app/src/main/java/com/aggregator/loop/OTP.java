@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +47,8 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
 
     String msg="A one time password is being sent as an SMS to +91-";
 
+    int xx,yy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,24 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Display display = getWindowManager().getDefaultDisplay();
+
+        int width = display.getWidth();
+        int height = display.getHeight();
+
+        // System.out.println("width" + width + "height" + height);
+
+        if(width>=700 && height>=1000)
+        {
+            xx=500;
+            yy=500;
+        }
+        else
+        {
+            xx=400;
+            yy=500;
+        }
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
 
@@ -320,7 +341,7 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
             try
             {
                 if(s.equals(Constant.WS_RESULT_SUCCESS)){
-                    Toast.makeText(getApplicationContext(),"OTP Resend Successfully",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"OTP resent",Toast.LENGTH_LONG).show();
                 }
                 else
                 {

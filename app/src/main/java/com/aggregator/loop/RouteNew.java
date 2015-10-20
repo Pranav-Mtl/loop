@@ -1,10 +1,11 @@
 package com.aggregator.loop;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -16,10 +17,15 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -118,6 +124,8 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
     View _itemColoured;
 
+    int xx,yy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +134,27 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         initialize();
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
+
+        Display display = getWindowManager().getDefaultDisplay();
+
+        // Point size = new Point();
+        // display.getSize(size);
+        int width = display.getWidth();
+        int height = display.getHeight();
+
+       // System.out.println("width" + width + "height" + height);
+
+        if(width>=700 && height>=1000)
+        {
+            xx=500;
+            yy=500;
+        }
+        else
+        {
+            xx=400;
+            yy=500;
+        }
+
 
 
 
@@ -311,7 +340,9 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
             }
         }
         else{
-            AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(RouteNew.this);
+
+            showDialogConnection(this);
+            /*AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(RouteNew.this);
 
             alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
 
@@ -327,7 +358,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                     });
 
 
-            alertDialog2.show();
+            alertDialog2.show();*/
         }
 
 
@@ -923,10 +954,10 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
             }
             catch (NullPointerException e){
-                NoResponseServer();
+                showDialogResponse(RouteNew.this);
             }
             catch (Exception e) {
-                NoResponseServer();
+                showDialogResponse(RouteNew.this);
             }
             finally {
                 mProgressDialog.dismiss();
@@ -935,7 +966,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
     }
 
 
-    private void NoResponseServer()
+  /*  private void NoResponseServer()
     {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(Constant.ERR_NO_SERVER_RESPONSE)
@@ -957,11 +988,133 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
         final AlertDialog alert = builder.create();
         alert.show();
-    }
+    }*/
 
     @Override
     protected void onResume() {
         super.onResume();
         drawerAdapter.notifyDataSetChanged();
+    }
+
+    private void showDialogConnection(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("No Internet");
+        tvMsg.setText("Looks like you have no or very slow data connectivity.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           if (logInType == null)
+                                               new GetRoutes().execute();
+                                           else
+                                               new GetRoutesLogin().execute(logInType);
+
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
+    private void showDialogResponse(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("D'oh!");
+        tvMsg.setText("Sorry, something didn't quite work.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           if (logInType == null)
+                                               new GetRoutes().execute();
+                                           else
+                                               new GetRoutesLogin().execute(logInType);
+
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
     }
 }

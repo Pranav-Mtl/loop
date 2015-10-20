@@ -3,7 +3,40 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="all_button_text_size">18sp</dimen>
+    <dimen name="all_button_text_size">15sp</dimen>
+    <dimen name="small_button_text_size">13sp</dimen>
 
-    <dimen name="toolbar_text_size">20sp</dimen>
+    <dimen name="toolbar_text_size">16sp</dimen>
+
+    <dimen name="body_text_size">16sp</dimen>
+
+    <dimen name="adapter_text_size">13sp</dimen>
+
+    <dimen name="hint_text_size_big">16sp</dimen>
+    <dimen name="hint_text_size_small">13sp</dimen>
+
+    <dimen name="feedback_text_size">13sp</dimen>
+
+    <dimen name="help_text_size">16sp</dimen>
+
+    <dimen name="invite_text_size">16sp</dimen>
+
+    <dimen name="profile_text_size">14sp</dimen>
+
+    <dimen name="suggest_text_size">13sp</dimen>
+
+    <dimen name="all_route_text_size">14sp</dimen>
+
+    <dimen name="drawer_item_size">15sp</dimen>
+
+    <dimen name="spinner_item_size">14sp</dimen>
+
+    <dimen name="booking_text_size">14sp</dimen>
+
+    <dimen name="loop_credit_text_size">14sp</dimen>
+
+    <dimen name="min_button_height">30dp</dimen>
+
+
+
 </resources>

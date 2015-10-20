@@ -1,13 +1,13 @@
 package com.aggregator.loop;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +15,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.aggregator.Adapters.CardAdapter;
 import com.aggregator.Adapters.DrawerAdapter;
@@ -52,6 +58,8 @@ public class TripHistory extends AppCompatActivity {
 
     int currentPage=0;
 
+    int xx,yy;
+
     ProgressBar mProgressBar;
 
     @Override
@@ -63,6 +71,24 @@ public class TripHistory extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Display display = getWindowManager().getDefaultDisplay();
+
+        int width = display.getWidth();
+        int height = display.getHeight();
+
+        // System.out.println("width" + width + "height" + height);
+
+        if(width>=700 && height>=1000)
+        {
+            xx=500;
+            yy=500;
+        }
+        else
+        {
+            xx=400;
+            yy=500;
+        }
 
         mProgressDialog=new ProgressDialog(TripHistory.this);
         mRecyclerView = (com.twotoasters.android.support.v7.widget.RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
@@ -119,31 +145,9 @@ public class TripHistory extends AppCompatActivity {
             new GetHistory().execute(userId,currentPage+"");
         }
         else{
-            AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(TripHistory.this);
 
-            alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
+            showDialogConnection(this);
 
-            alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
-
-            alertDialog2.setPositiveButton("YES",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Write your code here to execute after dialog
-                            startActivity(new Intent(Settings.ACTION_SETTINGS));
-                        }
-                    });
-
-            alertDialog2.setNegativeButton("NO",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Write your code here to execute after dialog
-
-                            dialog.cancel();
-                        }
-                    });
-
-
-            alertDialog2.show();
         }
 
         mRecyclerView.addOnItemTouchListener(
@@ -249,10 +253,10 @@ public class TripHistory extends AppCompatActivity {
            try {
                recList.setAdapter(cd);
            } catch (NullPointerException e){
-              NoResponseServer();
+              showDialogResponse(TripHistory.this);
            }
            catch (Exception e){
-               NoResponseServer();
+
            }
            finally {
                mProgressDialog.dismiss();
@@ -281,7 +285,7 @@ public class TripHistory extends AppCompatActivity {
         drawerAdapter.notifyDataSetChanged();
     }
 
-    private void NoResponseServer()
+ /*   private void NoResponseServer()
     {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(Constant.ERR_NO_SERVER_RESPONSE)
@@ -300,7 +304,7 @@ public class TripHistory extends AppCompatActivity {
 
         final AlertDialog alert = builder.create();
         alert.show();
-    }
+    }*/
 
     public class GetSearchLoaddata extends AsyncTask<String,String,String>
     {
@@ -332,4 +336,117 @@ public class TripHistory extends AppCompatActivity {
         }
     }
 
+    private void showDialogResponse(Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("D'oh!");
+        tvMsg.setText("Sorry, something didn't quite work.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new GetHistory().execute(userId,currentPage+"");
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
+    private void showDialogConnection(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("No Internet");
+        tvMsg.setText("Looks like you have no or very slow data connectivity.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new GetHistory().execute(userId,currentPage+"");
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
 }

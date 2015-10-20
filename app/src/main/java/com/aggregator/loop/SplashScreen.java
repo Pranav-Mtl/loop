@@ -24,20 +24,20 @@ public class SplashScreen extends AppCompatActivity {
 
          /* call google analytics*/
 
-        try {
-            Application.tracker().setScreenName("Splash Screen");
-            Application.tracker().send(new HitBuilders.EventBuilder()
-                    .setLabel("Splash Screen")
-                    .setCategory("Splash Screen")
-                    .setAction("App Launch")
-                    .build());
+        if(Util.isInternetConnection(SplashScreen.this)) {
+            try {
+                Application.tracker().setScreenName("Splash Screen");
+                Application.tracker().send(new HitBuilders.EventBuilder()
+                        .setLabel("Splash Screen")
+                        .setCategory("Splash Screen")
+                        .setAction("App Launch")
+                        .build());
 
-            // AffleInAppTracker.inAppTrackerViewName(getApplicationContext(), "Landing Screen", "App First Screen", "APP Open", null);
+                // AffleInAppTracker.inAppTrackerViewName(getApplicationContext(), "Landing Screen", "App First Screen", "APP Open", null);
 
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         new Handler().postDelayed(new Runnable() {

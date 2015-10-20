@@ -1,15 +1,21 @@
 package com.aggregator.Adapters;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -114,36 +120,38 @@ public class FavouriteAdapter extends  RecyclerView.Adapter<FavouriteAdapter.Fav
                     }
                     break;
                 case R.id.fav_ll:
+                    if("y".equalsIgnoreCase(Constant.favRouteStatus[position])) {
+                        llBottom.setVisibility(View.VISIBLE);
+                        btnDone.setVisibility(View.VISIBLE);
+                        System.out.println("POSITION" + position);
+                        source.setText(Constant.favRouteStartName[position]);
+                        destination.setText(Constant.favRouteEndName[position]);
+                        Log.d("Source--->", Constant.favRouteStartName[position]);
+                        Log.d("Destination--->", Constant.favRouteEndName[position]);
+                        Constant.favSelectedItem = position;
+                        Constant.recSelectedItem = -1;
+                        objRouteNew.routeID = Integer.valueOf(Constant.favRouteID[position]);
 
-                    llBottom.setVisibility(View.VISIBLE);
-                    btnDone.setVisibility(View.VISIBLE);
-                    System.out.println("POSITION" + position);
-                    source.setText(Constant.favRouteStartName[position]);
-                    destination.setText(Constant.favRouteEndName[position]);
-                    Log.d("Source--->", Constant.favRouteStartName[position]);
-                    Log.d("Destination--->", Constant.favRouteEndName[position]);
-                    Constant.favSelectedItem=position;
-                    Constant.recSelectedItem=-1;
-                    objRouteNew.routeID=Integer.valueOf(Constant.favRouteID[position]);
-
-                    if (Constant._lastColored != null) {
-                        if(Constant._lastColored==view){
-                            Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
-                            Constant._lastColored.invalidate();
-                            llBottom.setVisibility(View.GONE);
-                            btnDone.setVisibility(View.INVISIBLE);
-                            Constant._lastColored=null;
-                        }
-                        else {
-                            Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
-                            Constant._lastColored.invalidate();
+                        if (Constant._lastColored != null) {
+                            if (Constant._lastColored == view) {
+                                Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
+                                Constant._lastColored.invalidate();
+                                llBottom.setVisibility(View.GONE);
+                                btnDone.setVisibility(View.INVISIBLE);
+                                Constant._lastColored = null;
+                            } else {
+                                Constant._lastColored.setBackgroundColor(Color.parseColor("#ffffff"));
+                                Constant._lastColored.invalidate();
+                                Constant._lastColored = view;
+                                view.setBackgroundColor(Color.parseColor("#66daae"));
+                            }
+                        } else {
                             Constant._lastColored = view;
                             view.setBackgroundColor(Color.parseColor("#66daae"));
                         }
                     }
                     else {
-                        Constant._lastColored = view;
-                        view.setBackgroundColor(Color.parseColor("#66daae"));
+                        showDialogNoRoute(objRouteNew);
                     }
 
 
@@ -213,5 +221,62 @@ public class FavouriteAdapter extends  RecyclerView.Adapter<FavouriteAdapter.Fav
                 mProgressDialog.dismiss();
             }
         }
+    }
+
+    private void showDialogNoRoute(Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=500;
+        wmlp.height=500;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("D'oh!");
+        tvMsg.setText(context.getResources().getString(R.string.route_inactive));
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Ok");
+
+        btnClosePopup.setVisibility(View.GONE);
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                // finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
     }
 }

@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:text="Invite your friends to ride on Loop."
                     android:textColor="@color/BlueTextColor"
-                    android:textSize="17dp"
+                    android:textSize="@dimen/invite_text_size"
                     />
 
                 <TextView
@@ -67,7 +67,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/BlueTextColor"
-                    android:textSize="17dp"
+                    android:textSize="@dimen/invite_text_size"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
 
                     />
@@ -80,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:text="Share your promo code:"
                     android:textColor="@color/BlueTextColor"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/invite_text_size"
 
                     />
                 <Button
@@ -89,9 +90,9 @@
                     android:background="@drawable/btn_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Share"
                     android:textColor="#ffffff"
                     android:layout_gravity="center"
+                    android:textSize="@dimen/small_button_text_size"
                     />
                 <LinearLayout
                     android:orientation="horizontal"

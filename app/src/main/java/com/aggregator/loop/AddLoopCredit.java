@@ -122,4 +122,7 @@ public class AddLoopCredit extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+
+
 }

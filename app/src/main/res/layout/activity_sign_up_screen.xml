@@ -62,7 +62,7 @@
                 android:imeOptions="actionNext"
                 android:singleLine="true"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-                android:textColor="#1d1d26"
+                android:textColor="@color/BlueTextColor"
                 android:hint="       Name"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -82,7 +82,7 @@
                 android:drawableLeft="@drawable/ic_email"
                 android:drawablePadding="5dp"
                 android:imeOptions="actionNext"
-                android:textColor="#1d1d26"
+                android:textColor="@color/BlueTextColor"
                 android:singleLine="true"
                 android:inputType="textEmailAddress"
                 android:hint="       Email"/>
@@ -103,7 +103,7 @@
                 android:digits="0123456789+"
                 android:imeOptions="actionNext"
                 android:maxLength="13"
-                android:textColor="#1d1d26"
+                android:textColor="@color/BlueTextColor"
                 android:singleLine="true"
                 android:hint="       Mobile No"/>
         </android.support.design.widget.TextInputLayout>
@@ -122,7 +122,7 @@
                 android:drawablePadding="5dp"
                 android:inputType="textPassword"
                 android:imeOptions="actionNext"
-                android:textColor="#1d1d26"
+                android:textColor="@color/BlueTextColor"
                 android:singleLine="true"
                 android:hint="       Password"/>
         </android.support.design.widget.TextInputLayout>
@@ -141,7 +141,7 @@
                 android:drawablePadding="5dp"
                 android:inputType="textPassword"
                 android:imeOptions="actionNext"
-                android:textColor="#1d1d26"
+                android:textColor="@color/BlueTextColor"
                 android:singleLine="true"
                 android:hint="       Confirm Password"/>
         </android.support.design.widget.TextInputLayout>
@@ -160,7 +160,7 @@
             android:layout_marginTop="10dp"
             android:paddingLeft="20dp"
             android:textSize="16sp"
-            android:textColor="#1d1d26"
+            android:textColor="@color/BlueTextColor"
             />
           <!--  <TextView
                 android:layout_width="wrap_content"
@@ -190,6 +190,7 @@
                 android:text="Referral Code"
                 android:textAllCaps="false"
                 android:drawablePadding="10dp"
+                android:textColor="@color/BlueTextColor"
                 android:drawableRight="@drawable/ic_right_arrow"
                 />
 
@@ -220,8 +221,11 @@
                 android:background="@drawable/booking_btn_customized"
                 android:text="Sign Up"
                 android:textSize="@dimen/all_button_text_size"
-                android:textAllCaps="false"
+                android:textAllCaps="true"
                 android:textColor="@color/WhiteColor"
+                android:minHeight="@dimen/min_button_height"
+                android:padding="10dp"
+
                 />
             <Button
                 android:id="@+id/signup_signin"
@@ -230,7 +234,9 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/login_signup_selector"
                 android:text="Already a Loop User? Log In"
-                android:textAllCaps="false"
+                android:minHeight="@dimen/min_button_height"
+                android:padding="10dp"
+                android:textAllCaps="true"
                 android:textSize="@dimen/all_button_text_size"
                 android:textColor="@color/WhiteColor"
                 />

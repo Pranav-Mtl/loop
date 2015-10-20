@@ -1,19 +1,18 @@
 package com.aggregator.loop;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -37,10 +36,15 @@ import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.appsee.Appsee;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import java.io.IOException;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
 
-    TextView tvFName,tvLName,tvEmail,tvPassword,tvCPassword,tvMobileNo;
+    private TextView tvFName,tvLName,tvEmail,tvPassword,tvCPassword,tvMobileNo;
     ImageButton btnBack;
     String txtFName,txtLName,txtEmail,txtPassword,txtCPassword,txtMobile;
     String payTM="",promoCode="",user_credit="",user_balance="";
@@ -48,10 +52,18 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     SignUpBE objSignUpBE;
     int count=0;
     Button tvSignIn,btnDone,btnReferrer;
-
     ProgressDialog mProgressDialog;
-
     TextView tvApplied;
+
+    GoogleCloudMessaging gcmObj;
+
+    Context applicationContext;
+
+    int xx,yy;
+
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+    String gcmID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +78,29 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         Appsee.start("de8395d3ae424245b695b4c9d6642f71");
+
+        applicationContext=getApplicationContext();
+
+        Display display = getWindowManager().getDefaultDisplay();
+
+        // Point size = new Point();
+        // display.getSize(size);
+        int width = display.getWidth();
+        int height = display.getHeight();
+
+        // System.out.println("width" + width + "height" + height);
+
+        if(width>=700 && height>=1000)
+        {
+            xx=500;
+            yy=500;
+        }
+        else
+        {
+            xx=400;
+            yy=500;
+        }
+
 
         tvFName= (TextView) findViewById(R.id.signup_name);
         //tvLName= (TextView) findViewById(R.id.signup_lastname);
@@ -96,12 +131,24 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         tvMobileNo.setText("+91", TextView.BufferType.EDITABLE);
 
+       /* tvMobileNo.setText("+374");
+        Selection.setSelection(tvMobileNo.getText(), tvMobileNo.getText().length());*/
+
    /*     String code = "+91";
         tvMobileNo.setCompoundDrawablesWithIntrinsicBounds(new TextDrawable(code), null, null, null);
         tvMobileNo.setCompoundDrawablePadding(code.length()*10);*/
 
 
         // for name validation
+
+        gcmID=Util.getSharedPrefrenceValue(getApplicationContext(),Constant.SHARED_PREFERENCE_GCM_ID);
+
+        if(gcmID==null){
+            if (checkPlayServices()) {
+                registerInBackground();
+            }
+        }
+
 
         tvFName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
@@ -363,43 +410,11 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
                     //http://appslure.in/loop/webservices/signup.php?name=name&email=abcd@gmail.com&password=name&phone_no=9876543210&paytm=paytm&promocode=promocode&otp=otp
 
-                    new InsertData().execute(txtFName,txtEmail,txtPassword,txtMobile, payTM, promoCode,strOTP,user_credit,user_balance);
+                    new InsertData().execute(txtFName,txtEmail,txtPassword,txtMobile, payTM, promoCode,Constant.OTP,user_credit,user_balance);
                 }
                 else {
 
-                    AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(
-                            SignUpScreen.this);
-
-// Setting Dialog Title
-                    alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
-
-// Setting Dialog Message
-                    alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND_MSG);
-
-// Setting Icon to Dialog
-
-
-// Setting Positive "Yes" Btn
-                    alertDialog2.setPositiveButton("YES",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Write your code here to execute after dialog
-                                    startActivity(new Intent(Settings.ACTION_SETTINGS));
-                                }
-                            });
-// Setting Negative "NO" Btn
-                    alertDialog2.setNegativeButton("NO",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Write your code here to execute after dialog
-
-                                    dialog.cancel();
-                                }
-                            });
-
-// Showing Alert Dialog
-                    alertDialog2.show();
-
+                    showDialogConnection(this);
 
                 }
             }
@@ -456,7 +471,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
             }
             catch (NullPointerException e)
             {
-                e.printStackTrace();
+               showDialogResponse(SignUpScreen.this);
             }
             finally {
                 mProgressDialog.dismiss();
@@ -526,8 +541,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.CENTER;
-        wmlp.width=500;
-        wmlp.height=500;
+        wmlp.width=xx;
+        wmlp.height=yy;
 
 
 
@@ -614,4 +629,170 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void showDialogResponse(Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("D'oh!");
+        tvMsg.setText("Sorry, something didn't quite work.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new InsertData().execute(txtFName,txtEmail,txtPassword,txtMobile, payTM, promoCode,Constant.OTP,user_credit,user_balance);
+                                           dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
+    private void showDialogConnection(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("No Internet");
+        tvMsg.setText("Looks like you have no or very slow data connectivity.");
+        btnClosePopup.setText("Cancel");
+        btnsave.setText("Try again?");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           new InsertData().execute(txtFName,txtEmail,txtPassword,txtMobile, payTM, promoCode,Constant.OTP,user_credit,user_balance);
+                                           dialog.dismiss();
+                                       }
+                                   }
+        );
+
+
+        dialog.show();
+    }
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil
+                .isGooglePlayServicesAvailable(this);
+        // When Play services not found in device
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                // Show Error dialog to install Play services
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+
+                finish();
+            }
+            return false;
+        } else {
+
+        }
+        return true;
+    }
+
+    private void registerInBackground() {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String msg = "";
+                try {
+                    if (gcmObj == null) {
+                        gcmObj = GoogleCloudMessaging
+                                .getInstance(applicationContext);
+                    }
+                    gcmID = gcmObj
+                            .register(Constant.GOOGLE_PROJ_ID);
+                    msg = "Registration ID :" + gcmID;
+
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                }
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                if (!TextUtils.isEmpty(gcmID)) {
+                  Util.setSharedPrefrenceValue(applicationContext,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_GCM_ID,gcmID);
+                } else {
+                  /*  Toast.makeText(
+                            applicationContext,
+                            "Reg ID Creation Failed.\n\nEither you haven't enabled Internet or GCM server is busy right now. Make sure you enabled Internet and try registering again after some time."
+                                    + msg, Toast.LENGTH_LONG).show();*/
+                }
+            }
+        }.execute(null, null, null);
+    }
 }

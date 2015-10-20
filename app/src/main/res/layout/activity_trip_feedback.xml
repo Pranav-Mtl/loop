@@ -36,7 +36,7 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginBottom="50dp"
+
         android:layout_below="@id/toolbar"
         >
 
@@ -60,6 +60,8 @@
             android:padding="5dp"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
+            android:textColor="@color/TextColor"
+            android:textSize="@dimen/feedback_text_size"
             />
 
         <TextView
@@ -73,31 +75,36 @@
             android:padding="5dp"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
+            android:textColor="@color/TextColor"
             />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_ticket_datetime"
+            android:drawableLeft="@drawable/ic_feedback_time"
             android:layout_marginTop="10dp"
             android:hint="Date:"
             android:drawablePadding="5dp"
             android:padding="5dp"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
+            android:textColor="@color/TextColor"
+            android:textSize="@dimen/feedback_text_size"
             />
         <TextView
             android:id="@+id/rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_ticket_rupee"
+            android:drawableLeft="@drawable/ic_feedback_credit"
             android:layout_marginTop="10dp"
             android:hint="50"
             android:drawablePadding="5dp"
             android:padding="5dp"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
+            android:textColor="@color/TextColor"
+            android:textSize="@dimen/feedback_text_size"
             />
 
 
@@ -108,7 +115,7 @@
             android:numStars="5"
             android:stepSize="1"
             android:maxWidth="110dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center_horizontal"
             android:maxHeight="100dp"
             android:minHeight="33dp"
@@ -120,6 +127,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="5dp"
             android:visibility="gone"
             >
 
@@ -128,6 +136,7 @@
                 android:layout_height="wrap_content"
                 android:text="What didn't work? "
                 android:textSize="17sp"
+                android:textColor="@color/TextColor"
                 />
 
 
@@ -140,7 +149,8 @@
                     android:drawableLeft="@drawable/feedback_radio_button"
                     android:drawablePadding="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/feedback_text_size"
+                    android:textColor="@color/TextColor"
                     />
                 <CheckBox
                     android:id="@+id/checkbox2"
@@ -151,7 +161,8 @@
                     android:drawableLeft="@drawable/feedback_radio_button"
                     android:drawablePadding="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/feedback_text_size"
+                    android:textColor="@color/TextColor"
                     />
                 <CheckBox
                     android:id="@+id/checkbox3"
@@ -162,7 +173,8 @@
                     android:drawableLeft="@drawable/feedback_radio_button"
                     android:drawablePadding="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/feedback_text_size"
+                    android:textColor="@color/TextColor"
                     />
                 <CheckBox
                     android:id="@+id/checkbox4"
@@ -173,7 +185,8 @@
                     android:drawableLeft="@drawable/feedback_radio_button"
                     android:drawablePadding="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/feedback_text_size"
+                    android:textColor="@color/TextColor"
                     />
 
                 <CheckBox
@@ -185,7 +198,8 @@
                     android:drawableLeft="@drawable/feedback_radio_button"
                     android:drawablePadding="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/feedback_text_size"
+                    android:textColor="@color/TextColor"
                     />
                 <CheckBox
                     android:id="@+id/checkbox6"
@@ -196,7 +210,8 @@
                     android:drawableLeft="@drawable/feedback_radio_button"
                     android:drawablePadding="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/feedback_text_size"
+                    android:textColor="@color/TextColor"
                     />
 
             </LinearLayout>
@@ -204,7 +219,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Comments:"
+                android:textColor="@color/TextColor"
                 android:layout_marginTop="10dp"
+                android:textSize="@dimen/feedback_text_size"
                 />
         <EditText
             android:id="@+id/comment"
@@ -213,11 +230,24 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/comment_bg"
             android:layout_marginTop="10dp"
+            android:textColor="@color/TextColor"
+            android:textSize="@dimen/feedback_text_size"
             />
-
+        <Button
+            android:id="@+id/feedback_done"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/booking_btn_customized"
+            android:text="Submit"
+            android:textColor="@color/WhiteColor"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/all_button_text_size"
+            android:minHeight="@dimen/min_button_height"
+            android:padding="10dp"
+            />
     </LinearLayout>
     </ScrollView>
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:id="@+id/feedback_bottom"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
@@ -227,18 +257,10 @@
         android:layout_marginBottom="10dp"
         >
 
-        <Button
-            android:id="@+id/feedback_done"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/booking_btn_customized"
-            android:text="Submit"
-            android:textColor="@color/WhiteColor"
-            android:textSize="@dimen/all_button_text_size"
-            />
+
 
     </RelativeLayout>
-
+-->
 </RelativeLayout>
 
     <com.twotoasters.android.support.v7.widget.RecyclerView

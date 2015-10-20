@@ -10,6 +10,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="app_id">1075089172526079</string>
+
 
     <color name="LightGreen">#66daae</color>
     <color name="MenuItems">#75d9b3</color>
@@ -17,11 +19,11 @@
     <color name="LightBG">#f8f9fb</color>
     <color name="StatusBar">#1fc796</color>    <!-- STATUS BAR DARK COLOR -->
     <color name="DarkGreen">#049da2</color>
-    <color name="TextColor">#1d1d26</color>
+    <color name="TextColor">#6B6B6B</color>
     <color name="WhiteColor">#fff</color>
     <color name="FavBG">#0084d0</color>
     <color name="OranceColor">#e74f4c</color>
-    <color name="BlueTextColor">#34495e</color>
+    <color name="BlueTextColor">#6B6B6B</color>
     <color name="TabSelectedColor">#1fc796</color>
     <color name="RouteSelectedColor">#66daae</color>
     <color name="GrayBG">#e4e4e4</color>
@@ -29,6 +31,7 @@
     <color name="TicketGrayText">#8b8b8b</color>
     <color name="TicketGrayBG">#e6e5e5</color>
     <color name="BookingGray">#f2f2f2</color>
+
 
     <string name="title_activity_sign_in">SignIn</string>
     <string name="title_activity_booking_screen">BookingScreen</string>
@@ -62,5 +65,8 @@
     <!-- ...start app messages...  -->
 
     <string name="ticket_no_feedback_message">Your trip haven\'t start. Please rate this trip later </string>
+
+    <string name="route_inactive_title">D\'oh!</string>
+    <string name="route_inactive">Sorry, this route is currently inactive. Please try after some time. </string>
 
 </resources>

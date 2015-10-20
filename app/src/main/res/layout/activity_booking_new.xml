@@ -173,13 +173,14 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-
+                    android:textSize="@dimen/booking_text_size"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/booking_textview_customized"
+                    android:background="@drawable/ic_price_bg"
                     android:hint="Price"
-                    android:padding="5dp"
+                    android:paddingTop="5dp"
                     android:gravity="center_vertical"
-                    android:textColor="#34495e"
+                    android:textColor="@color/BlueTextColor"
+                    android:paddingLeft="45dp"
 
                     />
                 </LinearLayout>
@@ -202,7 +203,6 @@
                     android:layout_alignParentRight="true"
                     android:text=""
                     android:textSize="12sp"
-
                     android:paddingRight="10dp"
                     android:textColor="@color/TextColor"
                     />

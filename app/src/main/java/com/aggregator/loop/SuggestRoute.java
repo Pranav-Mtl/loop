@@ -46,7 +46,7 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
 
     String userID;
 
-
+    int xx,yy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -143,7 +143,7 @@ public class RoutesBL {
                 JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
                 Constant.routeId[i]=jsonObject.get("route_id").toString();
                 Constant.routeName[i]=jsonObject.get("route_name").toString();
-                Constant.routeExpand[i]=jsonObject.get("sub_route").toString().replace("[","").replace("]","").replaceAll("\"","").replaceAll(",",text);
+                Constant.routeExpand[i]=jsonObject.get("sub_route").toString().replace("[","").replace("]","").replaceAll("\"", "").replaceAll(",", text);
             }
 
         }
@@ -170,6 +170,7 @@ public class RoutesBL {
             Constant.recentRouteStartName=new String[jsonArrayObject.size()];
             Constant.recentRouteEndName=new String[jsonArrayObject.size()];
             Constant.recentRouteFavStatus=new String[jsonArrayObject.size()];
+            Constant.recentRouteStatus=new String[jsonArrayObject.size()];
 
             for(int i=0;i<jsonArrayObject.size();i++){
                 JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
@@ -192,6 +193,7 @@ public class RoutesBL {
                 Constant.recentRouteStartName[i]=jsonObject.get("start_name").toString();
                 Constant.recentRouteEndName[i]=jsonObject.get("end_name").toString();
                 Constant.recentRouteFavStatus[i]=jsonObject.get("fav_route").toString();
+                Constant.recentRouteStatus[i]=jsonObject.get("status").toString();
             }
 
         } catch (Exception e) {
@@ -213,6 +215,7 @@ public class RoutesBL {
             Constant.favRouteStartName=new String[jsonArrayObject.size()];
             Constant.favRouteEndName=new String[jsonArrayObject.size()];
             Constant.favRouteFavStatus=new String[jsonArrayObject.size()];
+            Constant.favRouteStatus=new String[jsonArrayObject.size()];
 
             for(int i=0;i<jsonArrayObject.size();i++) {
                 JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
@@ -222,6 +225,7 @@ public class RoutesBL {
                 Constant.favRouteStartName[i]=jsonObject.get("start_name").toString();
                 Constant.favRouteEndName[i]=jsonObject.get("end_name").toString();
                 Constant.favRouteFavStatus[i]="Yes";
+                Constant.favRouteStatus[i]=jsonObject.get("status").toString();
             }
 
         } catch (Exception e) {
@@ -250,5 +254,6 @@ public class RoutesBL {
             e.getLocalizedMessage();
         }
     }
+
 
 }

@@ -41,6 +41,7 @@
             android:gravity="center"
             android:orientation="vertical"
             >
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,7 +71,7 @@
                 android:text="Purchase Loop Credits"
                 android:textColor="@color/TextColor"
                 android:layout_marginTop="20dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -96,6 +97,7 @@
                     android:gravity="center"
                     android:textColor="@color/TextColor"
                     android:editable="false"
+                    android:textSize="@dimen/loop_credit_text_size"
                     />
                 <Button
                     android:id="@+id/credit_hundred"
@@ -104,6 +106,7 @@
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/ic_money_bg_small"
                     android:hint="100"
+                    android:textSize="@dimen/loop_credit_text_size"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textColor="@color/TextColor"
@@ -120,6 +123,7 @@
                     android:gravity="center"
                     android:textColor="@color/TextColor"
                     android:editable="false"
+                    android:textSize="@dimen/loop_credit_text_size"
                     />
             </LinearLayout>
 
@@ -133,6 +137,7 @@
                 android:paddingLeft="5dp"
                 android:inputType="number"
                 android:textColor="@color/TextColor"
+                android:textSize="@dimen/loop_credit_text_size"
                 />
 
             <Button
@@ -143,8 +148,10 @@
                 android:text="Buy"
                 android:layout_marginTop="20dp"
                 android:textColor="@color/WhiteColor"
-                android:textAllCaps="false"
-                android:textSize="@dimen/all_button_text_size"
+                android:textAllCaps="true"
+                android:textSize="@dimen/small_button_text_size"
+                android:minHeight="@dimen/min_button_height"
+                android:padding="10dp"
                 />
         </LinearLayout>
     </LinearLayout>
