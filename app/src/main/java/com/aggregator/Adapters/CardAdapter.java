@@ -117,7 +117,7 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         contactViewHolder.tvEndPoint.setText(Constant.tripEndName[i]);
 
        /* contactViewHolder.tvCost.setText("Cost : ₹ "+Constant.tripTotalAmount[i]+" (Loop Credit: ₹ "+Constant.tripLoopCredit[i]+", Paytm: ₹ "+Constant.tripPrice[i]+" )");*/
-        contactViewHolder.tvCost.setText(Math.round(Double.valueOf(Constant.tripLoopCredit[i])) +" loop credits");
+        contactViewHolder.tvCost.setText("₹ "+Math.round(Double.valueOf(Constant.tripLoopCredit[i])) );
 
         contactViewHolder.llLeftBottom.setOnClickListener(clickListener);
         contactViewHolder.llLeftTop.setOnClickListener(clickListener);

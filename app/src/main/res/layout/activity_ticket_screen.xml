@@ -179,8 +179,9 @@
                 android:id="@+id/ticket_image"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="@drawable/ticket_pick"
+                android:scaleType="centerCrop"
                 android:visibility="gone"
+                android:background="@drawable/stop_default"
                 />
             <RelativeLayout
                 android:id="@+id/ticket_map_ll"

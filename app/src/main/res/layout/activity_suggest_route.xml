@@ -71,6 +71,7 @@
                         android:drawablePadding="5dp"
                         android:imeOptions="actionNext"
                         android:singleLine="true"
+                        android:textSize="@dimen/register_text_size"
                         android:textColorHint="@color/BlueTextColor"
                         android:textColor="@color/TextColor"
                         android:hint="       Pickup location"/>
@@ -94,6 +95,7 @@
                         android:singleLine="true"
                         android:textColorHint="@color/BlueTextColor"
                         android:textColor="@color/TextColor"
+                        android:textSize="@dimen/register_text_size"
                         android:hint="       Drop location"/>
                 </android.support.design.widget.TextInputLayout>
 

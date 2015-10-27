@@ -63,6 +63,7 @@
                 android:singleLine="true"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:textColor="@color/BlueTextColor"
+                android:textSize="@dimen/register_text_size"
                 android:hint="       Name"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -84,6 +85,7 @@
                 android:imeOptions="actionNext"
                 android:textColor="@color/BlueTextColor"
                 android:singleLine="true"
+                android:textSize="@dimen/register_text_size"
                 android:inputType="textEmailAddress"
                 android:hint="       Email"/>
         </android.support.design.widget.TextInputLayout>
@@ -104,6 +106,7 @@
                 android:imeOptions="actionNext"
                 android:maxLength="13"
                 android:textColor="@color/BlueTextColor"
+                android:textSize="@dimen/register_text_size"
                 android:singleLine="true"
                 android:hint="       Mobile No"/>
         </android.support.design.widget.TextInputLayout>
@@ -124,6 +127,7 @@
                 android:imeOptions="actionNext"
                 android:textColor="@color/BlueTextColor"
                 android:singleLine="true"
+                android:textSize="@dimen/register_text_size"
                 android:hint="       Password"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -140,9 +144,10 @@
                 android:drawableLeft="@drawable/ic_password"
                 android:drawablePadding="5dp"
                 android:inputType="textPassword"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:textColor="@color/BlueTextColor"
                 android:singleLine="true"
+                android:textSize="@dimen/register_text_size"
                 android:hint="       Confirm Password"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -152,7 +157,8 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-        <TextView
+
+     <!--   <TextView
             android:id="@+id/signup_payment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -161,7 +167,7 @@
             android:paddingLeft="20dp"
             android:textSize="16sp"
             android:textColor="@color/BlueTextColor"
-            />
+            />-->
           <!--  <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -184,14 +190,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_promo"
-                android:background="@android:color/transparent"
+                android:background="@drawable/booking_btn_customized"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Referral Code"
                 android:textAllCaps="false"
                 android:drawablePadding="10dp"
-                android:textColor="@color/BlueTextColor"
+                android:textColor="@color/WhiteColor"
                 android:drawableRight="@drawable/ic_right_arrow"
+                android:minHeight="@dimen/min_button_height"
+                android:padding="10dp"
                 />
 
             <TextView

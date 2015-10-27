@@ -239,14 +239,13 @@ public class InviteActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //String msg = tweetText.getText().toString();
-                Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
+               // Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
 
                 if(checkTwitter()){
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("image/png");
+                    intent.setType("text/*");
 
-                    intent.putExtra(Intent.EXTRA_STREAM, uri);
                     intent.putExtra(Intent.EXTRA_TEXT,msgTwitter);
                     intent.setPackage("com.twitter.android");
                     startActivity(intent);
@@ -254,8 +253,8 @@ public class InviteActivity extends AppCompatActivity {
                 }
                 else {
                     String tweetUrl =
-                            String.format("https://twitter.com/intent/tweet?text=%s&image=%s",
-                                    urlEncode(msgStart),urlEncode(uri+""));
+                            String.format("https://twitter.com/intent/tweet?text=%s",
+                                    urlEncode(msgStart));
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl));
                     startActivity(intent);
                     //Toast.makeText(getApplicationContext(),"You need to install twitter app first.",Toast.LENGTH_SHORT).show();
@@ -310,11 +309,15 @@ public class InviteActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 4) {
                             Drawer.closeDrawers();
-                        } else if (position == 9) {
+                        } else if (position == 10) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                        } else if (position == 7) {
+                        }
+                        else if (position == 7) {
+                            startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
+                        }
+                        else if (position == 8) {
                             Util.rateUs(getApplicationContext());
-                        }else if (position == 8) {
+                        }else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         } else if (position == 6) {
                             startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
@@ -372,8 +375,8 @@ public class InviteActivity extends AppCompatActivity {
                 if(s.equals(Constant.WS_RESULT_SUCCESS))
                 {
                     //Toast.makeText(getApplicationContext(),"Succefully shared",Toast.LENGTH_LONG).show();
-                    msgStart="Hey! have you tried Loop? Smarter and cheaper option for daily commute. Get FREE rides worth Rs"+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" by signing-up with referral code:"+objInviteActivityBE.getReferralCode() +". Click: http://tinyurl.com/pzxgpky to get the Loop app.";
-                    msgTwitter="Try Loop - smarter & cheaper way to travel.FREE rides worth Rs"+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" on sign-up with referral code:"+objInviteActivityBE.getReferralCode() +". App: http://tinyurl.com/pzxgpky";
+                    msgStart="Hey! have you tried Loop? Smarter and cheaper option for daily commute. Get FREE rides worth Rs"+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" by signing-up with referral code:"+objInviteActivityBE.getReferralCode() +". Click: http://tinyurl.com/Goinloop to get the Loop app.";
+                    msgTwitter="Try Loop - smarter & cheaper way to travel.FREE rides worth Rs"+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" on sign-up with referral code:"+objInviteActivityBE.getReferralCode() +". App: http://tinyurl.com/Goinloop";
                    // msgStart="Try out Loop - awesome bus service! use my referral code "+objInviteActivityBE.getReferralCode() +"to get "+Math.round(Double.valueOf(objInviteActivityBE.getReferralValue()))+" loop credit on registration";
 
                   // msgTwitter="Try Loop - smarter & cheaper way to travel.FREE rides worth Rs.100 on sign-up with referral code: J8636.App: http://tinyurl.com/pzxgpky";

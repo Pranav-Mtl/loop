@@ -4,6 +4,7 @@
     android:background="@color/LightBG"
     android:id="@+id/login_root"
     tools:context="com.aggregator.loop.SignIn">
+
 <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -34,6 +35,7 @@
             android:textColorHint="@color/TextColor"
             android:inputType="number"
             android:maxLength="10"
+            android:textSize="@dimen/register_text_size"
             android:hint="      Enter your Mobile no."/>
     </android.support.design.widget.TextInputLayout>
 
@@ -52,6 +54,7 @@
             android:imeOptions="actionDone"
             android:textColor="@color/TextColor"
             android:textColorHint="@color/TextColor"
+            android:textSize="@dimen/register_text_size"
             android:hint="       Password"/>
     </android.support.design.widget.TextInputLayout>
 

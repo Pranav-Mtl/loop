@@ -40,7 +40,7 @@ public class AddLoopCredit extends AppCompatActivity implements View.OnClickList
         etAmount= (EditText) findViewById(R.id.credit_amount);
         tvCurrentCredit= (TextView) findViewById(R.id.credit_current);
 
-        tvCurrentCredit.setText("Current balance: "+Constant.currentLoopCredit);
+        tvCurrentCredit.setText("Current balance: ₹"+Constant.currentLoopCredit);
 
         btnAddCredit= (Button) findViewById(R.id.btn_buy_credit);
 

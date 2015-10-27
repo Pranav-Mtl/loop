@@ -182,7 +182,7 @@ public class Constant {
     public static String LoopCredit="";
     public static String amount="00.00";
     public static int currentLoopCredit=0;
-    public static String LoopCreditText="Loop Credits: ";
+    public static String LoopCreditText="Loop Wallet: ₹ ";
     public static String PayTMWalet="";
     public static String PayTMWaletText="";
     public static String LoopCreditUsed="";
@@ -230,9 +230,9 @@ public class Constant {
 
     /* MENU ITEMS AFTER USER SIGN IN*/
 
-    public static String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Notifications","Suggest A Route","Rate Us","Tutorial","Help",};
+    public static String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Notifications","Suggest A Route","Recharge Loop Wallet","Rate Us","Tutorial","Help",};
 
-    public static int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
+    public static int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_credit,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
 
 
     public static View _lastColored;

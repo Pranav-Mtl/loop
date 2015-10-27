@@ -15,22 +15,21 @@ import org.json.simple.parser.JSONParser;
  * Appslure WebSolution LLP
  * www.appslure.com
  */
+
 public class SignInBL {
     Context mContext;
 
-    public String validateSignInDetails(String Email,String password,String type,Context context){
+    public String validateSignInDetails(String Email,String password,String type,Context context,String gcmID){
         mContext=context;
-        String result=callWsUrl(Email,password,type);  // call webservice
+        String result=callWsUrl(Email,password,gcmID);  // call webservice
         String status=validate(result);           // parse json
         return status;
     }
 
+    private String callWsUrl(String Email,String password,String gcmID){
 
-    private String callWsUrl(String Email,String password,String type){
-
-        String URL="mobile="+Email+"&password="+password;
+        String URL="mobile="+Email+"&password="+password+"&gcm_id="+gcmID;
         String txtJson= RestFullWS.callWS(URL, Constant.WEBSERVICE_LOGIN);
-
         return txtJson;
     }
 

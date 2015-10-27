@@ -12,17 +12,17 @@ import org.json.simple.parser.JSONParser;
  */
 public class SignUpBL {
 
-    public String insertSignUpDetails(String fName,String Email,String password,String mobile,String payTm,String promoCode,String OTP,String userCredit,String userBalance){
+    public String insertSignUpDetails(String fName,String Email,String password,String mobile,String payTm,String promoCode,String OTP,String userCredit,String userBalance,String gcmID){
 
-        String result=callWsUrl(fName,Email,password,mobile,payTm,promoCode,OTP,userCredit,userBalance);   // call webservice
+        String result=callWsUrl(fName,Email,password,mobile,payTm,promoCode,OTP,userCredit,userBalance,gcmID);   // call webservice
         String status=validate(result);             // parse json
         return status;
     }
 
 
-    private String callWsUrl(String fName,String Email,String password,String mobile,String payTm,String promoCode,String OTP,String userCredit,String userBalance){
+    private String callWsUrl(String fName,String Email,String password,String mobile,String payTm,String promoCode,String OTP,String userCredit,String userBalance,String gcmID){
 
-        String URL="firstname="+fName+"&email="+Email+"&password="+password+"&phone_no="+mobile+"&paytm="+payTm+"&promocode="+promoCode+"&otp="+OTP+"&user_credit="+userCredit+"&user_balance="+userBalance;
+        String URL="firstname="+fName+"&email="+Email+"&password="+password+"&phone_no="+mobile+"&paytm="+payTm+"&promocode="+promoCode+"&otp="+OTP+"&user_credit="+userCredit+"&user_balance="+userBalance+"&gcm_id="+gcmID;
         String txtJson=RestFullWS.callWS(URL, Constant.WEBSERVICE_SIGNUP);
         return txtJson;
     }

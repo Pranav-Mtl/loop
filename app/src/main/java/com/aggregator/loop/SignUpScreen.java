@@ -44,7 +44,8 @@ import java.io.IOException;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tvFName,tvLName,tvEmail,tvPassword,tvCPassword,tvMobileNo;
+    private TextView tvFName,tvLName,tvEmail,tvPassword,tvCPassword;
+    EditText tvMobileNo;
     ImageButton btnBack;
     String txtFName,txtLName,txtEmail,txtPassword,txtCPassword,txtMobile;
     String payTM="",promoCode="",user_credit="",user_balance="";
@@ -58,12 +59,13 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     GoogleCloudMessaging gcmObj;
 
     Context applicationContext;
+    String gcmID;
 
     int xx,yy;
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    String gcmID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +109,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         tvEmail= (TextView) findViewById(R.id.signup_email);
         tvPassword= (TextView) findViewById(R.id.signup_password);
         tvCPassword= (TextView) findViewById(R.id.signup_cpassword);
-        tvMobileNo= (TextView) findViewById(R.id.signup_mobile);
+        tvMobileNo= (EditText) findViewById(R.id.signup_mobile);
         tvSignIn= (Button) findViewById(R.id.signup_signin);
         tvApplied= (TextView) findViewById(R.id.signup_applied);
 
@@ -129,7 +131,10 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         tvSignIn.setOnClickListener(this);
 
 
+
+
         tvMobileNo.setText("+91", TextView.BufferType.EDITABLE);
+        tvMobileNo.setSelection(tvMobileNo.getText().length());
 
        /* tvMobileNo.setText("+374");
         Selection.setSelection(tvMobileNo.getText(), tvMobileNo.getText().length());*/
@@ -410,7 +415,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
                     //http://appslure.in/loop/webservices/signup.php?name=name&email=abcd@gmail.com&password=name&phone_no=9876543210&paytm=paytm&promocode=promocode&otp=otp
 
-                    new InsertData().execute(txtFName,txtEmail,txtPassword,txtMobile, payTM, promoCode,Constant.OTP,user_credit,user_balance);
+                    new InsertData().execute(txtFName,txtEmail,txtPassword,txtMobile, payTM, promoCode,Constant.OTP,user_credit,user_balance,gcmID);
                 }
                 else {
 
@@ -437,7 +442,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         @Override
         protected String doInBackground(String... params) {
 
-            String result=objSignUpBL.insertSignUpDetails(params[0],params[1],params[2],params[3],params[4],params[5],params[6],params[7],params[8]);
+            String result=objSignUpBL.insertSignUpDetails(params[0],params[1],params[2],params[3],params[4],params[5],params[6],params[7],params[8],params[9]);
             return result;
         }
 

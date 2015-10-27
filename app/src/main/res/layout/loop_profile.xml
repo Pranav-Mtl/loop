@@ -387,7 +387,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Loop Credits"
+            android:text="Loop Wallet"
             android:layout_gravity="center"
             android:textSize="@dimen/profile_text_size"
             android:layout_marginLeft="10dp"
@@ -406,11 +406,12 @@
             android:id="@+id/profile_loopCredit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:textSize="@dimen/profile_text_size"
             android:textColor="@color/BlueTextColor"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_feedback_credit"
             />
 
         <Button
@@ -422,7 +423,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:text="Buy Loop credits"
+            android:text="Recharge"
             android:textSize="12sp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"

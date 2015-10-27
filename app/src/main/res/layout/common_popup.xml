@@ -3,7 +3,6 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/popup_element"
     android:gravity="center"
-
     >
 
     <LinearLayout
@@ -21,7 +20,7 @@
             android:padding="10dp"
             android:background="#1ebd9d"
             android:textColor="@color/WhiteColor"
-            android:textSize="16sp"
+            android:textSize="@dimen/popup_text_size"
 
             />
 
@@ -32,7 +31,10 @@
            android:textColor="@color/BlueTextColor"
            android:gravity="center"
            android:padding="5dp"
+           android:textSize="@dimen/popup_text_size"
            android:layout_marginTop="10dp"
+           android:singleLine="false"
+
            />
 
         <LinearLayout

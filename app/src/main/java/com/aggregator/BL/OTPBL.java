@@ -59,6 +59,7 @@ public class OTPBL {
         return status;
     }
 
+    /* Resend OTP */
     public String resendOTP(String mobile,String otp){
         String result=callWsOTP(mobile,otp);
         String status=validateOTP(result);

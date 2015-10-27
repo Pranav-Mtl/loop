@@ -39,7 +39,7 @@ public class GetETA extends AsyncTask<Map<String, String>, Object, String> {
 
     public void onPreExecute() {
         progressDialog = new ProgressDialog(activity);
-        progressDialog.setMessage("Calculating directions");
+        progressDialog.setMessage("");
         progressDialog.show();
         progressDialog.setCancelable(false);
     }

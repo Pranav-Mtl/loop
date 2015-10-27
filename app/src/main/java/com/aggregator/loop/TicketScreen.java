@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aggregator.BE.TicketScreenBE;
 import com.aggregator.BL.TicketScreenBL;
@@ -53,6 +54,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.squareup.picasso.Picasso;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -92,6 +94,8 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     TicketScreenBL objTicketScreenBL;
     TicketScreenBE objTicketScreenBE;
 
+    boolean flagInitialize=true;
+
     ProgressDialog mProgressDialog;
 
     static Double currentlongtitude;
@@ -102,6 +106,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     private Polyline newPolyline;
 
     Marker markers;
+    Marker markersBus;
 
     SimpleDateFormat dateFormatCurrent = new SimpleDateFormat("K:mm:ss");
 
@@ -127,6 +132,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
     double sourceLat,sourceLong,destinationLat,destinationLong;
 
     boolean flag=true;
+    boolean flagBus=true;
     boolean flagImage=false;
 
     DateFormat dateFormatChange = new SimpleDateFormat("kk:mm:ss", Locale.ENGLISH);
@@ -158,8 +164,6 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
             xx=400;
             yy=500;
         }
-
-
 
         //btnMap= (Button) findViewById(R.id.ticket_btn_map);
         btnImage= (Button) findViewById(R.id.ticket_btn_image);
@@ -240,7 +244,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                        });
                    }
                };
-               timer.schedule(doAsynchronousTask, 0, 180000); //execute in every 10 ms
+               timer.schedule(doAsynchronousTask, 0, 35000); //execute in every 10 ms
 
            }
             else{
@@ -294,7 +298,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
         LatLng latLng = new LatLng(lat, lon);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.getUiSettings().setZoomControlsEnabled(false);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
 
         //LatLng latlng=new LatLng(Double.valueOf(CreateGameRecord.latitude[0]),Double.valueOf(CreateGameRecord.longitude[0]));
 
@@ -334,7 +338,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Uri uri = Uri.parse("android.resource://com.aggregator.loop/"+R.drawable.share);
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
                 //sharingIntent.putExtra(Intent.EXTRA_TEXT, msgStart);
-                String shareBody ="Hey! have you tried Loop? Smarter and cheaper option for daily commute. Click: http://tinyurl.com/pzxgpky to get the Loop app. Ask me for a referral code.";
+                String shareBody ="Hey! have you tried Loop? Smarter and cheaper option for daily commute. Click: http://tinyurl.com/Goinloop to get the Loop app. Ask me for a referral code.";
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
                 break;
@@ -455,10 +459,6 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 Date dtArray = dateFormat.parse(objTicketScreenBE.getDepartureTime());
                 //String format=dateFormat.format(dd);
 
-
-
-
-
                 tvPick.setText(objTicketScreenBE.getPickPointName());
                 tvDrop.setText(objTicketScreenBE.getDropPointName());
                 tvVehicle.setText(objTicketScreenBE.getVehicleType());
@@ -489,7 +489,16 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                     btnTrack.setVisibility(View.INVISIBLE);
 
                     if(!(objTicketScreenBE.getBusLat()==null || objTicketScreenBE.getBusLong()==null)) {
-                        showMarkerBus(objTicketScreenBE.getBusLat(), objTicketScreenBE.getBusLong());
+                        if(flagBus) {
+                            showMarkerBus(objTicketScreenBE.getBusLat(), objTicketScreenBE.getBusLong());
+                            flagBus=false;
+                        }
+                        else {
+                            markersBus.remove();
+                            //showMarker(currentlatitude, currentlongtitude);
+                            showMarkerBus(objTicketScreenBE.getBusLat(), objTicketScreenBE.getBusLong());
+                        }
+
                         findETA(objTicketScreenBE.getBusLat(), objTicketScreenBE.getBusLong(), objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong(), "", "Driving");
                     }
                 }
@@ -509,7 +518,10 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
                 PickText = objTicketScreenBE.getPickPointName();
 
-                initializeMap(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
+                if(flagInitialize) {
+                    initializeMap(objTicketScreenBE.getPickPointLat(), objTicketScreenBE.getPickPointLong());
+                    flagInitialize=false;
+                }
 
                 findDirections(sourceLat, sourceLong, destinationLat, destinationLong, wayPoints, GMapV2Direction.MODE_WALKING);
 
@@ -526,20 +538,24 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
                 long minn = diffSecc / 60;
                 long secc = diffSecc % 60;
 
-                if(minn<0 && minn<-10){
-                    llBlink.setVisibility(View.INVISIBLE);
+                if(minn<-10){
+                   // llBlink.setVisibility(View.INVISIBLE);
+                    Toast.makeText(TicketScreen.this,"Ticket Expired",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(TicketScreen.this, TripHistory.class));
                 }
                 else {
                     llBlink.startAnimation(animBlink);
                 }
 
-
-
-             /*   Picasso.with(getApplicationContext())
-                        .load(Constant.categoryImageURL[position])
-                        .placeholder(R.drawable.ticket_pick)
-                        .error(R.drawable.ticket_pick)
-                        .into(imgTicket);*/
+                try {
+                    Picasso.with(getApplicationContext())
+                            .load(objTicketScreenBE.getPickPointImage())
+                            .placeholder(R.drawable.stop_default)
+                            .error(R.drawable.stop_default)
+                            .into(imgTicket);
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
 
             }catch (NullPointerException e){
                 showDialogResponse(TicketScreen.this);
@@ -682,7 +698,7 @@ public class TicketScreen extends AppCompatActivity implements View.OnClickListe
 
 
 
-            googleMap.addMarker(marker);
+           markersBus= googleMap.addMarker(marker);
         }catch(Exception e){}
 
     }

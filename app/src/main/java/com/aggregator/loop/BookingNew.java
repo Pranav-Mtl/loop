@@ -61,9 +61,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     List listPickTime=new ArrayList<>();
     List listRun=new ArrayList<>();
 
-    String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Notifications","Suggest A Route","Rate Us","Tutorial","Help",};
+    String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Notifications","Suggest A Route","Recharge Loop Wallet","Rate Us","Tutorial","Help",};
 
-    int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
+    int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_credit,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
 
     int pickPointPosition,dropPointPosition;
 
@@ -83,7 +83,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     double startPointDist,endPointDist;
 
     int HH,MM,SS;
-    SimpleDateFormat sdf = new SimpleDateFormat("KK:mm a",Locale.ENGLISH);
+    SimpleDateFormat sdf = new SimpleDateFormat("h:mm a",Locale.ENGLISH);
     DateFormat dateFormat = new SimpleDateFormat("kk:mm:ss",Locale.ENGLISH);
 
     SimpleDateFormat dateFormat24 = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
@@ -247,9 +247,6 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 }catch (NullPointerException e){
                     e.printStackTrace();
                 }
-
-
-
                 createCustomNew(pickPos,Constant.pointID.length);
             }
 
@@ -291,7 +288,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 Log.d("PRICE CATCULATED", pp + "");
                 totalPrice=pp+"";
 
-                tvPrice.setText("Loop credit: "+price);
+                tvPrice.setText("₹"+price );
 
                /* if(pp>0)
                 {
@@ -438,11 +435,15 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                                 startActivity(new Intent(getApplicationContext(), PromoCode.class));
                             } else if (position == 4) {
                                 startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                            } else if (position == 9) {
+                            } else if (position == 10) {
                                 startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                            }else if (position == 7) {
+                            }
+                            else if (position == 7) {
+                                startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
+                            }
+                            else if (position == 8) {
                                 Util.rateUs(getApplicationContext());
-                            } else if (position == 8) {
+                            } else if (position == 9) {
                                 startActivity(new Intent(getApplicationContext(), Tutorial.class));
                             } else if (position == 6) {
                                 startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
@@ -776,7 +777,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                     try {
 
                         if (Constant.pointAvailableSeat[i] > 0) {
-                            listPickTime.add(new SimpleDateFormat("K:mm a").format(dtArray));
+                            listPickTime.add(new SimpleDateFormat("h:mm a").format(dtArray));
                             listRun.add(Constant.pointRunArray[i]);
                             cc++;
                         }
@@ -1036,7 +1037,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 }
                 TextView title=new TextView(this);
                 title.setText(Constant.pointName[i]);
-                title.setPadding(10, 0, 0, 0);
+                title.setPadding(10,5, 0, 0);
                 title.setTextColor(getResources().getColor(R.color.BlueTextColor));
                 //title.setTextSize(getResources().getDimension(R.dimen.booking_text_size));
                 llFirst.addView(ladder);

@@ -341,13 +341,17 @@ public class LoopProfile extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 4) {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                        } else if (position == 9) {
+                        } else if (position == 10) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                        } else if (position == 8) {
+                        }
+                        else if (position == 7) {
+                            startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
+                        }
+                        else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         } else if (position == 6) {
-                            startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
-                        }else if (position == 7) {
+                            startActivity(new Intent(getApplicationContext(), SuggestRoute.class));
+                        }else if (position == 8) {
                             Util.rateUs(getApplicationContext());
                         }
 

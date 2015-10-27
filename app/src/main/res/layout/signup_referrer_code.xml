@@ -15,12 +15,12 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Add referral code"
+            android:text="Referral code"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
             android:background="#1ebd9d"
             android:textColor="@color/WhiteColor"
-            android:textSize="16sp"
+            android:textSize="@dimen/popup_text_size"
 
             />
 
@@ -38,6 +38,7 @@
                 android:imeOptions="actionNext"
                 android:singleLine="true"
                 android:textColor="@color/TextColor"
+                android:textSize="@dimen/popup_text_size"
                 android:hint="Enter Referral Code"/>
 
         </android.support.design.widget.TextInputLayout>

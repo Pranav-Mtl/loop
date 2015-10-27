@@ -45,7 +45,9 @@
 
         <activity
             android:name=".SplashScreen"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,6 +59,7 @@
 
         <activity
             android:name=".TripHistory"
+            android:screenOrientation="portrait"
             android:label="" >
         </activity>
         <activity
@@ -151,6 +154,7 @@
         <activity
             android:name=".RouteNew"
             android:label="@string/title_activity_route_new"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
 
@@ -160,7 +164,7 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-                <category android:name="com.example.balram.syt" />
+                <category android:name="com.aggregator.loop" />
             </intent-filter>
         </receiver>
 
@@ -169,6 +173,7 @@
 
         <activity
             android:name=".TicketMapFullScreen"
+            android:screenOrientation="portrait"
             android:label="" >
         </activity>
 
@@ -181,22 +186,27 @@
 
         <activity
             android:name=".AddLoopCredit"
+            android:screenOrientation="portrait"
             android:label="" >
         </activity>
         <activity
             android:name=".TicketTrackBus"
+            android:screenOrientation="portrait"
             android:label="" >
         </activity>
         <activity
             android:name=".SuggestRoute"
+            android:screenOrientation="portrait"
             android:label="" >
         </activity>
         <activity
             android:name=".Tutorial"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_tutorial" >
         </activity>
         <activity
             android:name=".WebViewLoop"
+            android:screenOrientation="portrait"
             android:label="" >
         </activity>
         <activity

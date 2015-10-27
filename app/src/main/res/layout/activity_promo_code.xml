@@ -59,6 +59,7 @@
                 android:imeOptions="actionDone"
                 android:textColor="@color/TextColor"
                 android:singleLine="true"
+                android:textSize="@dimen/register_text_size"
                 android:hint="Enter promo/ referral code"/>
 
         </android.support.design.widget.TextInputLayout>

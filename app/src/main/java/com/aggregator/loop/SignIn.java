@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -26,6 +27,11 @@ import com.aggregator.BL.SignInBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.appsee.Appsee;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import java.io.IOException;
 
 public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
@@ -50,12 +56,21 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
     int xx,yy;
 
+    GoogleCloudMessaging gcmObj;
+
+    Context applicationContext;
+    String gcmID;
+
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        applicationContext=getApplicationContext();
         Display display = getWindowManager().getDefaultDisplay();
 
         // Point size = new Point();
@@ -99,6 +114,14 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
 
         tvSignUp.setOnClickListener(this);
+
+        gcmID=Util.getSharedPrefrenceValue(getApplicationContext(),Constant.SHARED_PREFERENCE_GCM_ID);
+
+        if(gcmID==null){
+            if (checkPlayServices()) {
+                registerInBackground();
+            }
+        }
 
         etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
@@ -213,7 +236,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         else
         {
             if(Util.isInternetConnection(SignIn.this))
-                     new ValidateDetails().execute(txtEmail,txtPassword,loginType);
+                     new ValidateDetails().execute(txtEmail,txtPassword,loginType,gcmID);
             else
             {
                showDialogConnection(SignIn.this);
@@ -234,7 +257,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
 
-            String result=objSignInBL.validateSignInDetails(params[0],params[1],params[2],getApplicationContext());
+            String result=objSignInBL.validateSignInDetails(params[0],params[1],params[2],getApplicationContext(),params[3]);
             return result;
         }
 
@@ -489,5 +512,58 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
 
         dialog.show();
+    }
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil
+                .isGooglePlayServicesAvailable(this);
+        // When Play services not found in device
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                // Show Error dialog to install Play services
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+
+                finish();
+            }
+            return false;
+        } else {
+
+        }
+        return true;
+    }
+    private void registerInBackground() {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String msg = "";
+                try {
+                    if (gcmObj == null) {
+                        gcmObj = GoogleCloudMessaging
+                                .getInstance(applicationContext);
+                    }
+                    gcmID = gcmObj
+                            .register(Constant.GOOGLE_PROJ_ID);
+                    msg = "Registration ID :" + gcmID;
+
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                }
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                if (!TextUtils.isEmpty(gcmID)) {
+                    Util.setSharedPrefrenceValue(applicationContext,Constant.PREFS_NAME,Constant.SHARED_PREFERENCE_GCM_ID,gcmID);
+                } else {
+                  /*  Toast.makeText(
+                            applicationContext,
+                            "Reg ID Creation Failed.\n\nEither you haven't enabled Internet or GCM server is busy right now. Make sure you enabled Internet and try registering again after some time."
+                                    + msg, Toast.LENGTH_LONG).show();*/
+                }
+            }
+        }.execute(null, null, null);
     }
 }

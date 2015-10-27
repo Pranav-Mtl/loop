@@ -23,7 +23,6 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-
                 android:gravity="center_vertical"
                 android:layout_alignParentLeft="true"
                 android:text="Phone Number Verification"
@@ -80,7 +79,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_otp_phone"
-
             />
 
         <TextView
@@ -88,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/BlueTextColor"
-            android:textSize="16sp"
+            android:textSize="@dimen/register_text_size"
             android:padding="10dp"
             android:layout_marginTop="30sp"
             android:layout_marginBottom="30dp"
@@ -108,6 +106,7 @@
                 android:textColor="@color/BlueTextColor"
                 android:inputType="number"
                 android:maxLength="4"
+                android:textSize="@dimen/register_text_size"
                 android:hint="Enter OTP"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -129,8 +128,8 @@
                 android:textColor="#fff"
                 android:textAllCaps="true"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:padding="10dp"
+                android:minHeight="@dimen/min_button_height"
                 />
 
             <Button
@@ -144,8 +143,8 @@
                 android:layout_marginLeft="20dp"
                 android:textAllCaps="true"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:padding="10dp"
+                android:minHeight="@dimen/min_button_height"
                 />
         </LinearLayout>
 
