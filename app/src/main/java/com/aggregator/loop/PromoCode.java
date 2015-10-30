@@ -132,20 +132,20 @@ public class PromoCode extends AppCompatActivity implements View.OnClickListener
                             startActivity(new Intent(getApplicationContext(), RouteNew.class));
                         } else if (position == 2) {
                             startActivity(new Intent(getApplicationContext(), TripHistory.class));
-                        } else if (position == 3) {
-                            Drawer.closeDrawers();
                         } else if (position == 4) {
+                            Drawer.closeDrawers();
+                        } else if (position == 5) {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                         } else if (position == 10) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), Tutorial.class));
-                        } else if (position == 6) {
+                        } else if (position == 7) {
                             startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                         }else if (position == 8) {
                             Util.rateUs(getApplicationContext());
                         }
-                        else if (position == 7) {
+                        else if (position == 3) {
                             startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
                         }
 

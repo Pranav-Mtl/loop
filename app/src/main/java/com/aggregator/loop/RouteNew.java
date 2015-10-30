@@ -70,9 +70,9 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
     ArrayList<String> adapterList = new ArrayList<String>();
 
-    String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Notifications","Suggest A Route","Recharge Loop Wallet","Rate Us","Tutorial","Help",};
+    String TITLES[] = {"Book a Ride","Trips","Recharge Loop Wallet","Promos","Invite & Earn","Notifications","Suggest A Route","Rate Us","Tutorial","Help",};
 
-    int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_credit,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
+    int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus,R.drawable.ic_side_credit, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 
@@ -105,7 +105,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
     private Toolbar toolbar;
 
-    LinearLayout llFavourite,llAllRoute,llRecent,llNoRoute;
+    LinearLayout llFavourite,llAllRoute,llRecent,llNoRoute,llBottomDone;
 
     RelativeLayout rlMain,llBottomRoute;
 
@@ -177,16 +177,15 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                     isOpened = true;
                 } else if (isOpened == true) {
 
-                    if(tvSearchRoute.getText().toString().trim().length()==0){
+                    if (tvSearchRoute.getText().toString().trim().length() == 0) {
                         elvSearch.setVisibility(View.GONE);
                         expListView.setVisibility(View.VISIBLE);
                         routesCross.setVisibility(View.INVISIBLE);
-                    }
-                    else {
+                    } else {
                         tvSearchRoute.setText("");
                         routesCross.setVisibility(View.INVISIBLE);
                     }
-                   // Toast.makeText(getApplicationContext(), "softkeyborad Down!!!", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getApplicationContext(), "softkeyborad Down!!!", Toast.LENGTH_SHORT).show();
                     isOpened = false;
                 }
             }
@@ -224,6 +223,8 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         tvTabFav.setOnClickListener(this);
         expListView.setOnGroupClickListener(this);
         elvSearch.setOnGroupClickListener(this);
+        llBottomDone.setOnClickListener(this);
+
 
         logInType= Util.getSharedPrefrenceValue(RouteNew.this, Constant.SHARED_PREFERENCE_User_id);
 
@@ -416,27 +417,28 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                                 Util.rateUs(getApplicationContext());
                             }
                         } else {
+
                             if (position == 0) {
                                 startActivity(new Intent(getApplicationContext(), LoopProfile.class));
                             } else if (position == 1) {
                                 Drawer.closeDrawers();
                             } else if (position == 2) {
                                 startActivity(new Intent(getApplicationContext(), TripHistory.class));
-                            } else if (position == 3) {
-                                startActivity(new Intent(getApplicationContext(), PromoCode.class));
                             } else if (position == 4) {
+                                startActivity(new Intent(getApplicationContext(), PromoCode.class));
+                            } else if (position == 5) {
                                 startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                             } else if (position == 10) {
                                 startActivity(new Intent(getApplicationContext(), HelpActivity.class));
-                            } else if (position == 7) {
+                            }
+                            else if (position == 3) {
                                 startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
                             }
                             else if (position == 8) {
                                 Util.rateUs(getApplicationContext());
-                            }
-                            else if (position == 9) {
+                            } else if (position == 9) {
                                 startActivity(new Intent(getApplicationContext(), Tutorial.class));
-                            } else if (position == 6) {
+                            } else if (position == 7) {
                                 startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                             }
                         }
@@ -471,6 +473,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         llRecent= (LinearLayout) findViewById(R.id.route_layout_recent);
         llAllRoute= (LinearLayout) findViewById(R.id.route_layout_allroute);
         llBottomRoute= (RelativeLayout) findViewById(R.id.ll_bottom_route);
+        llBottomDone= (LinearLayout) findViewById(R.id.ll_bottom_route_done);
         llNoRoute= (LinearLayout) findViewById(R.id.route_layout_norecent);
         rlMain= (RelativeLayout) findViewById(R.id.route_main);
         lvFav= (android.support.v7.widget.RecyclerView) findViewById(R.id.routes_lv_fav);
@@ -495,7 +498,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
         switch (v.getId())
         {
-            case R.id.route_done:
+            case R.id.ll_bottom_route_done:
                 String strLogin="";
                 if(logInType==null){
                     strLogin="Not-logged in";
@@ -580,6 +583,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                 tvSearchRoute.setText("");
                 Util.hideSoftKeyboard(RouteNew.this);
                 break;
+
         }
     }
 

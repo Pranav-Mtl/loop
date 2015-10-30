@@ -22,6 +22,7 @@ public class RestFullWS {
 
     public static String callWS(String URL,String WS_Name) {
 
+
         HttpClient httpClient = new DefaultHttpClient();
         HttpContext localContext = new BasicHttpContext();
 

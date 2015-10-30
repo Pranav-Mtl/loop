@@ -230,9 +230,9 @@ public class Constant {
 
     /* MENU ITEMS AFTER USER SIGN IN*/
 
-    public static String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Notifications","Suggest A Route","Recharge Loop Wallet","Rate Us","Tutorial","Help",};
+    public static String TITLES[] = {"Book a Ride","Trips","Recharge Loop Wallet","Promos","Invite & Earn","Notifications","Suggest A Route","Rate Us","Tutorial","Help",};
 
-    public static int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_credit,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
+    public static int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus,R.drawable.ic_side_credit, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
 
 
     public static View _lastColored;
@@ -248,7 +248,12 @@ public class Constant {
     public static String ERR_NO_LOOP_CREDIT_MESSAGE="You don't have enough Loop credits to book this ride.";
 
 
+    /* TABLES NAME */
 
+    public static String Table_ALl_Route="allRoute";
+    public static String Table_Fav_Route="favRoute";
+    public static String Table_Recent_Route="recentRoute";
+    public static String Table_Personal_Info="personalInfo";
 
 
 }

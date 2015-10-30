@@ -411,7 +411,8 @@
             android:textSize="@dimen/profile_text_size"
             android:textColor="@color/BlueTextColor"
             android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/ic_feedback_credit"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/ic_profile_credit"
             />
 
         <Button

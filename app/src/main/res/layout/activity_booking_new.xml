@@ -200,10 +200,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:paddingLeft="50dp"
                     android:text=""
                     android:textSize="12sp"
                     android:paddingRight="10dp"
-                    android:textColor="@color/TextColor"
+                    android:textColor="#fe1119"
                     />
             </RelativeLayout>
 

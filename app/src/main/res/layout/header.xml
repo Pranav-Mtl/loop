@@ -50,7 +50,7 @@
             android:textSize="@dimen/drawer_item_header_size"
             android:textStyle="normal"
             android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/ic_side_header"
+            android:drawableLeft="@drawable/ic_side_credit"
             />
         <TextView
             android:id="@+id/paytm"

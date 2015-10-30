@@ -175,7 +175,7 @@ public class RoutesBL {
             for(int i=0;i<jsonArrayObject.size();i++){
                 JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
 
-              /*  int endId=(int)jsonObject.get("end_point");
+                /*  int endId=(int)jsonObject.get("end_point");
                 int startID=(int)jsonObject.get("start_point");
 
                 if(Constant.favJson)
@@ -187,6 +187,7 @@ public class RoutesBL {
                     }
 
                 }*/
+
                 Constant.recentRouteID[i]=jsonObject.get("route_id").toString();
                 Constant.recentRouteStartID[i]=jsonObject.get("start_point").toString();
                 Constant.recentRouteEndID[i]=jsonObject.get("end_point").toString();

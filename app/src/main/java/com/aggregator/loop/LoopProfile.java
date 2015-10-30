@@ -337,19 +337,19 @@ public class LoopProfile extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), RouteNew.class));
                         } else if (position == 2) {
                             startActivity(new Intent(getApplicationContext(), TripHistory.class));
-                        } else if (position == 3) {
-                            startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 4) {
+                            startActivity(new Intent(getApplicationContext(), PromoCode.class));
+                        } else if (position == 5) {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                         } else if (position == 10) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         }
-                        else if (position == 7) {
+                        else if (position == 3) {
                             startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
                         }
                         else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), Tutorial.class));
-                        } else if (position == 6) {
+                        } else if (position == 7) {
                             startActivity(new Intent(getApplicationContext(), SuggestRoute.class));
                         }else if (position == 8) {
                             Util.rateUs(getApplicationContext());
@@ -449,7 +449,7 @@ public class LoopProfile extends AppCompatActivity {
                 userName.setText(Constant.usrname);
                 userMobileNum.setText(Constant.phoneNumber);
                 userEmail.setText(Constant.emaiId);
-                tvCurrentCredit.setText("Current Balance: "+Constant.currentLoopCredit+"");
+                tvCurrentCredit.setText("Current Balance: ₹ "+Constant.currentLoopCredit+"");
             }
             catch (NullPointerException e){
                showDialogResponse(LoopProfile.this);
@@ -604,8 +604,6 @@ public class LoopProfile extends AppCompatActivity {
                                    }
 
         );
-
-
         dialog.show();
     }
 }

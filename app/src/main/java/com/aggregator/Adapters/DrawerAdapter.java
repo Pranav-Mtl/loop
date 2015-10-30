@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.aggregator.loop.R;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
@@ -32,6 +33,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     private String paytmWallet;
            //String Resource for header view email
     Context mContext;
+    String userID;
 
 
 
@@ -48,6 +50,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         TextView Name;
         TextView email;
         TextView paytm;
+
+
 
 
         public ViewHolder(View itemView, int ViewType) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
@@ -90,6 +94,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         mContext=context;
                     //here we assign those passed values to the values we declared here
         //in adapter
+        userID= Util.getSharedPrefrenceValue(mContext,Constant.SHARED_PREFERENCE_User_id);
+
 
 
     }
@@ -141,7 +147,12 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
 
                     holder.Name.setText(Constant.NAME);
-                    holder.email.setText(Constant.LoopCredit);
+                    if(userID==null){
+                        holder.email.setVisibility(View.INVISIBLE);
+                    }
+                    else {
+                        holder.email.setText(Constant.LoopCredit);
+                    }
                     holder.paytm.setText(Constant.PayTMWalet);
 
 

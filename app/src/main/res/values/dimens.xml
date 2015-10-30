@@ -28,7 +28,7 @@
     <dimen name="all_route_text_size">14sp</dimen>
 
     <dimen name="drawer_item_size">15sp</dimen>
-    <dimen name="drawer_item_header_size">13sp</dimen>
+    <dimen name="drawer_item_header_size">14sp</dimen>
 
     <dimen name="spinner_item_size">14sp</dimen>
 

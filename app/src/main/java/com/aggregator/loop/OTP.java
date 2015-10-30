@@ -1,11 +1,17 @@
 package com.aggregator.loop;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
+import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,9 +51,11 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
 
     String mobile;
 
-    String msg="A one time password is being sent as an SMS to +91-";
+    String msg="We are trying to auto verify your number with the SMS sent to +91-";
 
     int xx,yy;
+
+    IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,12 +117,62 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
 
 
 
+        registerReceiver(receiver, filter);
 
         btnDone.setOnClickListener(this);
         btnResend.setOnClickListener(this);
         btnNot.setOnClickListener(this);
 //        btnBack.setOnClickListener(this);
     }
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        final SmsManager sms = SmsManager.getDefault();
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final Bundle bundle = intent.getExtras();
+
+            try {
+
+                if (bundle != null) {
+
+                    final Object[] pdusObj = (Object[]) bundle.get("pdus");
+
+                    for (int i = 0; i < pdusObj.length; i++) {
+
+                        SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
+                        String phoneNumber = currentMessage.getDisplayOriginatingAddress();
+
+                        String senderNum = phoneNumber;
+                        String message = currentMessage.getDisplayMessageBody();
+
+                         message=message.substring(0,4);
+
+                        //etOTP.setText(message.trim());
+                        Log.i("SmsReceiver", "senderNum: " + senderNum + "; message: " + message);
+
+
+                        // Show Alert
+                        int duration = Toast.LENGTH_LONG;
+
+                        etOTP.setText(message);
+                        etOTP.setSelection(etOTP.getText().length());
+
+
+                       /* Toast toast = Toast.makeText(context,
+                                "senderNum: " + senderNum + ", message: " + message, duration);
+                        toast.show();*/
+
+                    } // end for loop
+                } // bundle is null
+
+            } catch (Exception e) {
+                Log.e("SmsReceiver", "Exception smsReceiver" + e);
+
+            }
+        }
+    };
+
 
 
     @Override
@@ -332,7 +390,7 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
 
-            String result=objOtpbl.resendOTP(params[0],params[1]);
+            String result=objOtpbl.resendOTP(params[0], params[1]);
             return result;
         }
 
@@ -358,5 +416,18 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
                 mProgressDialog.dismiss();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+
+        registerReceiver(receiver,filter);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(receiver);
+        super.onPause();
     }
 }

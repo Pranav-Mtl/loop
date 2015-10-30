@@ -43,6 +43,7 @@ import com.twotoasters.android.support.v7.widget.RecyclerView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -61,9 +62,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
     List listPickTime=new ArrayList<>();
     List listRun=new ArrayList<>();
 
-    String TITLES[] = {"Book a Ride","Trips","Promos","Invite & Earn","Notifications","Suggest A Route","Recharge Loop Wallet","Rate Us","Tutorial","Help",};
+    String TITLES[] = {"Book a Ride","Trips","Recharge Loop Wallet","Promos","Invite & Earn","Notifications","Suggest A Route","Rate Us","Tutorial","Help",};
 
-    int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_credit,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
+    int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus,R.drawable.ic_side_credit, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
 
     int pickPointPosition,dropPointPosition;
 
@@ -431,21 +432,21 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                                     finish();
                             } else if (position == 2) {
                                 startActivity(new Intent(getApplicationContext(), TripHistory.class));
-                            } else if (position == 3) {
-                                startActivity(new Intent(getApplicationContext(), PromoCode.class));
                             } else if (position == 4) {
+                                startActivity(new Intent(getApplicationContext(), PromoCode.class));
+                            } else if (position == 5) {
                                 startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                             } else if (position == 10) {
                                 startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                             }
-                            else if (position == 7) {
+                            else if (position == 3) {
                                 startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
                             }
                             else if (position == 8) {
                                 Util.rateUs(getApplicationContext());
                             } else if (position == 9) {
                                 startActivity(new Intent(getApplicationContext(), Tutorial.class));
-                            } else if (position == 6) {
+                            } else if (position == 7) {
                                 startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
                             }
                         }
@@ -539,7 +540,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                                     }
                                 }
                                 else{
-                                        Toast.makeText(getApplicationContext(),"Selected time should be greater than current time.",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(),"Sorry, vehicle departed from your pick position. please select another trip. ",Toast.LENGTH_LONG).show();
                                     }
 
 
@@ -649,6 +650,18 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 Constant.pointAvailableSeat=new int[strTotal.length];
                 for(int i=0;i<strTotal.length;i++){
                     Constant.pointAvailableSeat[i]=Integer.valueOf(strTotal[i])-Integer.valueOf(strBooked[i]);
+                }
+
+
+                Calendar calendar = Calendar.getInstance();
+                Date date = calendar.getTime();
+                //System.out.println(new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime()));
+                System.out.println(new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime()));
+
+                String currentDay=new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+
+                if(currentDay.equals("Saturday")|| currentDay.equals("Sunday")){
+                    tvCredit.setText("Our service currently runs from Monday through Friday on all working days. See you on Monday!");
                 }
 
             }catch (NullPointerException e){
@@ -772,7 +785,14 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 dtArray = dateFormat.parse(timeArray[i]);
                 //String format=dateFormat.format(dd);
                 Log.d(" Time Array --",dtArray+"");
-                if (dtArray.compareTo(dtCurrent)>=0){
+
+                 listPickTime.add(new SimpleDateFormat("h:mm a").format(dtArray));
+                 listRun.add(Constant.pointRunArray[i]);
+                 cc++;
+
+                 /* first if condition to check run time greater than current time and nested condition to check seat available on each run*/
+
+              /*  if (dtArray.compareTo(dtCurrent)>=0){
 
                     try {
 
@@ -790,7 +810,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 {
                     Log.d("COMPARE-->", "OUTSIDE  IF");
                 }
-
+*/
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -799,11 +819,11 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
             if(cc==-1){
             //tvError.setVisibility(View.VISIBLE);
-            //tvError.setText("No vehicles going in this direction today.");
+            tvCredit.setText("Sorry, there are no scheduled trips on this route at the moment. Please check back in a bit.");
                timeSelected=false;
         }
         else{
-            //tvError.setVisibility(View.INVISIBLE);
+                tvCredit.setText("");
                 timeSelected=true;
         }
 
@@ -923,14 +943,15 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 }
                 else if(objBookingBL.status.equals("full"))
                 {
-                    Toast.makeText(getApplicationContext(), "Sorry your booking did not go through. Try again please?", Toast.LENGTH_SHORT).show();
-                    new GetSelectedRoute().execute(routeId);
+                   /* Toast.makeText(getApplicationContext(), "Sorry your booking did not go through. Try again please?", Toast.LENGTH_SHORT).show();
+                    new GetSelectedRoute().execute(routeId);*/
                     //finish();
+                    showDialogFullSeat(BookingNew.this);
                 }
                 else
                 {
                     Toast.makeText(getApplicationContext(), "Sorry your booking did not go through. Try again please?", Toast.LENGTH_SHORT).show();
-                    new GetSelectedRoute().execute(routeId);
+                    //new GetSelectedRoute().execute(routeId);
                 }
             }
             catch (Exception e)
@@ -1233,6 +1254,63 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                                            new GetSelectedRoute().execute(routeId);
                                            dialog.dismiss();
+                                       }
+                                   }
+
+        );
+
+
+        dialog.show();
+    }
+
+    private void showDialogFullSeat(final Context context){
+        // x -->  X-Cordinate
+        // y -->  Y-Cordinate
+
+        final TextView tvMsg,tvTitle;
+        Button btnClosePopup,btnsave;
+
+        final Dialog dialog  = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.common_popup);
+        dialog.setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER;
+        wmlp.width=xx;
+        wmlp.height=yy;
+
+
+
+
+        btnClosePopup = (Button) dialog.findViewById(R.id.popup_cancel);
+        btnsave= (Button) dialog.findViewById(R.id.popup_add);
+        tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
+        tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
+
+        tvTitle.setText("No Seat");
+        tvMsg.setText("Sorry, no seats left on this trip");
+        btnClosePopup.setText("Cancel");
+        btnClosePopup.setVisibility(View.GONE);
+        btnsave.setText("OK");
+
+
+        btnClosePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(SellerQuestionExpandable.this,edittext.getText().toString(),Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                                           finish();
                                        }
                                    }
 
