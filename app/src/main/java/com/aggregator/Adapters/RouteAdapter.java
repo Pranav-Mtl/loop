@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,11 +43,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RecList>{
     ProgressDialog mProgressDialog;
     RouteNew objRouteNew;
     RelativeLayout llBottom;
-    ImageButton btnDone;
-
+    ImageView btnDone;
     int position;
 
-    public  RouteAdapter(Context context,TextView s,TextView d,String userID,RelativeLayout ll,ImageButton btn,RouteNew routeNew){
+    public  RouteAdapter(Context context,TextView s,TextView d,String userID,RelativeLayout ll,ImageView btn,RouteNew routeNew){
         mContext=context;
         userId=userID;
         objAddFav=new AddFav();

@@ -273,14 +273,14 @@
                     android:layout_height="match_parent"
                     android:background="#fff"
                     />
-                <ImageButton
+                <ImageView
                     android:id="@+id/route_done"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:visibility="invisible"
-                    android:background="@drawable/route_next_selector"
+                    android:background="@drawable/ic_routes_next"
                     />
             </LinearLayout>
         </RelativeLayout>

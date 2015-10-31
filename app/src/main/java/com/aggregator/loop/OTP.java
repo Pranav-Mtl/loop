@@ -72,7 +72,11 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
 
         // System.out.println("width" + width + "height" + height);
 
-        if(width>=700 && height>=1000)
+        if(width>=1000 && height>=1500){
+            xx=700;
+            yy=800;
+        }
+        else if(width>=700 && height>=1000)
         {
             xx=500;
             yy=500;
@@ -155,8 +159,14 @@ public class OTP extends AppCompatActivity implements View.OnClickListener {
                         // Show Alert
                         int duration = Toast.LENGTH_LONG;
 
-                        etOTP.setText(message);
-                        etOTP.setSelection(etOTP.getText().length());
+                       /* etOTP.setText(message);
+                        etOTP.setSelection(etOTP.getText().length());*/
+
+                        if(message.equals(Constant.OTP)){
+                            new UpdateStatus().execute(mobile);
+                        }
+
+
 
 
                        /* Toast toast = Toast.makeText(context,

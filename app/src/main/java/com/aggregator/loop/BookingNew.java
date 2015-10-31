@@ -132,8 +132,11 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         int height = display.getHeight();
 
         // System.out.println("width" + width + "height" + height);
-
-        if(width>=700 && height>=1000)
+        if(width>=1000 && height>=1500){
+            xx=700;
+            yy=800;
+        }
+        else if(width>=700 && height>=1000)
         {
             xx=500;
             yy=500;
@@ -467,7 +470,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                 int remainingPrice = Constant.currentLoopCredit - price;
 
-                if (remainingPrice > 0) {  // check whether loop credit is greater than available or not.
+                if (remainingPrice >= 0) {  // check whether loop credit is greater than available or not.
 
                         if (timeSelected) {
                            // String price = "₹ " + totalPrice + " (Loop credit ₹ " + loopCredit + ", Paytm ₹ " + paytmCash + ")";
@@ -632,6 +635,10 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
 
                 }
                 else {
+                    if(Constant.pointDownRun[0].trim().length()==0){
+                        btnSwipe.setEnabled(false);
+                        btnSwipe.setBackgroundResource(R.drawable.btn_gray_swipe);
+                    }
                     Log.v("Under else condition", Constant.pointRun[0].trim().length() + "");
                     String ss[] = Constant.pointRun[0].split(",");
                     Log.d("Length", ss.length + "");
@@ -653,16 +660,6 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 }
 
 
-                Calendar calendar = Calendar.getInstance();
-                Date date = calendar.getTime();
-                //System.out.println(new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime()));
-                System.out.println(new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime()));
-
-                String currentDay=new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
-
-                if(currentDay.equals("Saturday")|| currentDay.equals("Sunday")){
-                    tvCredit.setText("Our service currently runs from Monday through Friday on all working days. See you on Monday!");
-                }
 
             }catch (NullPointerException e){
                 showDialogResponse(BookingNew.this);
@@ -821,7 +818,19 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
             //tvError.setVisibility(View.VISIBLE);
             tvCredit.setText("Sorry, there are no scheduled trips on this route at the moment. Please check back in a bit.");
                timeSelected=false;
-        }
+
+                Calendar calendar = Calendar.getInstance();
+                Date date = calendar.getTime();
+                //System.out.println(new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime()));
+                System.out.println(new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime()));
+
+                String currentDay=new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+
+                if(currentDay.equals("Saturday")|| currentDay.equals("Sunday")){
+                    tvCredit.setText("Our service currently runs from Monday through Friday on all working days. See you on Monday!");
+                }
+
+            }
         else{
                 tvCredit.setText("");
                 timeSelected=true;
@@ -1029,7 +1038,7 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                 LinearLayout LL = new LinearLayout(this);
                 LL.setOrientation(LinearLayout.HORIZONTAL);
 
-                ViewGroup.LayoutParams LLParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams LLParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 LL.setLayoutParams(LLParams);
 
                 LinearLayout llFirst=new LinearLayout(this);

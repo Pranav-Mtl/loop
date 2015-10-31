@@ -21,7 +21,6 @@
             android:background="#1ebd9d"
             android:textColor="@color/WhiteColor"
             android:textSize="@dimen/popup_text_size"
-
             />
 
        <TextView

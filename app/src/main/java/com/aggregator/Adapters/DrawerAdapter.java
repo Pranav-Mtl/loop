@@ -77,11 +77,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
 
         }
-
-
-
     }
-
 
     public DrawerAdapter(String Titles[], int Icons[], String Name, String credit,String paytm, Context context) { // MyAdapter Constructor with titles and icons parameter
         // titles, icons, name, email, profile pic are passed from the main activity as we

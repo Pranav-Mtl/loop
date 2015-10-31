@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -28,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,6 +43,7 @@ import com.aggregator.BL.RoutesBL;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.aggregator.WS.RestFullWS;
+import com.aggregator.db.DBOperation;
 import com.appsee.Appsee;
 import com.google.android.gms.analytics.HitBuilders;
 import com.twotoasters.android.support.v7.widget.RecyclerView;
@@ -58,7 +61,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
     TextView tvRecentOne,tvRecentTwo;
     RoutesBL objRoutesBL;
     ProgressDialog mProgressDialog;
-    ImageButton btnDone;
+    ImageView btnDone;
 
     AutoCompleteTextView tvSearchRoute;
     ImageButton routesCross;
@@ -126,6 +129,10 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
     int xx,yy;
 
+    DBOperation dbOperation;
+
+    boolean internetConnection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +151,11 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
        // System.out.println("width" + width + "height" + height);
 
-        if(width>=700 && height>=1000)
+        if(width>=1000 && height>=1500){
+            xx=700;
+            yy=800;
+        }
+        else if(width>=700 && height>=1000)
         {
             xx=500;
             yy=500;
@@ -154,11 +165,6 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
             xx=400;
             yy=500;
         }
-
-
-
-
-
 
         final View activityRootView = getWindow().getDecorView().findViewById(android.R.id.content);
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -217,7 +223,9 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
 
 
-        btnDone.setOnClickListener(this);
+
+
+       // btnDone.setOnClickListener(this);
         routesCross.setOnClickListener(this);
         tvTabRoute.setOnClickListener(this);
         tvTabFav.setOnClickListener(this);
@@ -242,6 +250,13 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
             Constant.NAME = "Sign In";
             Constant.LoopCredit = "";
             Constant.PayTMWalet = "";
+        }
+
+        if(Util.isInternetConnection(RouteNew.this)){
+            internetConnection=true;
+        }
+        else {
+            internetConnection=false;
         }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
@@ -309,58 +324,44 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
         });
 
-        if(Util.isInternetConnection(RouteNew.this))
-        {
 
             if(logInType==null)
             {
-                try {
-                    tvTabRoute.setText("Routes");
-                    tvTabRoute.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
-                    tvTabFav.setText("Recent");
-                    llAllRoute.setVisibility(View.VISIBLE);
-                    llFavourite.setVisibility(View.GONE);
-                    llNoRoute.setVisibility(View.GONE);
-                    new GetRoutes().execute();
+                if(internetConnection) {
+                    try {
+                        tvTabRoute.setText("Routes");
+                        tvTabRoute.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
+                        tvTabFav.setText("Recent");
+                        llAllRoute.setVisibility(View.VISIBLE);
+                        llFavourite.setVisibility(View.GONE);
+                        llNoRoute.setVisibility(View.GONE);
+                        new GetRoutes().execute();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
+                else {
+                    showDialogConnection(this);
                 }
             }
             else
             {
-                tvTabRoute.setText("Routes");
-                tvTabFav.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
-                tvTabFav.setText("Favourites");
-                llAllRoute.setVisibility(View.GONE);
-                llFavourite.setVisibility(View.GONE);
-                llNoRoute.setVisibility(View.GONE);
-                new GetRoutesLogin().execute(logInType);
+                if(internetConnection) {
+                    tvTabRoute.setText("Routes");
+                    tvTabFav.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
+                    tvTabFav.setText("Favourites");
+                    llAllRoute.setVisibility(View.GONE);
+                    llFavourite.setVisibility(View.GONE);
+                    llNoRoute.setVisibility(View.GONE);
+                    new GetRoutesLogin().execute(logInType);
+                }
+                else {
+                    //setOfflineData();
+                    showDialogConnection(this);
+                }
+
 
             }
-        }
-        else{
-
-            showDialogConnection(this);
-            /*AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(RouteNew.this);
-
-            alertDialog2.setTitle(Constant.ERR_INTERNET_CONNECTION_NOT_FOUND);
-
-            alertDialog2.setMessage(Constant.ERR_INTERNET_CONNECTION_SMAILL_MSG);
-
-            alertDialog2.setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Write your code here to execute after dialog
-                            dialog.cancel();
-                            finish();
-                        }
-                    });
-
-
-            alertDialog2.show();*/
-        }
 
 
 
@@ -377,9 +378,14 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() >= 1 && s.length() <= 10) {
                     // Toast.makeText(getApplicationContext(),"char:"+s,Toast.LENGTH_LONG).show();
+                    if(internetConnection){
                     llBottomRoute.setVisibility(View.GONE);
                     btnDone.setVisibility(View.INVISIBLE);
                     new GetSearchedRoutes().execute(s.toString());
+                    }
+                    else {
+                        showDialogConnection(RouteNew.this);
+                    }
                 }
 
             }
@@ -465,7 +471,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void initialize(){
-        btnDone= (ImageButton) findViewById(R.id.route_done);
+        btnDone= (ImageView) findViewById(R.id.route_done);
         routesCross= (ImageButton) findViewById(R.id.routes_cross);
         expListView= (ExpandableListView) findViewById(R.id.expandable_list);
         tvSearchRoute= (AutoCompleteTextView) findViewById(R.id.route_search);
@@ -490,6 +496,8 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
         objRoutesBL=new RoutesBL();
         mProgressDialog=new ProgressDialog(RouteNew.this);
+        dbOperation=new DBOperation(RouteNew.this);
+        dbOperation.createAndInitializeTables();
 
     }
 
@@ -564,16 +572,24 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                     llNoRoute.setVisibility(View.VISIBLE);
                 }
                 else {
+                    if(internetConnection) {
 
-                    llAllRoute.setVisibility(View.GONE);
-                    llNoRoute.setVisibility(View.GONE);
-                    if(Constant.favJson){
-                        llFavourite.setVisibility(View.VISIBLE);
+                        llAllRoute.setVisibility(View.GONE);
+                        llNoRoute.setVisibility(View.GONE);
+                        if (Constant.favJson) {
+                            llFavourite.setVisibility(View.VISIBLE);
 
+                        }
+                        if (Constant.recentJson) {
+                            llRecent.setVisibility(View.VISIBLE);
+
+                        }
                     }
-                    if(Constant.recentJson){
+                    else {
+                        llAllRoute.setVisibility(View.GONE);
+                        llNoRoute.setVisibility(View.GONE);
+                        llFavourite.setVisibility(View.VISIBLE);
                         llRecent.setVisibility(View.VISIBLE);
-
                     }
                 }
                 break;
@@ -907,7 +923,7 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         @Override
         protected String doInBackground(String... params) {
 
-            String result=objRoutesBL.getAllRoutesLogin(params[0]);
+            String result=objRoutesBL.getAllRoutesLogin(params[0],dbOperation);
             return result;
         }
 
@@ -1001,6 +1017,11 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
     protected void onResume() {
         super.onResume();
         drawerAdapter.notifyDataSetChanged();
+
+        if(Util.isInternetConnection(RouteNew.this))
+            internetConnection=true;
+        else
+            internetConnection=false;
     }
 
     private void showDialogConnection(final Context context){
@@ -1123,5 +1144,188 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
 
 
         dialog.show();
+    }
+
+    private void setOfflineData(){
+
+        tvTabRoute.setText("Routes");
+        tvTabFav.setBackgroundColor(getResources().getColor(R.color.TabSelectedColor));
+        tvTabFav.setText("Favourites");
+        llAllRoute.setVisibility(View.GONE);
+        llFavourite.setVisibility(View.GONE);
+        llNoRoute.setVisibility(View.GONE);
+
+        Cursor cursorAllRoute = dbOperation.getDataFromTableRoute();
+        Cursor cursorFavRoute = dbOperation.getDataFromTableFavRoute();
+        Cursor cursorRecentRoute = dbOperation.getDataFromTableRecentRoute();
+        Cursor cursorPersonal = dbOperation.getDataFromTablePersonalInfo();
+
+        setAllRoute(cursorAllRoute);
+        setFavRoute(cursorFavRoute);
+        setRecentRoute(cursorRecentRoute);
+        setPersonalInfo(cursorPersonal);
+
+        setFavAdapter();
+        setRecentAdapter();
+        setAllRouteAdapter();
+
+
+    }
+
+    private void setAllRoute(Cursor cursorAllRoute ){
+
+        Constant.routeId=new String[cursorAllRoute.getCount()];
+        Constant.routeName=new String[cursorAllRoute.getCount()];
+        Constant.routeExpand=new String[cursorAllRoute.getCount()];
+
+        int i=0;
+
+        if (cursorAllRoute.getCount() > 0) {
+            cursorAllRoute.moveToFirst();
+            do {
+               /* ChatPeopleBE people = addToChat(cursor.getString(0),
+                        cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6), cursor.getString(7),cursor.getString(8));*/
+                //ChatPeoples.add(people);
+                Log.d("All routeID",cursorAllRoute.getString(0));
+                Constant.routeId[i] =cursorAllRoute.getString(0);
+                Constant.routeName[i] =cursorAllRoute.getString(1);
+                Constant.routeExpand[i] = cursorAllRoute.getString(2);
+
+                i++;
+
+
+            } while (cursorAllRoute.moveToNext());
+        }
+        cursorAllRoute.close();
+
+
+    }
+
+    private void setFavRoute(Cursor cursorAllRoute ){
+
+        Constant.favRouteID=new String[cursorAllRoute.getCount()];
+        Constant.favRouteStartID=new String[cursorAllRoute.getCount()];
+        Constant.favRouteEndID=new String[cursorAllRoute.getCount()];
+        Constant.favRouteStartName=new String[cursorAllRoute.getCount()];
+        Constant.favRouteEndName=new String[cursorAllRoute.getCount()];
+        Constant.favRouteFavStatus=new String[cursorAllRoute.getCount()];
+        Constant.favRouteStatus=new String[cursorAllRoute.getCount()];
+
+        int i=0;
+
+        if (cursorAllRoute.getCount() > 0) {
+            cursorAllRoute.moveToFirst();
+            do {
+               /* ChatPeopleBE people = addToChat(cursor.getString(0),
+                        cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6), cursor.getString(7),cursor.getString(8));*/
+                //ChatPeoples.add(people);
+                Log.d("fav routeID",cursorAllRoute.getString(0));
+                Constant.favRouteID[i]=cursorAllRoute.getString(0);
+                Constant.favRouteStartID[i]=cursorAllRoute.getString(1);
+                Constant.favRouteEndID[i]=cursorAllRoute.getString(2);
+                Constant.favRouteStartName[i]=cursorAllRoute.getString(3);
+                Constant.favRouteEndName[i]=cursorAllRoute.getString(4);
+                Constant.favRouteFavStatus[i]=cursorAllRoute.getString(5);
+                Constant.favRouteStatus[i]=cursorAllRoute.getString(6);
+
+
+                i++;
+
+
+            } while (cursorAllRoute.moveToNext());
+        }
+        cursorAllRoute.close();
+
+    }
+
+    private void setRecentRoute(Cursor cursorAllRoute ){
+
+        Constant.recentRouteID=new String[cursorAllRoute.getCount()];
+        Constant.recentRouteStartID=new String[cursorAllRoute.getCount()];
+        Constant.recentRouteEndID=new String[cursorAllRoute.getCount()];
+        Constant.recentRouteStartName=new String[cursorAllRoute.getCount()];
+        Constant.recentRouteEndName=new String[cursorAllRoute.getCount()];
+        Constant.recentRouteFavStatus=new String[cursorAllRoute.getCount()];
+        Constant.recentRouteStatus=new String[cursorAllRoute.getCount()];
+
+        int i=0;
+
+        if (cursorAllRoute.getCount() > 0) {
+            cursorAllRoute.moveToFirst();
+            do {
+               /* ChatPeopleBE people = addToChat(cursor.getString(0),
+                        cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6), cursor.getString(7),cursor.getString(8));*/
+                //ChatPeoples.add(people);
+                Log.d("recent routeID",cursorAllRoute.getString(0));
+                Constant.recentRouteID[i]=cursorAllRoute.getString(0);
+                Constant.recentRouteStartID[i]=cursorAllRoute.getString(1);
+                Constant.recentRouteEndID[i]=cursorAllRoute.getString(2);
+                Constant.recentRouteStartName[i]=cursorAllRoute.getString(3);
+                Constant.recentRouteEndName[i]=cursorAllRoute.getString(4);
+                Constant.recentRouteFavStatus[i]=cursorAllRoute.getString(5);
+                Constant.recentRouteStatus[i]=cursorAllRoute.getString(6);
+
+
+                i++;
+
+
+            } while (cursorAllRoute.moveToNext());
+        }
+        cursorAllRoute.close();
+    }
+
+    private void setPersonalInfo(Cursor cursorAllRoute ){
+        if (cursorAllRoute.getCount() > 0) {
+            cursorAllRoute.moveToFirst();
+            do {
+               /* ChatPeopleBE people = addToChat(cursor.getString(0),
+                        cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6), cursor.getString(7),cursor.getString(8));*/
+                //ChatPeoples.add(people);
+
+                Constant.NAME=cursorAllRoute.getString(0);
+                Constant.currentLoopCredit=Integer.valueOf(cursorAllRoute.getString(1));
+                Constant.LoopCredit=Constant.LoopCreditText+Constant.currentLoopCredit;
+
+
+
+
+
+            } while (cursorAllRoute.moveToNext());
+        }
+        cursorAllRoute.close();
+
+    }
+
+    private void setFavAdapter(){
+        llFavourite.setVisibility(View.VISIBLE);
+        objFavRouteAdapter=new FavouriteAdapter(getApplicationContext(),tvSelectedRouteSource,tvSelectedRouteDestination,logInType,llBottomRoute,btnDone,RouteNew.this);
+        LinearLayoutManager llm = new LinearLayoutManager(RouteNew.this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        lvFav.setLayoutManager(llm);
+
+        lvFav.setAdapter(objFavRouteAdapter);
+    }
+
+    private void setRecentAdapter(){
+        llRecent.setVisibility(View.VISIBLE);
+        objRecentRouteAdapter = new RouteAdapter(getApplicationContext(), tvSelectedRouteSource, tvSelectedRouteDestination,logInType,llBottomRoute,btnDone,RouteNew.this);
+        lvRecent.setAdapter(objRecentRouteAdapter);
+        LinearLayoutManager llm = new LinearLayoutManager(RouteNew.this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        lvRecent.setLayoutManager(llm);
+    }
+
+    private void setAllRouteAdapter(){
+        drawerAdapter.notifyDataSetChanged();
+
+        prepareListData();
+
+        objRoutesAdapter = new RoutesAdapter(RouteNew.this, listDataHeader, listDataChild,llBottomRoute);
+        expListView.setAdapter(objRoutesAdapter);
+
+        mGroupStates = new boolean[objRoutesAdapter.getGroupCount()];
+
+        //tvTabFav.setText(Constant.Tab2Name);
+
     }
 }

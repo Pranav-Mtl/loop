@@ -79,7 +79,11 @@ public class TripHistory extends AppCompatActivity {
 
         // System.out.println("width" + width + "height" + height);
 
-        if(width>=700 && height>=1000)
+        if(width>=1000 && height>=1500){
+            xx=700;
+            yy=800;
+        }
+        else if(width>=700 && height>=1000)
         {
             xx=500;
             yy=500;
