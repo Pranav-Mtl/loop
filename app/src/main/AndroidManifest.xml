@@ -29,24 +29,21 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDJJC3Z7hFCB2Lub_j1AKxjxHC7bl_RwDg" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
 
         <!-- Launching Activity -->
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".SplashScreen"
-            android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait"
-            >
+            android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,8 +55,8 @@
 
         <activity
             android:name=".TripHistory"
-            android:screenOrientation="portrait"
-            android:label="" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SignUpScreen"
@@ -119,11 +116,12 @@
         <activity
             android:name=".InviteActivity"
             android:label=""
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
@@ -149,7 +147,6 @@
             android:label=""
             android:screenOrientation="portrait" >
         </activity>
-
         <activity
             android:name=".RouteNew"
             android:label="@string/title_activity_route_new"
@@ -172,8 +169,8 @@
 
         <activity
             android:name=".TicketMapFullScreen"
-            android:screenOrientation="portrait"
-            android:label="" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
 
         <!--
@@ -185,32 +182,36 @@
 
         <activity
             android:name=".AddLoopCredit"
-            android:screenOrientation="portrait"
-            android:label="" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TicketTrackBus"
-            android:screenOrientation="portrait"
-            android:label="" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SuggestRoute"
-            android:screenOrientation="portrait"
-            android:label="" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Tutorial"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_tutorial" >
+            android:label="@string/title_activity_tutorial"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".WebViewLoop"
-            android:screenOrientation="portrait"
-            android:label="" >
+            android:label=""
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
+        </activity>
+        <activity
+            android:name=".Notification"
+            android:label="" >
         </activity>
     </application>
 

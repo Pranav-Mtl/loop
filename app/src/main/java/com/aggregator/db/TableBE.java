@@ -21,6 +21,7 @@ public class TableBE {
     private String routeId="routeid";
     private String routeName="routeName";
     private String routeSubPoint="subPoint";
+    private String booking="booking";
 
 
     /* Fav Table Variables */

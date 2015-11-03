@@ -141,9 +141,10 @@
             <EditText
                 android:id="@+id/userEmail"
                 android:layout_toRightOf="@id/profile_img1"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
+                android:layout_marginRight="40dp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
@@ -266,7 +267,7 @@
             <EditText
                 android:id="@+id/userOldPadd"
                 android:layout_toRightOf="@id/profile_img3"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:hint="Old Password"
                 android:paddingLeft="10dp"
@@ -311,7 +312,7 @@
             <EditText
                 android:id="@+id/userNewPass"
                 android:layout_toRightOf="@id/profile_img4"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:hint="New Password"
                 android:paddingLeft="10dp"
@@ -355,7 +356,7 @@
             <EditText
                 android:id="@+id/userConfirmPass"
                 android:layout_toRightOf="@id/profile_img5"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:hint="Confirm Password"
                 android:paddingLeft="10dp"

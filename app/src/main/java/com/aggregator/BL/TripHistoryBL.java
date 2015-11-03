@@ -62,6 +62,7 @@ public class TripHistoryBL {
                    Constant.tripStatus = new String[jsonArrayObject.size()];
                    Constant.tripRunId = new String[jsonArrayObject.size()];
                    Constant.tripTotalAmount = new Double[jsonArrayObject.size()];
+                   Constant.tripFeedbackStatus = new String[jsonArrayObject.size()];
 
                    Constant.tripSize=0;
 
@@ -82,7 +83,7 @@ public class TripHistoryBL {
                        Constant.tripStatus[i] = jsonObject.get("status").toString();
                        Constant.tripRunId[i] = jsonObject.get("user_run_id").toString();
                        Constant.tripTotalAmount[i]=Double.valueOf(jsonObject.get("credits_used_amount").toString())+Double.valueOf(jsonObject.get("wallet_used_amount").toString());
-
+                       Constant.tripFeedbackStatus[i]=jsonObject.get("user_route_feedback").toString();
                        Constant.tripSize++;
                    }
 
@@ -148,6 +149,8 @@ public class TripHistoryBL {
                     Constant.tripPrice = createNewArrayDouble(Constant.tripPrice,jsonArrayObject.size());
                     Constant.tripLoopCredit =createNewArrayDouble(Constant.tripLoopCredit,jsonArrayObject.size());
 
+                    Constant.tripFeedbackStatus = createNewArray(Constant.tripFeedbackStatus, jsonArrayObject.size());
+
 
                     for (int i = 0; i < jsonArrayObject.size(); i++) {
                         JSONObject jsonObject = (JSONObject) jsonP.parse(jsonArrayObject.get(i).toString());
@@ -165,7 +168,7 @@ public class TripHistoryBL {
                         Constant.tripStatus[Constant.tripSize] = jsonObject.get("status").toString();
                         Constant.tripRunId[Constant.tripSize] = jsonObject.get("user_run_id").toString();
                         Constant.tripTotalAmount[Constant.tripSize]=Double.valueOf(jsonObject.get("credits_used_amount").toString())+Double.valueOf(jsonObject.get("wallet_used_amount").toString());
-
+                        Constant.tripFeedbackStatus[Constant.tripSize]=jsonObject.get("user_route_feedback").toString();
                         Constant.tripSize++;
 
                     }

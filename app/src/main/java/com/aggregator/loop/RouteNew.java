@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -40,6 +41,7 @@ import com.aggregator.Adapters.RouteAdapter;
 import com.aggregator.Adapters.RoutesAdapter;
 import com.aggregator.Adapters.RoutesAdapterSearch;
 import com.aggregator.BL.RoutesBL;
+import com.aggregator.Configuration.IMMResult;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
 import com.aggregator.WS.RestFullWS;
@@ -172,6 +174,8 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
             public void onGlobalLayout() {
 
                 int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
+                Log.d("Height Diff",heightDiff+"");
+
                 if (heightDiff > 100) { // 99% of the time the height diff will be due to a keyboard.
                     //Toast.makeText(getApplicationContext(), "Gotcha!!! softKeyboardup", Toast.LENGTH_SHORT).show();
 
@@ -232,6 +236,8 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         expListView.setOnGroupClickListener(this);
         elvSearch.setOnGroupClickListener(this);
         llBottomDone.setOnClickListener(this);
+
+
 
 
         logInType= Util.getSharedPrefrenceValue(RouteNew.this, Constant.SHARED_PREFERENCE_User_id);
@@ -434,7 +440,11 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
                                 startActivity(new Intent(getApplicationContext(), PromoCode.class));
                             } else if (position == 5) {
                                 startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                            } else if (position == 10) {
+                            }
+                            else if (position == 6) {
+                                startActivity(new Intent(getApplicationContext(), Notification.class));
+                            }
+                            else if (position == 10) {
                                 startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                             }
                             else if (position == 3) {
@@ -1326,6 +1336,25 @@ public class RouteNew extends AppCompatActivity implements View.OnClickListener,
         mGroupStates = new boolean[objRoutesAdapter.getGroupCount()];
 
         //tvTabFav.setText(Constant.Tab2Name);
+
+    }
+
+    public boolean isSoftKeyboardShown(InputMethodManager imm, View v) {
+
+        IMMResult result = new IMMResult();
+        int res;
+
+        imm.showSoftInput(v, 0, result);
+
+        // if keyboard doesn't change, handle the keypress
+        res = result.getResult();
+        if (res == InputMethodManager.RESULT_UNCHANGED_SHOWN ||
+                res == InputMethodManager.RESULT_UNCHANGED_HIDDEN) {
+
+            return true;
+        }
+        else
+            return false;
 
     }
 }

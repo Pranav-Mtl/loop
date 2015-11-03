@@ -316,6 +316,9 @@ public class InviteActivity extends AppCompatActivity {
                         } else if (position == 10) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         }
+                        else if (position == 6) {
+                            startActivity(new Intent(getApplicationContext(), Notification.class));
+                        }
                         else if (position == 3) {
                             startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
                         }

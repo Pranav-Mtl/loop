@@ -68,5 +68,6 @@
 
     <string name="route_inactive_title">D\'oh!</string>
     <string name="route_inactive">Sorry, this route is currently inactive. Please try after some time. </string>
+    <string name="title_activity_notification">Notification</string>
 
 </resources>

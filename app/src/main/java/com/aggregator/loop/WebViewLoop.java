@@ -172,7 +172,7 @@ public class WebViewLoop extends AppCompatActivity implements View.OnClickListen
                 Log.d("STATUS VALUE", statusValue);
 
                 if (statusValue.equals("success")) {
-                    Toast.makeText(getApplicationContext(), amount + " loop credited to your account.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"₹"+amount + " added to your Loop Wallet.", Toast.LENGTH_SHORT).show();
                     double amt = Double.valueOf(Constant.amount) + Double.valueOf(amount);
                     Constant.amount = amt + "";
                     Constant.LoopCredit = Constant.LoopCreditText + Constant.amount;
@@ -259,7 +259,7 @@ public class WebViewLoop extends AppCompatActivity implements View.OnClickListen
                     Log.d("STATUS VALUE", statusValue);
 
                     if (statusValue.equals("success")) {
-                        Toast.makeText(getApplicationContext(), amount + " loop credited to your account.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"₹"+amount + " added to your Loop Wallet.", Toast.LENGTH_SHORT).show();
                         double amt = Double.valueOf(Constant.amount) + Double.valueOf(amount);
                         Constant.amount = amt + "";
                         Constant.LoopCredit = Constant.LoopCreditText + Constant.amount;

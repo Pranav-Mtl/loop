@@ -85,8 +85,14 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
         }
         else
         {
-            contactViewHolder.ivLeftTop.setBackgroundResource(R.drawable.ic_red_star);
-            contactViewHolder.tvLeftTop.setText("Rate trip");
+            if("1".equalsIgnoreCase(Constant.tripFeedbackStatus[i])) {
+                contactViewHolder.ivLeftTop.setBackgroundResource(R.drawable.ic_red_star);
+                contactViewHolder.tvLeftTop.setText("");
+            }
+            else {
+                contactViewHolder.ivLeftTop.setBackgroundResource(R.drawable.ic_trip_white_star);
+                contactViewHolder.tvLeftTop.setText("Rate trip");
+            }
             try {
 
             String dd[]=Constant.tripDate[i].split(" ");
@@ -215,6 +221,8 @@ public class CardAdapter extends  RecyclerView.Adapter<CardAdapter.ContactViewHo
             tvLeftBottom= (TextView) gridView.findViewById(R.id.trip_left_bottom_text);
             llLeftTop= (LinearLayout) gridView.findViewById(R.id.trip_ll_left_top);
             llLeftBottom= (LinearLayout) gridView.findViewById(R.id.trip_ll_left_bottom);
+
+
         }
 
         @Override

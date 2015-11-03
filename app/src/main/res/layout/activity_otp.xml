@@ -107,7 +107,7 @@
                 android:inputType="number"
                 android:maxLength="4"
                 android:textSize="@dimen/register_text_size"
-                android:hint="Enter OTP"/>
+                android:hint="Alternatively, enter OTP here"/>
         </android.support.design.widget.TextInputLayout>
 
 

@@ -221,6 +221,7 @@ public class Constant {
     public static String tripTime[];
     public static String tripFav[];
     public static String tripStatus[];
+    public static String tripFeedbackStatus[];
     public static String tripRunId[];
     public static Double tripLoopCredit[];
     public static Double tripTotalAmount[];
@@ -230,7 +231,7 @@ public class Constant {
 
     /* MENU ITEMS AFTER USER SIGN IN*/
 
-    public static String TITLES[] = {"Book a Ride","Trips","Recharge Loop Wallet","Promos","Invite & Earn","Notifications","Suggest A Route","Rate Us","Tutorial","Help",};
+    public static String TITLES[] = {"Book a Ride","Trips","Recharge Loop Wallet","Promos","Invite & Earn","Notifications","Suggest a Route","Rate Us","Tutorial","Help",};
 
     public static int ICONS[] = {R.drawable.ic_side_trips,R.drawable.ic_side_bus,R.drawable.ic_side_credit, R.drawable.ic_side_promo,R.drawable.ic_side_invite_earn,R.drawable.ic_side_notification,R.drawable.ic_side_suggest,R.drawable.ic_side_rate, R.drawable.ic_side_tutorial,R.drawable.ic_side_help};
 

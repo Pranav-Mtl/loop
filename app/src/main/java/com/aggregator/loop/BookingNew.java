@@ -442,6 +442,9 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
                             } else if (position == 10) {
                                 startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                             }
+                            else if (position == 6) {
+                                startActivity(new Intent(getApplicationContext(), Notification.class));
+                            }
                             else if (position == 3) {
                                 startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
                             }
@@ -1183,10 +1186,10 @@ public class BookingNew extends AppCompatActivity implements View.OnClickListene
         tvMsg= (TextView) dialog.findViewById(R.id.popup_message);
         tvTitle= (TextView) dialog.findViewById(R.id.popup_title);
 
-        tvTitle.setText("Not enough Loop Credits");
-        tvMsg.setText("You don't have enough Loop Credits left to book this ride");
+        tvTitle.setText("Not enough Loop money");
+        tvMsg.setText("Sorry, your Loop wallet doesn't have enough money");
         btnClosePopup.setText("Cancel");
-        btnsave.setText("Buy Loop Credits");
+        btnsave.setText("Recharge");
 
 
         btnClosePopup.setOnClickListener(new View.OnClickListener() {

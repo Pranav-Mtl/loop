@@ -315,12 +315,16 @@ public class TripFeedback extends AppCompatActivity implements View.OnClickListe
                             startActivity(new Intent(getApplicationContext(), PromoCode.class));
                         } else if (position == 5) {
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
-                        } else if (position == 10) {
+                        }
+                        else if (position == 6) {
+                            startActivity(new Intent(getApplicationContext(), Notification.class));
+                        }
+                        else if (position == 10) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         }else if (position == 7) {
-                            startActivity(new Intent(getApplicationContext(),SuggestRoute.class));
+                            startActivity(new Intent(getApplicationContext(), SuggestRoute.class));
                         }else if (position == 8) {
                             Util.rateUs(getApplicationContext());
                         }

@@ -1,62 +1,45 @@
 package com.aggregator.loop;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.aggregator.Adapters.DrawerAdapter;
-import com.aggregator.BL.SuggestRouteBL;
+import com.aggregator.Adapters.NotificationAdapter;
 import com.aggregator.Configuration.Util;
 import com.aggregator.Constant.Constant;
-import com.twotoasters.android.support.v7.widget.LinearLayoutManager;
-import com.twotoasters.android.support.v7.widget.RecyclerView;
 
-public class SuggestRoute extends AppCompatActivity implements View.OnClickListener {
+public class Notification extends AppCompatActivity {
 
-    RecyclerView mRecyclerView;                           // Declaring RecyclerView
-    RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
-    RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
+    RecyclerView recList;
+    NotificationAdapter mNotificationAdapter;
+
+    com.twotoasters.android.support.v7.widget.RecyclerView mRecyclerView;                           // Declaring RecyclerView
+    com.twotoasters.android.support.v7.widget.RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
+    com.twotoasters.android.support.v7.widget.RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
     DrawerLayout Drawer;                                  // Declaring DrawerLayout
     ActionBarDrawerToggle mDrawerToggle;
 
     DrawerAdapter drawerAdapter;
     View _itemColoured;
 
-    ProgressDialog mProgressDialog;
-
-    SuggestRouteBL objSuggestRouteBL;
-
-
-    EditText etMessage;
-    Button btnDone;
-
-    EditText etPick,etDrop;
-    String strPick,strDrop;
-
-    String userID;
-
-    int xx,yy;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_suggest_route);
+        setContentView(R.layout.activity_notification);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
+        mRecyclerView = (com.twotoasters.android.support.v7.widget.RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
         mRecyclerView.setHasFixedSize(true);
 
         drawerAdapter = new DrawerAdapter(Constant.TITLES,Constant.ICONS, Constant.NAME, Constant.LoopCredit,Constant.PayTMWalet, getApplicationContext());       // Creating the Adapter of com.example.balram.sampleactionbar.MyAdapter class(which we are going to see in a bit)
@@ -65,7 +48,7 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
         // and header  view profile picture
         mRecyclerView.setAdapter(drawerAdapter);
 
-        mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
+        mLayoutManager = new com.twotoasters.android.support.v7.widget.LinearLayoutManager(this);                 // Creating a layout Manager
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         Drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);        // Drawer object Assigned to the view
@@ -89,15 +72,16 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
         Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();
 
-        mProgressDialog=new ProgressDialog(SuggestRoute.this);
-        objSuggestRouteBL=new SuggestRouteBL();
-        userID= Util.getSharedPrefrenceValue(SuggestRoute.this,Constant.SHARED_PREFERENCE_User_id);
+        recList = (RecyclerView) findViewById(R.id.cardList);
+        recList.setHasFixedSize(true);
 
-        btnDone= (Button) findViewById(R.id.submitBtn);
-        etDrop= (EditText) findViewById(R.id.suggestion_drop);
-        etPick= (EditText) findViewById(R.id.suggestion_pick);
+        final LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recList.setLayoutManager(llm);
 
-        btnDone.setOnClickListener(this);
+        mNotificationAdapter=new NotificationAdapter(getApplicationContext());
+
+        recList.setAdapter(mNotificationAdapter);
 
 
         mRecyclerView.addOnItemTouchListener(
@@ -127,19 +111,17 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
                             startActivity(new Intent(getApplicationContext(), InviteActivity.class));
                         }
                         else if (position == 6) {
-                            startActivity(new Intent(getApplicationContext(), Notification.class));
+                            Drawer.closeDrawers();
                         }
                         else if (position == 10) {
                             startActivity(new Intent(getApplicationContext(), HelpActivity.class));
                         } else if (position == 9) {
                             startActivity(new Intent(getApplicationContext(), Tutorial.class));
                         } else if (position == 7) {
-                            Drawer.closeDrawers();
-
-                        }else if (position == 8) {
+                            startActivity(new Intent(getApplicationContext(), SuggestRoute.class));
+                        } else if (position == 8) {
                             Util.rateUs(getApplicationContext());
-                        }
-                        else if (position == 3) {
+                        } else if (position == 3) {
                             startActivity(new Intent(getApplicationContext(), AddLoopCredit.class));
                         }
 
@@ -147,8 +129,8 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
 
 
                 }));
-    }
 
+    }
 
 
     @Override
@@ -165,69 +147,4 @@ public class SuggestRoute extends AppCompatActivity implements View.OnClickListe
 
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()){
-           case R.id.submitBtn:
-
-               strPick=etPick.getText().toString();
-               strDrop=etDrop.getText().toString();
-
-               if(strPick.length()==0 || strDrop.length()==0){
-                   Toast.makeText(getApplicationContext(),"Please enter both pick and drop locality.",Toast.LENGTH_LONG).show();
-               }
-               else {
-                   new SendMessage().execute(strPick,strDrop,userID);
-               }
-
-               break;
-        }
-    }
-
-
-    private class SendMessage extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            mProgressDialog.show();
-            mProgressDialog.setMessage("Loading...");
-            mProgressDialog.setCancelable(false);
-
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String result=objSuggestRouteBL.sendMessage(params[0], params[1],params[2]);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-
-            try{
-
-                if(s.equals("1"))
-                {
-                    Toast.makeText(getApplicationContext(), "Thank you for the suggestion. We will work on it.", Toast.LENGTH_LONG).show();
-                    finish();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Sorry, something didn't work. Would you mind trying again please?", Toast.LENGTH_LONG).show();
-                }
-
-            }
-            catch (NullPointerException e){
-
-            }
-            catch (Exception e){
-
-            }
-            finally {
-                mProgressDialog.dismiss();
-            }
-        }
-    }
-
 }
